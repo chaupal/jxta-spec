@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<chapter id="stdsvc-trans">
+  <title id="stdsvc-trans-title">Standard JXTA Message Transports</title>
+  
+  <para>JXTA defines several Message Transport Bindings for implementing JXTA 
+		messaging on top of existing networks.</para>
+  
+  <section id="trans-tcpipt"><title>TCP/IP Message Transport</title>
+
+   <section id="trans-ipt-tcpipinto"><title>Introduction</title>
+
+			<para>This section describes the TCP/IP Message Transport, the most
+			commonly used Message Transport by JXTA. It is named the TCP/IP binding 
+			because it uses no other underlying protocols whereas other Message 
+			Transports build upon, for example, the HTTP <xref linkend="bib-RFC2616"/>, 
+			TLS <xref linkend="bib-RFC2246"/>, BEEP <xref linkend="bib-RFC3080"/> 
+			<xref linkend="bib-RFC3081"/> and SMTP <xref linkend="bib-RFC821"/> protocols. 
+			The TCP/IP transport is designed to be the simplest and quickest to implement 
+			of the JXTA Message Transport bindings. Unfortunately, the TCP/IP Message
+			Transport can be adversely affected by the partitioning of the Internet 
+			Address Space caused by Network Address Translation (NAT), Firewalls, and 
+			conflicting use of Private IP Address ranges. For these circumstances one of 
+			the other Message Transports may be more effcient.
+   </para>
+			</section>
+    
+    <section id="trans-ipt-tcpipchoreo"><title>Choreography</title>
+
+      <para>This section describes the protocol exchange implemented by the
+						JXTA TCP/IP Message Transport. The two participants operate symmetrically,
+						the message sequence is the same for both sides.
+						</para>
+						
+      <itemizedlist>
+        <listitem><simpara>Connection Opens</simpara></listitem>
+        <listitem><simpara>Welcome Message</simpara></listitem>
+        <listitem><simpara>Message(s)</simpara></listitem>
+        <listitem><simpara>Connection Closes</simpara></listitem>
+      </itemizedlist>
+						
+						<para>The connection <phrase role="rfc2119">may</phrase> be closed by 
+						either peer following	the transmission of any number of messages. 
+						If a peer discover an error in the transmission ( unexpected	input, 
+						unsupported message content, framing problems, etc. ) it 
+						<phrase role="rfc2119">must</phrase>	close the connection.</para>
+						
+				</section>
+						
+    <section id="trans-ipt-tcpipwm"><title id="trans-ipt-tcpipwm-title">Welcome Message</title>
+				
+				<para>The Welcome Message is sent by both peers of a JXTA TCP/IP
+				Communication. It's primary purpose is to identify the endpoint address that
+				each peer has associated with TCP/IP connections on that interface/port.
+				Additionally, the welcome message provides a reasonable <quote>ping</quote> 
+				response if the only goal of the connection is to determine connectivity.
+				</para>
+				
+				<para>A peer <phrase role="rfc2119">should</phrase> send its Welcome Message 
+				as soon as the connection is	open, but 
+				<phrase role="rfc2119">must not</phrase> send any Message Bodies until it 
+				has received a Welcome Message from the remote peer. A peer 
+				<phrase role="rfc2119">must</phrase> send its peer id as the
+				connection endpoint address. The welcome message can be no longer than
+				4096 octets in length, though in practice it will almost always be much
+				shorter.
+				</para>
+
+				<figure><title>Welcome Message ABNF</title>
+<programlisting>
+&lt;WELCOME&gt;      ::= &lt;GREETING&gt; &lt;SPACE&gt; &lt;WELCOMEDEST&gt; &lt;SPACE&gt; 
+                   &lt;WELCOMESRC&gt; &lt;SPACE&gt; &lt;WELCOMEPEER&gt; &lt;SPACE&gt;
+                   &lt;NOPROP&gt; &lt;SPACE&gt; &lt;VERSION&gt; &lt;CRLF&gt;
+
+&lt;GREETING&gt;     ::= "JXTAHELLO"
+
+&lt;SPACE&gt;        ::=  octect #x20
+
+&lt;WELCOMEDEST&gt;  ::=  &lt;ENDPOINTADDRESS&gt; 
+
+&lt;WELCOMEADDR&gt;  ::= &lt;ENDPOINTADDRESS&gt;
+
+&lt;WELCOMEPEER&gt;  ::=  &lt;JXTAID&gt; 
+
+&lt;NOPROP&gt;       ::=  "0" | "1"
+
+&lt;VERSION&gt;      ::=  "1.1"
+
+&lt;CRLF&gt;         ::=  octet #x0D octet #x0A
+</programlisting>
+				</figure>
+
+				<para>This message is designed to be human readable. This primarily for the
+				purpose of debugging. This message also allows a peer to be 
+				<quote>pinged</quote> using Telnet or a web browser.</para>
+				
+<variablelist>
+	<varlistentry>
+ <term><sgmltag class="starttag">WELCOMEDEST</sgmltag></term>
+	<listitem>
+		<simpara>The assumed destination of messages which will be sent on this
+		connection. If a received message has no destination address then this is
+		the address that should be used.</simpara>
+ </listitem>
+ </varlistentry>
+	<varlistentry>
+ <term><sgmltag class="starttag">WELCOMEADDR</sgmltag></term>
+	<listitem>
+		<simpara>The public address of the JXTA Message Transport instance which is 
+	  handling this connection.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+ <term><sgmltag class="starttag">WELCOMEPEER</sgmltag></term>
+	<listitem>
+		<simpara>Provides the peer id of the peer you have reached with this
+		connection.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+ <term><sgmltag class="starttag">NOPROP</sgmltag></term>
+	<listitem>
+		<simpara>If <constant>1</constant> then the remote peer does not wish to
+			receive propagate/broadcast messages on this connection.</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+<example>
+<title>Welcome Message</title>
+<programlisting>
+JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-59616261646162614A7874615032503345A8391EC0914B24B264AF31F297A6FD03 1 1.1
+</programlisting>
+</example>
+
+					</section>
+				
+    <section id="trans-ipt-tcpipmt"><title>Message Transmission</title>
+				
+					<para>Following the 
+					<xref linkend="trans-ipt-tcpipwm" endterm="trans-ipt-tcpipwm-title"/>, 
+					the connection is used to send JXTA Messages. Each message is 
+					preceeded by a small amount of header information. The header 
+					information is similar to HTTP headers, but is binary encoded to 
+					provide for lighter-weight parsing.</para>
+					
+				<figure><title>JXTA Message Package ABNF</title>
+<programlisting>
+&lt;PACKAGE&gt;     ::= &lt;HEADERBLOCK&gt; &lt;BODY&gt;
+				
+&lt;HEADERBLOCK&gt; ::= (&lt;HEADER&gt;)* &lt;EMPTYHEADER&gt;
+
+&lt;HEADER&gt;      ::= &lt;HEADERNAME&gt; &lt;HEADERBODY&gt;
+
+&lt;HEADERNAME&gt;  ::= octet [length] (octets)[length]
+
+&lt;HEADERBODY&gt;  ::= octet [length msb] octet [length lsb] (octets) [length] 
+
+&lt;EMPTYHEADER&gt; ::= octet #x00
+
+&lt;BODY&gt;        ::= octets
+</programlisting>
+			 </figure>
+
+				<para>The header block will contain both 
+				<phrase role="rfc2119">required</phrase> headers and may contain additional 
+				<phrase role="rfc2119">optional</phrase> headers. The headers are loosely
+				ordered. Headers of a particular type are considered by ordered only with
+				respect to other headers of the same type, they have no order relationship 
+				to headers of other types. In general, headers may appear in any order. The
+				header names are case-insensitive canonical UTF8 (NFC) (see 
+				<citetitle>Unicode Standard Annex #15 : Unicode Normalization Forms</citetitle> <xref linkend="bib-USA15"/>)
+				strings.
+				</para>
+				
+				<section><title>JXTA Message Package - Required Headers</title>
+				
+				<para>These headers <phrase role="rfc2119">must</phrase> appear in every 
+				message transmission and have no	default values.</para>
+				
+				<variablelist>
+				 <varlistentry>
+							<term><constant>content-length</constant></term>
+							<listitem>
+								<para>the length of the <varname>&lt;BODY&gt;</varname>
+								portion. If <constant>content-coding</constant> headers are included,
+								this length is still the transfer length, not the logical length of the
+								body. The header body is an eight octet <quote>network byte order</quote>
+								length.</para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term><constant>content-type</constant></term>
+							<listitem>
+								<para>The logical type of the message body expressed as a MIME-type.
+								The header body consists of a MIME type encoded in canonical UTF8 (NFC) 
+								using the presentation	and encoding of 
+								<citetitle>Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</citetitle> 
+								<xref linkend="bib-RFC2046"/>, ie. any encoding specified by RFC 2046 is
+								performed before the string is encoded into UTF8 from the implementation 
+								native string representation.</para>
+
+								<para>Peers <phrase role="rfc2119">must</phrase> treat unrecognized
+								<constant>content-type</constant> specifications as an error and close
+								the connection.	</para>
+					 </listitem>
+					 </varlistentry>
+					</variablelist>
+					
+				 </section>
+
+				<section><title>JXTA Message Package - Optional Headers</title>
+
+				<para>These headers <phrase role="rfc2119">may</phrase> appear in any 
+				message transmission and have no default values.</para>
+				
+					<variablelist>
+				 <varlistentry>
+							<term><constant>content-coding</constant></term>
+							<listitem>
+								<para>Specifies a coding which has been applied to the logical message
+								body prior to transmission. The header body contains an eight octet 
+								<quote>network byte order</quote> value which was the length of the 
+								message body before encoding. This is followed by the Mime-type of the 
+								content coding.	</para>
+								
+								<para><constant>content-coding</constant> headers are listed in the 
+								order in which they were applied, ie. The first 
+								<constant>content-coding</constant> header was the first coding applied
+								and will be the last to be removed.</para>
+						 </listitem>
+					 </varlistentry>
+					</variablelist>
+					
+					<para>All other possible headers are also 
+					<phrase role="rfc2119">optional</phrase>. Unrecognized optional headers
+					<phrase role="rfc2119">should</phrase> be ignored.</para>
+				 </section>
+				</section>
+				
+<section id="trans-ipt-tcpipmc"><title>IP Multicast Usage</title>
+    <para>The TCP Transport may be configured to accept broadcast messages
+				through IP Multicast. Messages received are not part of an ongoing
+				connection between peers. Each broadcast message is idempotent.
+				
+				The datagram is formed similarily to that used for unicasts connections. It
+				consists of :</para>
+				          <itemizedlist>
+            <listitem><para>A Welcome Header</para></listitem>
+            <listitem><para>A Message Package Header</para></listitem>
+            <listitem><para>A single message</para></listitem>
+          </itemizedlist>
+										
+			 <para>Additionally, in order to fully specify the source of the message, the
+				Message Package Header <phrase role="rfc2119">must</phrase> contain the 
+				following header field.</para>
+				
+				<variablelist>
+				 <varlistentry>
+							<term><constant>srcEA</constant></term>
+							<listitem>
+								<para>The public addresss of the transport which is sending this
+								broadcast message.</para>
+						 </listitem>
+					 </varlistentry>				
+						</variablelist>
+						
+						</section>
+				
+		</section>
+
+  <section id="trans-httpt"><title>HTTP Message Transport</title>
+    <para>The JXTA HTTP Message Transport is logically divided into two 
+				functions: the initiator and the receiver. The initiator is able to 
+				establish connections, whereas the receiver is able accept connections. A
+				peer may provide either function or both.</para>
+				
+			 <para>The HTTP Message Transport is designed to work effeciently with or
+				without HTTP 1.1 persistent connections and also impose a minimum of
+				overhead beyond that required by HTTP itself.</para>
+				
+    <section id="trans-httpt-msg-init"><title>The HTTP Initiator</title>
+
+      <para>The HTTP Initiator begins the connection between two peers. The
+						connection is first used to determine the logical identities of the
+						participating peers. In most cases, this is simply a verification as the
+						connection address was chosen by the initiator to communicate with the 
+						desired peer.</para>
+
+						<para>The HTTP Initiator uses two types of HTTP request to communicate
+						with the recevier. <constant>GET</constant> requests are used for 
+						determining the logical identity of the HTTP Receiver and for polling the
+						HTTP Receiver for messages. <constant>POST</constant> requests are used 
+						for sending and	receiving JXTA messages with the receiver.</para>
+						
+				</section>
+				
+    <section id="trans-httpt-msg-rcvr"><title>The HTTP Receiver</title>
+
+      <para>The HTTP Receiver accepts incoming connections from HTTP initiators.
+						The HTTP Receiver then acts in response to HTTP requests from the
+						initiator.</para>
+
+						<para>The HTTP Receiver accepts two types of HTTP request from the
+						initiator, <constant>GET</constant> requests and <constant>POST</constant> 
+						requests. <constant>GET</constant> requests can be used for two tasks:
+						determining the logical identity of the receiver, polling for messages
+						destined to the initiator. <constant>POST</constant> requests are used to
+						send messages to the receiver and optionally to receive messages from the
+						receiver.</para>
+						
+				</section>
+				
+				<section id="trans-httpt-msg-msgs"><title>HTTP Messages</title>
+				
+				<section><title><quote>Ping</quote> Command</title>
+				
+				<para>The <quote>ping</quote> command is used to determine the logical identity (peer id)
+				of a receiver. It also has the effect of determining connectivity (hence
+				the name).</para>
+				
+				<para>The HTTP initiator issues a request as follows:</para>
+				
+						<variablelist>
+				 <varlistentry>
+							<term>Request</term>
+							<listitem>
+								<simpara><constant>GET</constant></simpara>
+						 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Resource</term>
+							<listitem>
+								<simpara><constant>/</constant></simpara>
+						 </listitem>
+					 </varlistentry>
+						</variablelist>
+						
+				<para>The HTTP Receiver should respond to well-formed requests as follows:
+				</para>
+							
+				<variablelist>
+				 <varlistentry>
+							<term>Response Code</term>
+							<listitem>
+								<para><constant>200</constant></para>
+						 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Required Headers</term>
+							<listitem>
+									<variablelist>
+										<varlistentry>
+												<term><constant>Content-Length</constant></term>
+												<listitem>
+													<para><phrase role="rfc2119">Must</phrase> always be present.</para>
+												</listitem>
+											</varlistentry>				
+										<varlistentry>
+												<term><constant>Content-Type</constant></term>
+												<listitem>
+													<para><phrase role="rfc2119">Must</phrase> be 
+													<constant>text/plain;charset="UTF-8"</constant>.</para>
+												</listitem>
+											</varlistentry>				
+											</variablelist>
+							 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Response Body</term>
+							<listitem>
+								<para>The peer id of the HTTP receiver expressed as a JXTA Endpoint Address.</para>
+						 </listitem>
+					 </varlistentry>				
+					</variablelist>
+						
+				<example><title>HTTP Ping Example</title>
+<programlisting>
+<emphasis>Request:</emphasis>
+
+GET / HTTP/1.1
+
+<emphasis>Response:</emphasis>
+
+200 
+content-length=61
+content-type=text/plain;charset="UTF-8"
+
+jxta://urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503
+</programlisting>
+				</example>
+
+					</section>
+					
+				<section><title><quote>Poll</quote> Command</title>
+				
+				<para>The <quote>poll</quote> command is used by the HTTP intiator to retreive a message from 
+				the HTTP receivers.</para>
+				
+				<para>The HTTP initiator issues a request as follows:</para>
+				
+						<variablelist>
+				 <varlistentry>
+							<term>Request</term>
+							<listitem>
+								<para><constant>GET</constant></para>
+						 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Resource</term>
+							<listitem>
+								<para><constant>/</constant>&lt;initiator peerid&gt;<constant>?</constant>&lt;responseWait&gt;,&lt;extraResponseWait&gt;,&lt;destAddr&gt;</para>
+								<variablelist>
+							<varlistentry>
+									<term>initiator peerid</term>
+									<listitem>
+										<para>The unique portion of the peerid of the initiator, ie. without
+										the <constant>urn:jxta:</constant> prefix.</para>
+									</listitem>
+								</varlistentry>				
+							<varlistentry>
+									<term>responseWait</term>
+									<listitem>
+										<para>The maximum duration in milliseconds which the HTTP Receiver
+										<phrase role="rfc2119">should</phrase> wait in order to send a response.
+                                                                                Expressed as a decimal integer.  This is the longest duration that the 
+                                                                                initiator is willing to wait for a response. If unspecified, the HTTP
+                                        receiver <phrase role="rfc2119">must</phrase> assume a value of 
+                                        <constant>0</constant> (zero). A delay value of 
+                                        <constant>0</constant> (zero) implies that the HTTP Receiver 
+                                        <phrase role="rfc2119">should</phrase> wait indefinitely until
+                                        a response is available. Negative wait values imply that the receiver
+										<phrase role="rfc2119">must not</phrase> return any response.</para>
+									</listitem>
+								</varlistentry>
+							<varlistentry>
+									<term>lazyClose</term>
+									<listitem>
+										<para>The maximum duration in milliseconds during which the HTTP Receiver
+										<phrase role="rfc2119">should</phrase> send additional response messages.
+                                        Expressed as a decimal integer. If unspecified the receiver <phrase role="rfc2119">must</phrase>
+                                        assume a value of <constant>0</constant> (zero).
+                                        A delay value of <constant>0</constant> (zero) implies that the HTTP
+                                        receiver <phrase role="rfc2119">should</phrase> continue to return
+                                        message responses until the connection is closed. Negative values 
+                                        imply that the receiver <phrase role="rfc2119">must not</phrase> return
+                                        any additional responses.</para>
+									</listitem>
+								</varlistentry>
+							<varlistentry>
+									<term>destAddr</term>
+									<listitem>
+										<para>A URI specifying the complete destination address for this connection. If there is no
+                                                                                destination specified, the receiver <phrase role="rfc2119">must</phrase> assume a value of 
+                                                                                the address of the receiving network interface and receiving port. The destination service 
+                                                                                and service parameter are both uninitialized.
+										</para>
+									</listitem>
+								</varlistentry>
+								</variablelist>
+						 </listitem>
+					 </varlistentry>
+						</variablelist>
+						
+				<para>The HTTP Receiver should respond to well-formed requests as follows:
+				</para>
+							
+				<variablelist>
+				 <varlistentry>
+							<term>Response Code</term>
+							<listitem>
+								<para><constant>200</constant></para>
+						 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Required Headers</term>
+							<listitem>
+									<variablelist>
+										<varlistentry>
+												<term><constant>Content-Type</constant></term>
+												<listitem>
+													<para><phrase role="rfc2119">Must</phrase> match the content type
+													of the JXTA Message Body which forms the response, if any.</para>
+												</listitem>
+											</varlistentry>				
+											</variablelist>
+							 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Response Body</term>
+							<listitem>
+								<para>Well-formed JXTA Message Bodies</para>
+						 </listitem>
+					 </varlistentry>				
+					</variablelist>
+						
+				<example><title>HTTP Poll Example</title>
+<programlisting>
+<emphasis>Request:</emphasis>
+
+POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503?0,0,http://64.81.53.91:8720/EndpointService:jxta-NetGroup/uuid-DEADBEEFDEAFBABAFEEDBABE0000000F05/connect,29988,keep,true HTTP/1.1
+
+<emphasis>Response:</emphasis>
+
+200 
+content-length=0
+</programlisting>
+				</example>
+
+					</section>
+					
+				<section><title><quote>Send</quote> Command</title>
+				
+				<para>The <quote>send</quote> command is used by the HTTP intiator to send a 
+				message to the HTTP receiver and optional retrieve a response message.</para>
+				
+				<para>The HTTP initiator issues a request as follows:</para>
+				
+						<variablelist>
+				 <varlistentry>
+							<term>Request</term>
+							<listitem>
+								<para><constant>POST</constant></para>
+						 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Resource</term>
+							<listitem>
+								<para><constant>/&lt;initiator peerid&gt;</constant></para>
+								<variablelist>
+							<varlistentry>
+									<term>initiator peerid</term>
+									<listitem>
+										<para>The unique portion of the peerid of the initiator, ie. without
+										the <constant>urn:jxta:</constant> prefix.</para>
+									</listitem>
+								</varlistentry>				
+								</variablelist>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Required Headers</term>
+							<listitem>
+									<variablelist>
+										<varlistentry>
+												<term><constant>Content-Length</constant></term>
+												<listitem>
+													<para><phrase role="rfc2119">Must</phrase> always be present.</para>
+												</listitem>
+											</varlistentry>				
+										<varlistentry>
+												<term><constant>Content-Type</constant></term>
+												<listitem>
+													<para><phrase role="rfc2119">Must</phrase> match the content type
+													of the JXTA Message Body which forms the response.</para>
+												</listitem>
+											</varlistentry>				
+											</variablelist>
+							 </listitem>
+					 </varlistentry>				
+				 <varlistentry>
+							<term>Request Body</term>
+							<listitem>
+								<para>A well-formed JXTA Message Body</para>
+						 </listitem>
+					 </varlistentry>				
+						</variablelist>
+						
+				<para>The HTTP Receiver should respond to well-formed requests as follows:
+				</para>
+							
+				<variablelist>
+				 <varlistentry>
+							<term>Response Code</term>
+							<listitem>
+								<para><constant>200</constant></para>
+						 </listitem>
+					 </varlistentry>				
+					</variablelist>
+						
+				<example><title>HTTP Send Example</title>
+<programlisting>
+<emphasis>Request:</emphasis>
+
+POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HTTP/1.1
+
+<emphasis>Response:</emphasis>
+				
+200 
+</programlisting>
+				</example>
+
+					</section>
+							
+			</section>
+	
+  </section>
+  <section id="trans-tlst">
+  <title id="trans-tlst-title">TLS Transport Binding</title>
+	
+	<section id="trans-tlst-intro"><title>Introduction</title>
+  <para>JXTA implements 
+  <citetitle pubwork="article">IETF RFC 2246 : Transport Layer Security Version 1</citetitle>
+  <xref linkend="bib-RFC2246"/> on top of the 
+	  <xref linkend="trans-router" endterm="trans-router-title"/> using 
+		JXTA messages. Messages are transmitted across one of the other Transport 
+		Bindings.  This implementation provides for secure message delivery between 
+		Peer Endpoints even when multiple hops across JXTA peers must be used.
+		</para>
+	</section>
+	
+	<section id="trans-tlst-msgs"><title>TLS Messages</title>
+		<para>The TLS protocol exchange is accomplished between the participant 
+		peers using JXTA Messages. Three JXTA Message Element types are used to 
+		implement the protocol:</para>
+		
+		<itemizedlist>
+			<listitem><para>TLS Contents</para></listitem>
+			<listitem><para>Acknowledgements</para></listitem>
+			<listitem><para>Retries</para></listitem>
+		</itemizedlist>
+		
+		<section id="trans-tlst-msgs-msg">
+			<title id="trans-tlst-msgs-msg-title">TLS Content Element</title>
+			<para>Used to transfer TLS content between peers.</para>
+			
+						<variablelist>
+				 <varlistentry>
+							<term>Element Name</term>
+							<listitem>
+								<para>UTF-8 String containing the sequence number of this element.
+								Sequence numbers are monotonically increasing positive integers.
+								</para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Element Type</term>
+							<listitem>
+								<para><constant>application/x-jxta-tls-block</constant></para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Element Data</term>
+							<listitem>
+								<para>TLS Protocol Data per
+								<citetitle pubwork="article">IETF RFC 2246</citetitle>
+								<xref linkend="bib-RFC2246"/></para>
+						 </listitem>
+					 </varlistentry>
+					 </variablelist>		
+		</section>
+		
+		<section id="trans-tlst-msgs-ack"><title>TLS ACK Element</title>
+			<para>Used to transfer TLS content between peers.</para>
+			
+						<variablelist>
+				 <varlistentry>
+							<term>Element Name</term>
+							<listitem>
+								<para><constant>TLSACK</constant> as a UTF-8 String.</para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Element Type</term>
+							<listitem>
+								<para><constant>application/x-jxta-tls-ack</constant></para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Element Data</term>
+							<listitem>
+						<variablelist>
+				 <varlistentry>
+							<term>Sequential ACK</term>
+							<listitem>
+								<para>Network Byte Order Unsigned 32 Bit Integer. Indicates that
+								the remote peer has successfully received all of the messages
+								with sequence numbers up to and including this value.</para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Selective ACKs (optional)</term>
+							<listitem>
+								<para>Network Byte Order Unsigned 32 Bit Integer(s). Each entry 
+								is the sequence number of a message which has been successfully
+								received by the remote peer. Entries are all greater than the
+								sequential ACK value and in numerically increasing order.
+								</para>
+						 </listitem>
+					 </varlistentry>
+					 </variablelist>
+					 </listitem>
+					 </varlistentry>
+					 </variablelist>		
+			
+		</section>
+		<section id="trans-tlst-msgs-retry"><title>Retry Element</title>
+			<para>Used to signify that this message is being sent as a retry of an
+			apparently failed previous send attempt. If present, this element will
+			accompany a 
+			<xref linkend="trans-tlst-msgs-msg" endterm="trans-tlst-msgs-msg-title"/>.
+			The element is mostly informational, but can be used to assist in window
+			control.</para>
+			
+						<variablelist>
+				 <varlistentry>
+							<term>Element Name</term>
+							<listitem>
+								<para><constant>MARKRetr</constant> as a UTF-8 String.</para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Element Type</term>
+							<listitem>
+								<para><constant>text/plain;charset="UTF-8"</constant></para>
+						 </listitem>
+					 </varlistentry>
+				 <varlistentry>
+							<term>Element Data</term>
+							<listitem>
+								<para><constant>TLSRET</constant> as a UTF-8 string.</para>
+						 </listitem>
+					 </varlistentry>
+					 </variablelist>		
+		</section>
+		
+	</section>
+	
+  </section>
+  
+</chapter>
+

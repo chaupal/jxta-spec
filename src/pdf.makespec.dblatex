@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -vx
+
+infile=book-JXTAProtocols.xml
+outfile=JXTAProtocols.pdf
+options=dblatex.spec
+
+/home/mike/bin/dblatex --config=$options -o $outfile $infile

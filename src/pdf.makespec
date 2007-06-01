@@ -1,0 +1,2 @@
+dblatex -t pdf -b pdftex -o JXTAProtocols.pdf -s book-JXTAProtocols.xml
+

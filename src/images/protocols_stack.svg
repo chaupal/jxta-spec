@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg
+   width="28cm"
+   height="27cm"
+   viewBox="-1 -8 65 65"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs89">
+    <linearGradient
+       id="linearGradient90">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop91" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop92" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient93"
+       x1="0.873053"
+       y1="0.552147"
+       x2="-0.00471921"
+       y2="0.220859" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient94"
+       x1="-0.121261"
+       y1="1.02"
+       x2="0.346478"
+       y2="0.5" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient226"
+       x1="-0.121261"
+       y1="1.02"
+       x2="0.346478"
+       y2="0.5" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient227"
+       x1="-0.121261"
+       y1="1.02"
+       x2="0.346478"
+       y2="0.5" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient228"
+       x1="-0.121261"
+       y1="1.02"
+       x2="0.346478"
+       y2="0.5" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient229"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient230"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient231"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1" />
+    <linearGradient
+       xlink:href="#linearGradient90"
+       id="linearGradient232"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="1" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     showgrid="true"
+     gridspacingx="5pt"
+     gridspacingy="5pt"
+     snaptogrid="true" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:#999999; fill-opacity:1; "
+     x="1.705556"
+     y="28.120833"
+     width="11.994444"
+     height="1.587500"
+     id="rect127"
+     rx="0.000000"
+     ry="0.000000" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:#999999; fill-opacity:1; "
+     x="14.758333"
+     y="28.120833"
+     width="11.818056"
+     height="1.587500"
+     id="rect159"
+     rx="0.000000"
+     ry="0.000000" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:url(#linearGradient94); stroke-opacity:1; "
+     x="2.112500"
+     y="9.600000"
+     width="11.234722"
+     height="10.406944"
+     id="rect31"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(0,0)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:url(#linearGradient226); stroke-opacity:1; "
+     x="15.165278"
+     y="9.952778"
+     width="11.234722"
+     height="10.406944"
+     id="rect144"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:url(#linearGradient228); stroke-opacity:1; "
+     x="2.058333"
+     y="20.888889"
+     width="11.234722"
+     height="6.173611"
+     id="rect126"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(0,0)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:url(#linearGradient227); stroke-opacity:1; "
+     x="15.111111"
+     y="21.241667"
+     width="11.234722"
+     height="6.173611"
+     id="rect158"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <a
+     id="a142">
+    <rect
+       style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+       x="19.520833"
+       y="15.597222"
+       width="9.036666"
+       height="1.763889"
+       id="rect105"
+       rx="0.000000"
+       ry="0.000000"
+       transform="translate(-16.3093,-0.562539)" />
+  </a>
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="16.264311"
+     y="15.387461"
+     width="9.036666"
+     height="1.763889"
+     id="rect154"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="3.252223"
+     y="17.713889"
+     width="9.036666"
+     height="1.763889"
+     id="rect106"
+     rx="0.000000"
+     ry="0.000000" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="16.264268"
+     y="18.154861"
+     width="9.036666"
+     height="1.763889"
+     id="rect155"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="2.763889"
+     y="21.770833"
+     width="9.036666"
+     height="1.763889"
+     id="rect124"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(0.393472,-1.19349e-15)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="16.210139"
+     y="22.123611"
+     width="9.036666"
+     height="1.763889"
+     id="rect156"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="2.763889"
+     y="24.593056"
+     width="9.036666"
+     height="1.763889"
+     id="rect125"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(0.393472,-1.19349e-15)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="16.210139"
+     y="24.945834"
+     width="9.036666"
+     height="1.763889"
+     id="rect157"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="16.264268"
+     y="12.863194"
+     width="9.036666"
+     height="1.763889"
+     id="rect153"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="19.656390"
+     y="12.951389"
+     width="9.036666"
+     height="1.763889"
+     id="rect104"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(-16.4449,-0.440973)" />
+  <rect
+     style="stroke:none; fill:#7f7f7f; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     id="rect95"
+     x="484.448966"
+     y="-126.565347"
+     width="206.500000"
+     height="27.000000" />
+  <rect
+     style="stroke:none; fill:#7f7f7f; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     id="rect96"
+     x="477.198966"
+     y="-132.065347"
+     width="272.000000"
+     height="39.000000" />
+  <rect
+     style="stroke:none; fill:#7f7f7f; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     id="rect97"
+     x="513.698966"
+     y="67.934653"
+     width="38.000000"
+     height="22.000000" />
+  <rect
+     style="stroke:none; fill:#7f7f7f; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     id="rect99"
+     x="500.000000"
+     y="45.354331"
+     width="210.000000"
+     height="80.000000" />
+  <rect
+     style="stroke:none; fill:#7f7f7f; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     id="rect100"
+     x="455.000000"
+     y="65.354331"
+     width="250.000000"
+     height="65.000000" />
+  <path
+     sodipodi:type="arc"
+     style="fill:url(#linearGradient93);fill-opacity:100%;stroke:#000000;stroke-opacity:100%;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;"
+     id="path101"
+     cx="-115.000000"
+     cy="-57.145669"
+     rx="65.000000"
+     ry="77.500000" />
+  <rect
+     style="stroke:#ffffff; fill:#7f7f7f; fill-opacity:100%; stroke-opacity:1; stroke-width:1.2pt; stroke-linejoin:bevel; stroke-linecap:square; "
+     id="rect102"
+     x="70.000000"
+     y="410.354331"
+     width="90.000000"
+     height="90.000000" />
+  <text
+     style="fill:#000000; text-align:center; font-size:0.8; "
+     x="17.134522"
+     y="29.471764"
+     id="text145"
+     transform="matrix(1.09995,0,0,1,7.32921e-17,-0.352778)">Transport</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="18.166870"
+     y="25.710179"
+     id="text146"
+     transform="translate(7.32921e-17,-0.352778)">Peer Endpoint
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="18.162872"
+     y="22.887955"
+     id="text147"
+     transform="translate(7.32921e-17,-0.352778)">Peer Resolver
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; fill-opacity:1; stroke-linejoin:miter; stroke-linecap:butt; stroke:none; stroke-opacity:1; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="18.043366"
+     y="18.919206"
+     id="text148"
+     transform="translate(7.32921e-17,-0.352778)">Peer Discovery
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="18.527445"
+     y="16.151805"
+     id="text149"
+     transform="translate(7.32921e-17,-0.352778)">Pipe Binding
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="17.817045"
+     y="13.628739"
+     id="text150"
+     transform="translate(7.32921e-17,-0.352778)">Peer Information
+Protocol</text>
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="16.264268"
+     y="10.393749"
+     width="9.036666"
+     height="1.763889"
+     id="rect152"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(7.32921e-17,-0.352778)" />
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="18.539356"
+     y="11.158093"
+     id="text151"
+     transform="translate(7.32921e-17,-0.352778)">Rendezvous
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.8; "
+     x="4.757792"
+     y="30.592266"
+     id="text38"
+     transform="matrix(1.09995,0,0,1,0.561006,-1.47328)">Transport</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="3.749422"
+     y="25.714934"
+     id="text40"
+     transform="translate(1.36467,-0.357533)">Peer Endpoint
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="4.175000"
+     y="22.716321"
+     id="text41"
+     transform="translate(0.935094,-0.181144)">Peer Resolver
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; fill-opacity:1; stroke-linejoin:miter; stroke-linecap:butt; stroke:none; stroke-opacity:1; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="19.988188"
+     y="18.363447"
+     id="text50"
+     transform="translate(-14.9976,0.202981)">Peer Discovery
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="19.941667"
+     y="16.240000"
+     id="text51"
+     transform="translate(-14.467,-0.440973)">Pipe Binding
+Protocol</text>
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="19.941667"
+     y="14.016111"
+     id="text52"
+     transform="translate(-15.1774,-0.74015)">Peer Information
+Protocol</text>
+  <rect
+     style="stroke-width:0.1; stroke:#000000; fill:#bfbfbf; stroke-linejoin:miter; stroke-linecap:butt; fill-opacity:1; "
+     x="19.656390"
+     y="10.481944"
+     width="9.036666"
+     height="1.763889"
+     id="rect103"
+     rx="0.000000"
+     ry="0.000000"
+     transform="translate(-16.4449,-0.440973)" />
+  <text
+     style="fill:#000000; text-align:center; font-size:0.800000; font-family:Helvetica; font-weight:normal; font-style:normal; "
+     x="20.402778"
+     y="11.251044"
+     id="text53"
+     transform="translate(-14.9162,-0.445729)">Rendezvous
+Protocol</text>
+  <g
+     id="g90"
+     transform="translate(7.32921e-17,-0.0145845)">
+    <line
+       style="stroke-width:0.1; stroke:#000000; "
+       x1="7.2"
+       y1="8.95"
+       x2="16.55"
+       y2="8.95"
+       id="line8"
+       transform="matrix(0.26411,0,0,1,11.0929,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; fill:none; "
+       points="7.9,8.7 7.2,8.95 7.9,9.2 "
+       id="polygon10"
+       transform="translate(5.09444,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:none; "
+       points="15.85,9.2 16.55,8.95 15.85,8.7 "
+       id="polygon12"
+       transform="translate(-0.380556,1.9875)" />
+  </g>
+  <g
+     id="g94"
+     style=""
+     transform="translate(4.44444e-07,2.45486)">
+    <line
+       style="stroke-width:0.1; stroke:#000000; "
+       x1="7.2"
+       y1="8.95"
+       x2="16.55"
+       y2="8.95"
+       id="line95"
+       transform="matrix(0.26411,0,0,1,11.0929,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; fill:none; "
+       points="7.9,8.7 7.2,8.95 7.9,9.2 "
+       id="polygon96"
+       transform="translate(5.09444,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:none; "
+       points="15.85,9.2 16.55,8.95 15.85,8.7 "
+       id="polygon97"
+       transform="translate(-0.380556,1.9875)" />
+  </g>
+  <g
+     id="g98"
+     style=""
+     transform="translate(4.44444e-07,4.97913)">
+    <line
+       style="stroke-width:0.1; stroke:#000000; "
+       x1="7.2"
+       y1="8.95"
+       x2="16.55"
+       y2="8.95"
+       id="line99"
+       transform="matrix(0.26411,0,0,1,11.0929,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; fill:none; "
+       points="7.9,8.7 7.2,8.95 7.9,9.2 "
+       id="polygon100"
+       transform="translate(5.09444,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:none; "
+       points="15.85,9.2 16.55,8.95 15.85,8.7 "
+       id="polygon101"
+       transform="translate(-0.380556,1.9875)" />
+  </g>
+  <g
+     id="g102"
+     style=""
+     transform="translate(0.094824,7.65833)">
+    <line
+       style="stroke-width:0.1; stroke:#000000; "
+       x1="7.2"
+       y1="8.95"
+       x2="16.55"
+       y2="8.95"
+       id="line103"
+       transform="matrix(0.26411,0,0,1,11.0929,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; fill:none; "
+       points="7.9,8.7 7.2,8.95 7.9,9.2 "
+       id="polygon104"
+       transform="translate(5.09444,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:none; "
+       points="15.85,9.2 16.55,8.95 15.85,8.7 "
+       id="polygon105"
+       transform="translate(-0.380556,1.9875)" />
+  </g>
+  <g
+     id="g106"
+     style=""
+     transform="translate(-0.00555111,11.6417)">
+    <line
+       style="stroke-width:0.1; stroke:#000000; "
+       x1="7.2"
+       y1="8.95"
+       x2="16.55"
+       y2="8.95"
+       id="line107"
+       transform="matrix(0.26411,0,0,1,11.0929,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; fill:none; "
+       points="7.9,8.7 7.2,8.95 7.9,9.2 "
+       id="polygon108"
+       transform="translate(5.09444,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:none; "
+       points="15.85,9.2 16.55,8.95 15.85,8.7 "
+       id="polygon109"
+       transform="translate(-0.380556,1.9875)" />
+  </g>
+  <g
+     id="g110"
+     style=""
+     transform="translate(-0.00555111,14.5375)">
+    <line
+       style="stroke-width:0.1; stroke:#000000; "
+       x1="7.2"
+       y1="8.95"
+       x2="16.55"
+       y2="8.95"
+       id="line111"
+       transform="matrix(0.26411,0,0,1,11.0929,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; fill:none; "
+       points="7.9,8.7 7.2,8.95 7.9,9.2 "
+       id="polygon112"
+       transform="translate(5.09444,1.9875)" />
+    <polygon
+       style="stroke-width:0.1; stroke:#000000; stroke-linejoin:miter; stroke-linecap:butt; fill:none; "
+       points="15.85,9.2 16.55,8.95 15.85,8.7 "
+       id="polygon113"
+       transform="translate(-0.380556,1.9875)" />
+  </g>
+  <text
+     style="fill:#000000; stroke:none; font-family:helvetica; font-style:normal; font-weight:normal; font-size:12px; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     x="47.935484"
+     y="373.267780"
+     id="text144">sdsdfsdf</text>
+  <text
+     style="fill:#000000; stroke:none; font-family:helvetica; font-style:normal; font-weight:normal; font-size:12px; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     x="46.935484"
+     y="375.267780"
+     id="text152">ddd</text>
+  <text
+     style="fill:#000000; stroke:none; font-family:helvetica; font-style:normal; font-weight:normal; font-size:12px; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     x="-66.064516"
+     y="472.267780"
+     id="text153">f</text>
+  <text
+     style="fill:#000000; stroke:none; font-family:helvetica; font-style:normal; font-weight:normal; font-size:12px; fill-opacity:100%; stroke-opacity:100%; stroke-width:1px; stroke-linejoin:miter; stroke-linecap:butt; "
+     x="-49.064516"
+     y="481.267780"
+     id="text154">dsg</text>
+</svg>

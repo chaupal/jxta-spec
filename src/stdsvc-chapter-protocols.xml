@@ -1,0 +1,1525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+-->
+
+<chapter id="stdsvc-proto">
+<title id="stdsvc-proto-title">Standard Protocols</title>
+
+<section id="proto-pdp">
+<title id="proto-pdp-title">Peer Discovery Protocol</title>
+<section id="proto-pdp-intro"><title>Introduction</title>
+
+<para>The Peer Discovery Protocol is used to discover any published peer 
+resource. Resources are represented as advertisements. A resource can be a peer, 
+a peergroup, a pipe, a module, or any resource that has an advertisement. Each 
+resource <phrase role="rfc2119">must</phrase> be represented by an advertisement.
+</para>
+
+<para>The Peer Discovery Protocol (PDP) enables a peer to find advertisements in 
+its group. The PDP protocol is the discovery protocol of the world peergroup. 
+Custom discovery services <phrase role="rfc2119">may</phrase> choose to leverage PDP. If a 
+peer group does not need to define its own discovery protocol, it may use the 
+world peergroup PDP.</para>
+
+<para>The intent is for PDP to provide the essential discovery infrastructure 
+for building and bootstrapping high-level discovery services. In many situation, 
+discovery information is better known by a high-level service, because the 
+service may have a better knowledge of the group topology.</para>
+
+<para>The PDP protocol provides a basic mechanism to discover advertisements 
+while providing hooks so high-level services and applications can participate in 
+the discovery process. Services <phrase role="rfc2119">should</phrase> be able to give hints 
+to improve discovery (i.e. decide which advertisements are the most valuable to 
+cache).</para>
+
+<para>The PDP protocol utilizes the resolver protocol to route queries and 
+responses.</para>
+
+</section>
+
+<section id="proto-pdp-dqm"><title>Discovery Query Message</title>
+
+<para>The discovery query message is used by peers to send discovery requests 
+when searching for advertisements.</para>
+
+<figure id="fdqs"><title>Discovery Query Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>DiscoveryQuery</classname>" type="jxta:DiscoveryQuery"/>
+
+&lt;xsd:simpleType name="DiscoveryQueryType">
+  &lt;xsd:restriction base="xsd:string">
+    &lt;!-- peer -->
+    &lt;xsd:enumeration value="0"/>
+    &lt;!-- group -->
+    &lt;xsd:enumeration value="1"/>
+    &lt;!-- adv -->
+    &lt;xsd:enumeration value="2"/>
+  &lt;/xsd:restriction>
+&lt;/xsd:simpleType>
+
+&lt;xs:complexType name="DiscoveryQuery">
+  &lt;xs:sequence>
+    &lt;xs:element name="Type" type="jxta:DiscoveryQueryType"/>
+    &lt;xs:element name="Threshold" type="xs:unsignedInt" minOccurs="0"/>
+    &lt;xs:element name="Attr" type="xs:string" minOccurs="0"/>
+    &lt;xs:element name="Value" type="xs:string" minOccurs="0"/>
+    &lt;!-- The following should refer to a peer adv, but is instead a whole doc for historical reasons -->
+    &lt;xs:element name="PeerAdv" type="xs:string" minOccurs="0"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Type</sgmltag></term>
+	<listitem>
+		<simpara>Only advertisements of requested type will be matched. Possible 
+    values are:</simpara>
+    <variablelist>
+      <varlistentry>
+      <term><sgmltag class="element">0</sgmltag></term>
+      <listitem>
+        <simpara>Peer Advertisements</simpara>
+     </listitem>
+     </varlistentry>
+      <varlistentry>
+      <term><sgmltag class="element">1</sgmltag></term>
+      <listitem>
+        <simpara>Peergroup Advertisements</simpara>
+     </listitem>
+     </varlistentry>
+      <varlistentry>
+      <term><sgmltag class="element">2</sgmltag></term>
+      <listitem>
+        <simpara>Any Advertisements</simpara>
+     </listitem>
+     </varlistentry>
+    </variablelist>
+ </listitem>
+ </varlistentry>
+  <varlistentry>
+  <term><sgmltag class="starttag">Threshold</sgmltag></term>
+  <listitem>
+    <simpara>specifies the maximum number of advertisements that each responding 
+    peer <phrase role="rfc2119">should</phrase> provide. The total number of 
+    results received depends on the number of peers that respond and the 
+    advertisements they have. If <sgmltag class="starttag">Type</sgmltag> is 
+    <sgmltag class="element">0</sgmltag> (Peer Advertisements) and 
+    <sgmltag class="starttag">Threshold</sgmltag> is 
+    <sgmltag class="element">0</sgmltag>, then the query has a special meaning: 
+    its objective is to collect Peer Advertisements of respondents. Therefore 
+    any peer <phrase role="rfc2119">should</phrase> respond to such a query, e
+    ven though no results are to be included.</simpara>
+  </listitem>
+  </varlistentry>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">PeerAdv</sgmltag></term>
+	<listitem>
+		<simpara>If present, the advertisement of the requestor.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Attribute</sgmltag></term>
+  <term><sgmltag class="starttag">Value</sgmltag></term>
+	<listitem>
+		<simpara>Must either 
+    be both present or absent. If absent, then each respondent should supply a 
+    random set of advertisements of the appropriate type up to 
+    <sgmltag class="starttag">Threshold</sgmltag> count.</simpara>
+    
+    <simpara>Only advertisements containing an element who's name matches
+    <sgmltag class="starttag">Attribute</sgmltag> and that also contains a value 
+    matching <sgmltag class="starttag">Value</sgmltag> are eligible to be found. 
+    <sgmltag class="starttag">Value</sgmltag> may begin or end with "*", or 
+    both. In that case <sgmltag class="starttag">Value</sgmltag> will match all 
+    values that end with or beginning with, or contain the rest of the string. 
+    If <sgmltag class="starttag">Value</sgmltag> contains only "*" the result is 
+    unspecified. Some implementations may choose not match any advertisement 
+    for <sgmltag class="starttag">Value</sgmltag> "*".</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+<example id="fdqe"><title>Discovery Query</title>
+<programlisting>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+    
+&lt;jxta:DiscoveryQuery>
+    &lt;Type>2&lt;/Type>
+    &lt;Threshold>1&lt;/Threshold> 
+    &lt;Attr>Name&lt;/Attr>
+    &lt;Value>*sidus*&lt;/Value>
+    &lt;PeerAdv>
+        &amp;lt;?xml version="1.0"?>
+
+        &amp;lt;!DOCTYPE jxta:PA>
+
+        &amp;lt;jxta:PA xmlns:jxta="http://jxta.org">
+            &amp;lt;PID>
+                urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503
+            &amp;lt;/PID>
+            <emphasis>... remainder omitted for brevity ...</emphasis>
+        &amp;lt;/jxta:PA>
+    &lt;/PeerAdv>
+&lt;/jxta:DiscoveryQuery>
+</programlisting>
+</example>
+
+</section>
+
+<section id="proto-pdp-drm"><title>Discovery Response Message</title>
+<para>A Discovery response message is used by a peer to respond to a discovery 
+query message.</para>
+
+<figure id="fdrs"><title>Discovery Response Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>DiscoveryResponse</classname>" type="jxta:DiscoveryResponse"/>
+
+&lt;xs:complexType name="DiscoveryResponse">
+  &lt;xs:sequence>
+    &lt;xs:element name="Type" type="jxta:DiscoveryQueryType"/>
+    &lt;xs:element name="Count" type="xs:unsignedInt" minOccurs="0"/>
+    &lt;xs:element name="Attr" type="xs:string" minOccurs="0"/>
+    &lt;xs:element name="Value" type="xs:string" minOccurs="0"/>
+    &lt;!-- The following should refer to a peer adv, but is instead a whole doc for historical reasons -->
+    &lt;xs:element name="PeerAdv" minOccurs="0">
+      &lt;xs:complexType>
+        &lt;xs:simpleContent>
+      &lt;xs:extension base="xs:string">
+         &lt;xs:attribute name="Expiration" type="xs:unsignedLong"/>
+      &lt;/xs:extension>
+      &lt;/xs:simpleContent>
+      &lt;/xs:complexType>     
+    &lt;/xs:entry>
+    &lt;xs:element name="Response" maxOccurs="unbounded">
+      &lt;xs:complexType>
+        &lt;xs:simpleContent>
+          &lt;xs:extension base="xs:string">
+            &lt;xs:attribute name="Expiration" type="xs:unsignedLong"/>
+          &lt;/xs:extension>
+        &lt;/xs:simpleContent>
+      &lt;/xs:complexType>     
+    &lt;/xs:entry>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Type</sgmltag></term>
+	<listitem>
+		<simpara>The type of all the advertisements returned in the 
+    <sgmltag class="starttag">Response</sgmltag> element(s).</simpara>
+ </listitem>
+ </varlistentry>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Count</sgmltag></term>
+	<listitem>
+		<simpara>If present, the number of 
+    <sgmltag class="starttag">Response</sgmltag> element(s) included in this 
+    response.</simpara>
+  </listitem>
+ </varlistentry>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">PeerAdv</sgmltag></term>
+	<listitem>
+		<simpara>If present, the advertisement of the respondent. The 
+    <sgmltag class="attribute">Expiration</sgmltag> attribute is the 
+    associated relative expiration time in milliseconds.</simpara>
+ </listitem>
+ </varlistentry>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Attribute</sgmltag></term>
+  <term><sgmltag class="starttag">Value</sgmltag></term>
+	<listitem>
+		<simpara>If present, reflects that of the 
+    <classname>DiscoveryQuery</classname> to which this is the response.
+    </simpara>
+ </listitem>
+ </varlistentry>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Response</sgmltag></term>
+	<listitem>
+		<simpara>An advertisement.The <sgmltag class="attribute">Expiration</sgmltag> attribute is the 
+    associated relative expiration time in milliseconds.
+    </simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+<example id="fdre"><title>Discovery Response</title>
+<programlisting>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+    
+&lt;jxta:DiscoveryResponse>
+    &lt;Type>2&lt;/Type>
+    &lt;Count>1&lt;/Count> 
+    &lt;Attr>Name&lt;/Attr>
+    &lt;Value>*sidus*&lt;/Value>
+    &lt;PeerAdv>
+        &amp;lt;?xml version="1.0"?>
+
+        &amp;lt;!DOCTYPE jxta:PA>
+
+        &amp;lt;jxta:PA xmlns:jxta="http://jxta.org">
+            &amp;lt;PID>
+                urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503
+            &amp;lt;/PID>
+            <emphasis>... omitted ...</emphasis>
+        &amp;lt;/jxta:PA>
+    &lt;/PeerAdv>
+    &lt;Response Expiration="36000000">
+        &amp;lt;?xml version="1.0"?>
+
+        &amp;lt;!DOCTYPE jxta:PipeAdvertisement>
+
+        &amp;lt;jxta:PipeAdvertisement xmlns:jxta="http://jxta.org">
+            &amp;lt;Id>
+                urn:jxta:uuid-094AB61B99C14AB694D5BFD56C66E512FF7980EA1E6F4C238A26BB362B34D1F104
+            &amp;lt;/Id>
+            &amp;lt;Type>
+                JxtaUnicastSecure
+            &amp;lt;/Type>
+            &amp;lt;Name>
+                JxtaTalkUserName.sidus
+            &amp;lt;/Name>
+        &amp;lt;/jxta:PipeAdvertisement>
+    &lt;/Response>
+&lt;/jxta:DiscoveryResponse>
+</programlisting>
+</example>
+
+</section>
+
+<section id="proto-pdp-behav"><title>Behaviour</title>
+
+<para> The <acronym>PDP</acronym> does not guarantee peers that receive a query 
+will respond to the query, nor does it mandate that the number of advertisements 
+requested will be honored. Only a best effort is made at matching the query to 
+results in the respondant's cache.</para>
+
+<para>There is no guarantee that a response to a discovery query request will be 
+made. It is important to point out that responding to a DiscoveryQuery request 
+is <phrase role="rfc2119">optional</phrase>. A peer is not required to respond 
+to a DiscoveryQuery request.</para>
+
+<para>A reliable transport is <phrase role="rfc2119">optional</phrase> with the
+<acronym>PDP</acronym>. Multiple Discovery query messages may be sent. None, 
+one, multiple or redundant responses may be received.</para>
+
+<para>A peer may receive a DiscoveryResponse that is not a response to any 
+DiscoveryQuery initiated by the peer, this mechanism provides the ability to 
+remote publish a resource.</para>
+
+<para>The <acronym>PDP</acronym> provides a mechanism for services to query the 
+network for JXTA resources, and receive responses. As a service, the reference 
+implementation helps other services by taking care of all messaging aspects, 
+caching, and expiring advertisements.</para>
+
+<para>The actual task of propagating, and re-propagating a query to the next set 
+of peers is delegated to the Resolver Service.</para>
+
+</section>
+
+</section>
+
+<section id="proto-rvp"><title id="proto-rvp-title">Rendezvous Protocol</title>
+
+<section><title>Introduction</title>
+
+<para>The Rendezvous Protocol (<acronym>RVP</acronym>) is used for propagation 
+of messages within a peer group. The Rendezvous Protocol provides mechanisms 
+which enable propagation of messages to be performed in a controlled way. To
+most efficiently propagate messages some peers 
+<phrase role="rfc2119">may</phrase> agree to do extra work. Each
+<glossterm linkend="gloss-rdv">Rendezvous Peer</glossterm> cooperates with other
+Rendezvous Peers and with client peers to propagate messages amongst the peers
+of a peer group. The Rendezvous Peers work together to form a PeerView. The
+PeerView is a list of the peers which are currently acting as Rendezvous Peers.
+The PeerView is structured such that Rendezvous Peers are able to direct 
+messages within the peer group in a consistent way without the need for 
+centralized coordination. </para>
+
+<para>The Rendezvous Protocol is divided into three parts; a management protocol 
+(PeerView), a connection registration protocol and the protocol used for 
+transmiting propagated messages.</para>
+
+<para>The PeerView protocol is an <phrase role="rfc2119">optional</phrase> 
+protocol used by Rendezvous Peers to organize themselves. The PeerView protocol
+is used to form and verify the integrity of the PeerView. Each Rendezvous Peer 
+maintains its own local list of active PeerView members. Rendezvous Peers 
+exchange PeerView messages with the other PeerView members to maintain their 
+local PeerView.</para>
+
+<para>The Rendezvous Lease Protocol is an 
+<phrase role="rfc2119">optional</phrase> protocol which enables non-Rendezvous 
+Peers to subscribe to receive propagated messages. Rendezvous Peers offer leases
+to subscribing peers based upon the Rendezvous Peer's ability to distribute 
+propagated messages. During the term of the offered lease the Rendezvous Peer
+will accept messages from the subscribing peer for propagation to the peer group
+and will distribute any appropriate propagation messages to the subscriber. Both 
+the Rendezvous Peer and the subscriber peer may terminate the lease at any time.
+</para>
+
+<para>The Rendezvous Propagation Protocol is the only
+<phrase role="rfc2119">required</phrase> protocol for peers which use the 
+Rendezvous Service. The Rendezvous Propagation Protocol enables peers to manage
+the propagation of individual messages within a peer group. The Rendezvous
+Propagation Protocol enables peers to determine the source of a propagated
+message, the peers the message has already traversed, the listener name to
+which the message is addressed and the remaining distance which the message
+may travel before expiring. </para>
+
+</section>
+
+<section id="advert-rdv"><title id="title-advert-rdv">Rendezvous Advertisement</title>
+<para>
+A Rendezvous advertisement describes a peer that acts as a Rendezvous Peer for
+a given PeerGroup. Those advertisements can be published and retrieved, so
+peers that are looking for rendezvous peers can find them.
+</para>
+
+<figure id="fras"><title id="fras-title">Rendezvous Advertisement Schema</title>
+<programlisting><![CDATA[<xs:element name="RdvAdvertisement" type="jxta:RdvAdvertisement"/>
+
+<xs:complexType name="RdvAdvertisement">
+    <xs:sequence>
+        <xs:element name="RdvGroupId" type="jxta:JXTAID" />
+        <xs:element name="RdvPeerId" type="jxta:JXTAID" />
+        <xs:element name="RdvServiceName" type="xs:string" />
+        <xs:element name="Name" type="xs:string" />
+        <xs:element name="RdvRoute" type="jxta:RA" minOccurs="0" />
+    </xs:sequence>
+</xs:complexType>]]>
+</programlisting>
+</figure>
+
+<variablelist>
+ <varlistentry>
+  <term><sgmltag class="starttag">RdvGroupId</sgmltag></term>
+  <listitem>
+    <simpara>This is a <phrase role="rfc2119">required</phrase> element that 
+    contains the ID of the PeerGroup for which the peer is a rendezvous.
+    </simpara>
+  </listitem>
+ </varlistentry>
+ 
+ <varlistentry>
+  <term><sgmltag class="starttag">RdvPeerId</sgmltag></term>
+  <listitem>
+    <simpara>This is a <phrase role="rfc2119">required</phrase> element that 
+    contains the ID of the peer which is a rendezvous.</simpara>
+  </listitem>
+ </varlistentry>
+
+ <varlistentry>
+  <term><sgmltag class="starttag">RdvServiceName</sgmltag></term>
+  <listitem>
+    <simpara>This is a <phrase role="rfc2119">required</phrase> element that 
+    identifies the PeerView to which the Rendezvous Peer belongs.</simpara>
+  </listitem>
+ </varlistentry>
+
+  <varlistentry>
+   <term><sgmltag class="starttag">Name</sgmltag></term>
+   <listitem>
+    <simpara>This is an <phrase role="rfc2119">optional</phrase> name associated 
+    with the rendezvous peer. Often the same as the peer name.</simpara>
+   </listitem>
+ </varlistentry>
+
+  <varlistentry>
+   <term><sgmltag class="starttag">RdvRoute</sgmltag></term>
+   <listitem>
+    <simpara>An <phrase role="rfc2119">optional</phrase> route to the Rendezvous
+    Peer. A <xref linkend="feprra" endterm="feprra-title"/> is included as a 
+    child of the <sgmltag class="starttag">RdvRoute</sgmltag> element.</simpara>
+   </listitem>
+ </varlistentry>
+ 
+</variablelist>
+ 
+</section>
+
+<section><title>PeerView Protocol</title>
+<para>The PeerView Protocol is used by Rendezvous Peers to organize orderly
+interactions amongst themselves. The PeerView is a collection of the participant 
+peers. The collection of all RendezVous Peers within a peer group is the
+Rendezvous PeerView. The state of the peer group's PeerView is not maintained on 
+a specific peer. Instead, each Rendezvous Peer maintains a local 
+version of its view of the global PeerView. Each local version is loosely
+consistent with all other local versions. The goal of the PeerView Protocol is
+to create and maintain a consistent Peerview state. </para>
+
+<para>The PeerView participants exchange messages with other PeerView 
+participants. Each PeerView message contains a 
+<xref linkend="advert-rdv" endterm="title-advert-rdv"/> and is either a probe 
+or response message. Probe messages contain 
+the Rendezvous Advertisement for the peer which initiates the probe. PeerView 
+response messages <phrase role="rfc2119">may</phrase> contain the Rendezvous 
+Advertisement of the responding peer or Rendezvous Advertisement of another 
+peer. Responses containing advertisements for other than the responding peer is 
+how Rendezvous Peers learn of other PeerView members.</para>
+
+<figure id="fpvm"><title id="fpvm-title">PeerView Message</title>
+<informaltable frame="all">
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row>
+<entry align='left' namest="c1" nameend="c2">Edge Peer Flag Element (optional)</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Message Element Namespace</entry>
+<entry><literal>jxta</literal></entry>
+</row>
+<row>
+<entry>Message Element Name</entry>
+<entry><literal>PeerView.EdgePeer</literal></entry>
+</row>
+<row>
+<entry>Mime Media Type</entry>
+<entry><literal>text/plain; charset=UTF-8</literal></entry>
+</row>
+<row>
+<entry>Element Content</entry>
+<entry><literal>true</literal></entry>
+</row>
+</tbody>
+</tgroup>
+<tgroup cols="2">
+<colspec colwidth="35pc" colname="c1"/>
+<colspec colwidth="65pc" colname="c2"/>
+<thead>
+<row>
+<entry align='left' namest="c1" nameend="c2">Cached Flag Element (optional)</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Message Element Namespace</entry>
+<entry><literal>jxta</literal></entry>
+</row>
+<row>
+<entry>Message Element Name</entry>
+<entry><literal>PeerView.Cached</literal></entry>
+</row>
+<row>
+<entry>Mime Media Type</entry>
+<entry><literal>text/plain; charset=UTF-8</literal></entry>
+</row>
+<row>
+<entry>Element Content</entry>
+<entry><literal>true</literal></entry>
+</row>
+</tbody>
+</tgroup>
+<tgroup cols="2">
+<colspec colwidth="35pc" colname="c1"/>
+<colspec colwidth="65pc" colname="c2"/>
+<thead>
+<row>
+<entry align='left'  namest="c1" nameend="c2">Failure Notification Flag Element (optional)</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Message Element Namespace</entry>
+<entry><literal>jxta</literal></entry>
+</row>
+<row>
+<entry>Message Element Name</entry>
+<entry><literal>PeerView.Failure</literal></entry>
+</row>
+<row>
+<entry>Mime Media Type</entry>
+<entry><literal>text/plain; charset=UTF-8</literal></entry>
+</row>
+<row>
+<entry>Element Content</entry>
+<entry><literal>true</literal></entry>
+</row>
+</tbody>
+</tgroup>
+<tgroup cols="2">
+<colspec colwidth="35pc" colname="c1"/>
+<colspec colwidth="65pc" colname="c2"/>
+<thead>
+<row>
+<entry align='left'  namest="c1" nameend="c2">Probe Element (optional)</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Message Element Namespace</entry>
+<entry><literal>jxta</literal></entry>
+</row>
+<row>
+<entry>Message Element Name</entry>
+<entry><literal>PeerView.PeerAdv</literal></entry>
+</row>
+<row>
+<entry>Mime Media Type</entry>
+<entry><literal>text/xml; charset=UTF-8</literal></entry>
+</row>
+<row>
+<entry>Element Content</entry>
+<entry>RdvAdvertisement of the Probing Peer.</entry>
+</row>
+</tbody>
+</tgroup>
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row>
+<entry align='left' namest="c1" nameend="c2">Response Element (optional)</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>Message Element Namespace</entry>
+<entry><literal>jxta</literal></entry>
+</row>
+<row>
+<entry>Message Element Name</entry>
+<entry><literal>PeerView.PeerAdv.Response</literal></entry>
+</row>
+<row>
+<entry>Mime Media Type</entry>
+<entry><literal>text/xml; charset=UTF-8</literal></entry>
+</row>
+<row>
+<entry>Element Content</entry>
+<entry>RdvAdvertisement of the Responding Peer.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+
+<para>The same basic PeerView Message is used for all PeerView interations. The
+core of the PeerView Message is either the probe or response element. Probe
+messages normally result in a response message from the receiving peer.
+Response messages normally receive no response. The PeerView Message elements 
+other than the probe or response serve as annotations upon the basic message.
+</para>
+
+<figure id="fpvms"><title id="fpvms-title">PeerView Message Scenarios</title>
+<informaltable>
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row><entry  align='left' namest="c1" nameend="c2">Edge Probe</entry></row>
+</thead>
+<tbody>
+<row>
+    <entry>Purpose</entry>
+    <entry>A probe message by a peer which is not a participant in the PeerView
+    to learn of PeerView participants. The Rendezvous Advertisement included is
+    provided to enable the receiver to respond. It is not actually an
+    advertisement for a Rendezvous Peer. The response 
+    <phrase role="rfc2119">should</phrase> be a PeerView Message containing the 
+    Rendezvous Advertisement of random PeerView participant.
+    </entry>
+</row>
+<row>
+    <entry>Elements</entry>
+    <entry>EDGE, PROBE</entry>
+</row>
+<row>
+    <entry>Sent via</entry>
+    <entry>Pipe</entry>
+</row>
+</tbody>
+</tgroup>
+
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row><entry  align='left' namest="c1" nameend="c2">Participant Probe</entry></row>
+</thead>
+<tbody>
+<row>
+  <entry>Purpose</entry>
+  <entry>A probe message by a participant peer to another PeerView participant.
+  Response <phrase role="rfc2119">should</phrase> be a PeerView Message
+  containing the Rendezvous Advertisement of the responding peer. Additionally,
+  a second response containing the Rendezvous Advertisement of a random
+  PeerView participant <phrase role="rfc2119">may</phrase> also be sent to the 
+  probing peer.</entry>
+</row>
+<row>
+    <entry>Elements</entry>
+    <entry>PROBE</entry>
+</row>
+<row>
+    <entry>Sent via</entry>
+    <entry>Endpoint Listener</entry>
+</row>
+</tbody>
+</tgroup>
+
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row><entry  align='left' namest="c1" nameend="c2">Participant Response</entry></row>
+</thead>
+<tbody>
+<row>
+    <entry>Purpose</entry>
+    <entry>A response message by a participant peer to another PeerView 
+    participant. The response Rendezvous Advertisement 
+    <phrase role="rfc2119">must</phrase> be that of the responding peer.</entry>
+</row>
+<row>
+    <entry>Elements</entry>
+    <entry>RESPONSE</entry>
+</row>
+</tbody>
+</tgroup>
+
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row><entry  align='left' namest="c1" nameend="c2">Participant Referral Response</entry></row>
+</thead>
+<tbody>
+<row>
+    <entry>Purpose</entry>
+    <entry>A response message by one PeerView participant peer to another 
+    participant peer providing a refferal to another different participant peer.
+    The response Rendezvous Advertisement <phrase role="rfc2119">must</phrase> 
+    be  that a participant peer which is neither the responding peer nor the 
+    intended recipient peer.</entry>
+</row>
+<row>
+    <entry>Elements</entry>
+    <entry>CACHED, RESPONSE</entry>
+</row>
+<row>
+    <entry>Sent via</entry>
+    <entry>Endpoint Listener</entry>
+</row>
+</tbody>
+</tgroup>
+
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row><entry  align='left' namest="c1" nameend="c2">Shutdown Notification</entry></row>
+</thead>
+<tbody>
+<row>
+    <entry>Purpose</entry>
+    <entry>A response message by a participant peer providing notification that
+    the responding peer is shutting down and will no longer be available. This
+    is a courtesy message which enables the other participant peers to more
+    quickly update their local views.</entry>
+</row>
+<row>
+    <entry>Elements</entry>
+    <entry>FAILURE, RESPONSE </entry>
+</row>
+<row>
+    <entry>Sent via</entry>
+    <entry>Pipe</entry>
+</row>
+</tbody>
+</tgroup>
+
+<tgroup cols="2">
+<colspec colwidth="1*" colname="c1"/>
+<colspec colwidth="2*" colname="c2"/>
+<thead>
+<row><entry  align='left' namest="c1" nameend="c2">Failure Notification</entry></row>
+</thead>
+<tbody>
+<row>
+    <entry>Purpose</entry>
+    <entry>A response message by a participant peer providing notification that
+    the identified peer has failed and is no longer be available. This
+    is a courtesy message which enables the other participant peers to more
+    quickly update their local views.</entry>
+</row>
+<row>
+    <entry>Elements</entry>
+    <entry>CACHED, FAILURE, RESPONSE</entry>
+</row>
+<row>
+    <entry>Sent via</entry>
+    <entry>Pipe</entry>
+</row>
+</tbody>
+</tgroup>
+
+</informaltable>
+</figure>
+</section>
+
+<section><title>Rendezvous Lease Protocol</title>
+<para>The Rendezous Lease Protocol is an <phrase role="rfc2119">optional</phrase> 
+that allows non-Rendezvous Peers to subscribe to receive propagated messages. 
+The subscriber peers requests a lease of a Rendezvous Peer and 
+<phrase role="rfc2119">may</phrase> receive a lease in response. Leases are of 
+fixed duration. During the term of the lease the Rendezvous Peer will accept 
+messages from the subscriber peer for propagation to the peer group and will 
+send to the subscriber peer propgated messages received from the peer group.
+</para>
+
+<section><title>Lease Request Message</title>
+
+<para>When a peer wants to connect to a Rendezvous Peer, it sends a message
+with the a message element named jxta:Connect which contains its Peer
+advertisement.</para>
+
+</section>
+
+<section><title>Lease Granted Message</title>
+
+<para>When a rendezvous peer grants a lease (upon a lease request), it sends
+a message to the source of the lease request, containing the following
+message elements:</para>
+
+<variablelist>
+
+<varlistentry>
+<term>jxta:ConnectedLease</term>
+<listitem><simpara>
+This message element contains (in a String representation) the time in 
+milliseconds the lease is granted for. This message element is mandatory.
+</simpara></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>jxta:ConnectedPeer</term>
+<listitem><simpara>This message element contains the PeerID of the rendezvous
+peer that has granted the lease. This message element is mandatory.
+</simpara></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>jxta:RdvAdvReply</term>
+<listitem><simpara>This message element contains the Peer Advertisement
+of the rendezvous peer that grants the lease. This message element is optional.
+</simpara></listitem>
+</varlistentry>
+
+</variablelist>
+
+</section>
+
+<section><title>Lease Cancel Message</title>
+<para>
+When a peer wants to cancel a lease, it sends a message with the following
+message element:</para>
+
+<itemizedlist>
+<listitem><simpara>
+"jxta:Disconnect": This message element contains the Peer Advertisement of the
+peer which is requesting to cancel the lease. This message element is
+mandatory.
+</simpara></listitem>
+</itemizedlist>
+
+</section>
+</section>
+
+<section><title>Message Propagation Protocol</title>
+<para></para>
+
+</section>
+
+<section><title>Behaviour</title>
+<section><title>Peer connection</title>
+
+<para>Rendezvous peers which re-propagate messages they have received. A peer 
+can dynamically become a rendezvous peer or <phrase role="rfc2119">may</phrase> 
+connect to a rendezvous peer. The connection between a peer and a rendezvous 
+peer is achieved by an explicit connection, associated to a lease.</para>
+
+<para>This connection is performed by sending messages using the JXTA
+Endpoint Protocol. Each peer implementing the Rendezvous protocol 
+<phrase role="rfc2119">must</phrase> register with the Endpoint Service to 
+receive messages with the following Service Name and Service Param:</para>
+
+<itemizedlist>
+<listitem><simpara>service name: JxtaPropagate</simpara></listitem>
+<listitem><simpara>service param: PeerGroup ID</simpara></listitem>
+</itemizedlist>
+
+<para>A set of queries and responses are defined by the Rendezvous Protocol
+in order to establish connections:</para>
+
+<itemizedlist>
+<listitem><simpara>
+<emphasis>LeaseRequest</emphasis> This request is sent by a peer that desires to 
+connect to a given rendezvous. A lease <phrase role="rfc2119">may</phrase> 
+always be canceled by either party at anytime if necessary. A rendezvous that 
+grants a lease returns LeaseGranted.
+</simpara></listitem>
+<listitem><simpara>
+<emphasis>LeaseGranted</emphasis> This message is sent by a rendezvous to grant
+a lease to a given client. The amount of time the lease is granted for is 
+included in the message.
+</simpara></listitem>
+</itemizedlist>
+
+</section>
+
+<section><title>Propagation Control</title>
+
+<para>The Rendezvous Protocol implementation is responsible for controlling the 
+propagation of messages. A Rendezvous Service 
+<phrase role="rfc2119">should</phrase> propagate a message unless of the 
+following conditions is detected:</para>
+
+<itemizedlist>
+<listitem><simpara>
+Loop: if a propagated messages has already been processed on a peer, it is
+discarded.
+</simpara></listitem>
+<listitem><simpara>
+TTL: propagated messages are associated with a Time To Live (TTL). Each
+time a propagated message is received on a peer, its TTL is decreased by one.
+When the TTL of a message drops to zero, the message is discarded.
+</simpara></listitem>
+<listitem><simpara>
+Duplicate: each propagated message is associated with a unique identifier.
+When a propagated message has been duplicated, and has already been received
+on a peer, duplicates are discarded.
+</simpara></listitem>
+</itemizedlist>
+
+<para>This control is performed by embedding a Message Element within each
+propagated message that is defined as:</para>
+
+<figure id="frpms"><title>RendezVous Propagate Message Schema</title>
+<programlisting><![CDATA[<xs:element name="RendezVousPropagateMessage" type="jxta:RendezVousPropagateMessage"/>
+<xs:complexType name="RendezVousPropagateMessage">
+        <xs:sequence>
+            <xs:element name="MessageId" type="xs:string" />
+            <!-- This should be a constrained subtype -->
+            <xs:element name="DestSName" type="xs:string" />
+            <xs:element name="DestSParam" type="xs:string" />
+            <xs:element name="TTL" type="xs:unsignedInt" />
+            <xs:element name="Path" type="jxta:JXTAID" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>]]></programlisting>
+</figure>
+
+</section>
+
+
+</section>
+</section>
+
+<section id="proto-pip">
+<title id="proto-pip-title">Peer Information Protocol</title>
+
+<para>Once a peer is located, its capabilities and status may be queried. PIP 
+provides a set of messages to obtain a peer status information. PIP is an 
+<phrase role="rfc2119">optional</phrase> JXTA protocol. Peers are 
+not required to respond to PIP requests.</para>
+
+<para>A reliable transport is <phrase role="rfc2119">optional</phrase> for PIP. 
+Multiple peer information messages may be sent. None, one or multiple responses 
+<phrase role="rfc2119">may</phrase> be received in response to any query.</para>
+
+<para>The PIP is layered upon the 
+<xref linkend="proto-prp" endterm="proto-prp-title"/>. The 
+<sgmltag class="starttag">QueryID</sgmltag> element is used to match PIP queries 
+containing <sgmltag class="starttag">request</sgmltag> elements to the PIP 
+Response Messages containing the matching responses.</para>
+
+<section id="proto-pip-mops"><title>Obtaining PIP Responses</title>
+
+<para>The PIP Query Message provides a <emphasis>request</emphasis> field 
+that <phrase role="rfc2119">may</phrase> be used to encode a specific request. 
+PIP does not dictate the format of the <emphasis>request</emphasis> field and it 
+is left up to the consumer to do so. Higher-level services 
+<phrase role="rfc2119">may</phrase> utilize the request field to offer expanded 
+capabilities.</para>
+</section>
+
+<section id="proto-pip-query"><title>PIP Query Message</title>
+
+<para>The query message is sent to a peer to query the current state of the 
+peer, and obtain other relevant information about the peer. A query without a 
+defined request field returns a default set of information about a peer (i.e. 
+uptime, message count, etc.).</para>
+
+<figure id="fpipqs"><title id="fpipqs-title">PIP Query Message</title>
+<programlisting><![CDATA[<xs:element name="PeerInfoQueryMessage" type="jxta:PeerInfoQueryMessage"/>
+
+<xs:complexType name="PeerInfoQueryMessage">
+    <xs:sequence>
+        <xs:element name="sourcePid" type="jxta:JXTAID" />
+        <xs:element name="targetPid" type="jxta:JXTAID" />
+        <!-- if not present then the response is the general peerinfo -->
+        <xs:element name="request" type="xs:anyType" minOccurs="0" />
+    </xs:sequence>
+</xs:complexType>]]>
+</programlisting>
+</figure>
+
+<variablelist>
+  <varlistentry>
+    <term><sgmltag class="starttag">sourcePid</sgmltag></term>
+    <listitem>
+      <simpara>The peer id of the requesting peer.</simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">targetPid</sgmltag></term>
+    <listitem>
+      <simpara>The peer id of the peer being queried.</simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">request</sgmltag></term>
+    <listitem>
+      <simpara>An optional Request structure.</simpara>
+    </listitem>
+  </varlistentry>
+</variablelist>
+
+</section>
+
+<section id="proto-pip-response"><title>PIP Response Message</title>
+
+<para>The Peer Information Protocol Response Message provides specific 
+information about the current state of a peer, such as uptime, inbound and
+outbound message count, time last message received, and time last message sent.
+</para>
+
+<figure id="fpiprs"><title id="fpiprs-title">PIP Response Message</title>
+<programlisting><![CDATA[<xs:element name="PeerInfoResponseMessage" type="jxta:PeerInfoResponseMessage"/>
+
+<xs:complexType name="PeerInfoResponseMessage">
+    <xs:sequence>
+        <xs:element name="sourcePid" type="jxta:JXTAID" />
+        <xs:element name="targetPid" type="jxta:JXTAID" />
+        <xs:element name="uptime" type="xs:unsignedLong" minOccurs="0" />
+        <xs:element name="timestamp" type="xs:unsignedLong" minOccurs="0" />
+        <xs:element name="response" type="xs:anyType" minOccurs="0" />
+        <xs:element name="traffic" type="jxta:piptraffic" minOccurs="0" />
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="piptraffic">
+    <xs:sequence>
+        <xs:element name="lastIncomingMessageAt" type="xs:unsignedLong" minOccurs="0" />
+        <xs:element name="lastOutgoingMessageAt" type="xs:unsignedLong" minOccurs="0" />
+        <xs:element name="in" type="jxta:piptrafficinfo" minOccurs="0" />
+        <xs:element name="out" type="jxta:piptrafficinfo" minOccurs="0" />
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="piptrafficinfo">
+    <xs:sequence>
+        <xs:element name="transport" maxOccurs="unbounded">
+            <xs:complexType>
+                <xs:simpleContent>
+                    <xs:extension base="xs:unsignedLong">
+                        <xs:attribute name="Expiration" type="xs:anyURI" />
+                    </xs:extension>
+                </xs:simpleContent>
+            </xs:complexType>
+        </xs:element>
+    </xs:sequence>
+</xs:complexType>]]>
+</programlisting>
+</figure>
+
+<variablelist>
+  <varlistentry>
+    <term><sgmltag class="starttag">sourcePid</sgmltag></term>
+    <listitem>
+      <simpara>The peer id of the requesting peer.</simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">targetPid</sgmltag></term>
+    <listitem>
+      <simpara>The peer id of the peer being queried.</simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">uptime</sgmltag></term>
+    <listitem>
+      <simpara>The relative time in milliseconds since the responding Peer 
+      Information Service began execution. Peers 
+      <phrase role="rfc2119">should</phrase> provide this tag in all responses, 
+      but <phrase role="rfc2119">may</phrase> chose to not implement it if 
+      the information is unavailable or would represent a security breach.
+      </simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">timestamp</sgmltag></term>
+    <listitem>
+      <simpara>The absolute time at which this response was generated. Measured 
+      in milliseconds since "the epoch", namely 
+      <phrase>January 1, 1970, 00:00:00 GMT</phrase>. Peers
+      <phrase role="rfc2119">should</phrase> provide this tag in all responses, 
+      but <phrase role="rfc2119">may</phrase> chose to not implement it if the 
+      information is unavailable or would represent a security breach.
+      </simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">response</sgmltag></term>
+    <listitem>
+      <simpara>Potentially contains a response to a previous request from a 
+      PIP Query. To match queries to responses the <emphasis>QueryId</emphasis> 
+      element of the <xref linkend="proto-prp" endterm="proto-prp-title"/> 
+      <phrase role="rfc2119">must</phrase> match. This field can contain any 
+      desired content.</simpara>
+    </listitem>
+  </varlistentry>
+  <varlistentry>
+    <term><sgmltag class="starttag">traffic</sgmltag></term>
+    <listitem>
+      <simpara>Contains information about the network traffic performed by the 
+      target peer. This element is <phrase role="rfc2119">optional</phrase>.
+      </simpara>
+      <variablelist>
+        <varlistentry>
+          <term><sgmltag class="starttag">lastIncomingMessageAt</sgmltag></term>
+          <listitem>
+            <simpara>The absolute time at which this peer last received a valid 
+            JXTA message on one of its transports. Measured in milliseconds 
+            since "the epoch", namely 
+            <phrase>January 1, 1970, 00:00:00 GMT</phrase>. Peers
+            <phrase role="rfc2119">should</phrase> provide this tag in all 
+            responses, but <phrase role="rfc2119">may</phrase> chose to not 
+            implement it if the information is unavailable or would represent a 
+            security breach.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><sgmltag class="starttag">lastOutgoingMessageAt</sgmltag></term>
+          <listitem>
+            <simpara>The absolute time at which this peer last sent a valid 
+            JXTA message on one of its transports. Measured in milliseconds 
+            since "the epoch", namely 
+            <phrase>January 1, 1970, 00:00:00 GMT</phrase>. Peers
+            <phrase role="rfc2119">should</phrase> provide this tag in all 
+            responses, but <phrase role="rfc2119">may</phrase> chose to not 
+            implement it if the information is unavailable or would represent a 
+            security breach.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><sgmltag class="starttag">in</sgmltag></term>
+          <listitem>
+            <simpara>If present, contains elements which describe 
+            incoming traffic from various endpoint addresses.</simpara>
+            <variablelist>
+              <varlistentry>
+                <term><sgmltag class="starttag">transport</sgmltag></term>
+                <listitem>
+                  <simpara>Provides the number of bytes received by the named 
+                  endpoint address.</simpara>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><sgmltag class="starttag">out</sgmltag></term>
+          <listitem>
+            <simpara>If present, contains elements which describe 
+            outgoing traffic from various endpoint addresses.</simpara>
+            <variablelist>
+              <varlistentry>
+                <term><sgmltag class="starttag">transport</sgmltag></term>
+                <listitem>
+                  <simpara>Provides the number of bytes transmitted by the named 
+                  endpoint address.</simpara>
+                </listitem>
+              </varlistentry>
+            </variablelist>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </listitem>
+  </varlistentry>
+</variablelist>
+  
+</section>
+</section>
+
+<section id="proto-pbp">
+<title id="proto-pbp-title">Pipe Binding Protocol</title>
+
+<para>The Pipe Binding Protocol (<acronym>PBP</acronym>) is used by 
+applications and services in order to communicate with other peers. A pipe is a 
+virtual channel between two endpoints described in a Pipe Advertisement. There 
+are two ends of a Pipe: the Input Pipe (receiving end) and the Output Pipe 
+(sending end).</para>
+
+<para>The Pipe Binding Protocol is layered upon the Endpoint Protocol, and will 
+use a variety of Message Transports such as the JXTA HTTP Transport, the JXTA 
+TCP/IP Transport, or the secure JXTA TLS Transport for the sending of messages.
+</para>
+
+<para>A pipe can be viewed as an abstract named message queue, supporting 
+create, open/resolve (bind), close (unbind), delete, send, and receive 
+operations. Actual pipe implementations may differ, but all compliant 
+implementations use the PBP to bind the pipe to an endpoint.</para>
+
+<para>A reliable message transport is <phrase role="rfc2119">optional</phrase>.
+Multiple binding query messages may be sent. None, one or multiple responses may 
+be received.</para>
+
+<section id="advert-pia"><title id="title-advert-pia">Pipe Advertisement</title>
+
+<para>A Pipe Advertisement describes a pipe. The pipe advertisement is used by 
+the pipe service to create associated local input and output pipe endpoints.
+</para>
+
+<para>Each pipe advertisement includes a Pipe ID which is the canonical name for
+the pipe.</para>
+
+<para>Each pipe advertisement <phrase role="rfc2119">must</phrase> include a 
+pipe type.There are currently three different types of pipes: </para>
+
+<itemizedlist>
+ <listitem>
+  <simpara><constant>JxtaUnicast</constant> Unicast, unsecure and unreliable. 
+  This type of pipe is used to send one-to-one messages.</simpara>
+ </listitem>
+ <listitem>
+  <simpara><constant>JxtaUnicastSecure</constant> Unicast, secure (using TLS). 
+  An extension of the <constant>JxtaUnicast</constant>, except that the data is 
+  protected using a virtual TLS connection between the endpoints.</simpara>
+ </listitem>
+ <listitem>
+  <simpara><constant>JxtaPropagate</constant> Diffusion pipes. This pipe type is 
+  used to send one-to-many messages.  Any peer that has enabled an Input Pipe on
+  a propagate type pipe receives messages that are sent onto it.
+</simpara>
+ </listitem>
+</itemizedlist>
+
+<para>A pipe advertisement <phrase role="rfc2119">may</phrase> include an optional 
+symbolic name.</para>
+
+<figure id="fpipeas"><title>Pipe Advertisement Schema</title>
+<programlisting><![CDATA[<xs:element name="PipeAdvertisment" type="jxta:PipeAdvertisment"/>
+
+<xs:complexType name="PipeAdvertisement">
+    <xs:sequence>
+        <xs:element name="Id" type="jxta:JXTAID" />
+        <xs:element name="Type" type="xs:string" />
+        <xs:element name="Name" type="xs:string" minOccurs="0" />
+        <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+    </xs:sequence>
+</xs:complexType>]]>
+</programlisting>
+</figure>
+
+<variablelist>
+ <varlistentry>
+  <term><sgmltag class="starttag">Id</sgmltag></term>
+	<listitem>
+		<simpara>This is a required element that uniquely identifies the pipe. Each 
+    pipe has a unique id. See 
+				<xref linkend="ids" endterm="title-ids"/> for description of
+				JXTA Ids.
+    </simpara>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Type</sgmltag></term>
+	<listitem>
+		<simpara>This is an required element that defines the type of the pipe. The 
+    following types are currently defined:</simpara>
+    <variablelist>
+      <varlistentry>
+        <term><sgmltag class="element">JxtaUnicast</sgmltag></term>
+        <listitem><simpara>may not arrive at the destination, may be delivered more than 
+        once to the same destination, may arrive in different order.</simpara></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><sgmltag class="element">JxtaUnicastSecure</sgmltag></term>
+        <listitem><simpara>may not arrive at the destination, may be delivered more than 
+        once to the same destination, may arrive in different order, but is 
+        encrypted using TLS.</simpara></listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><sgmltag class="element">JxtaPropagate</sgmltag></term>
+        <listitem><simpara>one to many pipe.</simpara></listitem>
+      </varlistentry>
+    </variablelist>
+  </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Name</sgmltag></term>
+	<listitem>
+		<simpara>This is an optional name that can be associated with a pipe. The 
+    name is not required to be unique unless the name is obtained from a 
+    centralized naming service that guarantee name uniqueness.</simpara>
+	</listitem>
+ </varlistentry>
+</variablelist>
+
+<example id="fpipeae"><title>Pipe Advertisement</title>
+<programlisting>
+&lt;?xml version="1.0" encoding="UTF-8"?>
+
+&lt;!DOCTYPE jxta:PipeAdvertisement>
+
+&lt;jxta:PipeAdvertisement xmlns:jxta="http://jxta.org">
+  &lt;Id>urn:jxta:uuid-094AB61B99C14AB694D5BFD56C66E512FF7980EA1E6F4C238A26BB362B34D1F104&lt;/Id> 
+  &lt;Type>JxtaUnicast&lt;/Type> 
+  &lt;Name>Talk to Me!&lt;/Name>
+&lt;/jxta:PipeAdvertisement>
+</programlisting>
+</example>
+
+</section>
+
+<section id="proto-pbp-prm"><title>Pipe Resolver Message</title>
+
+<para>For some pipe types, notably <constant>JxtaUnicast</constant> and
+<constant>JxtaUnicastSecure</constant> it is necessary to locate a peer which
+is listening on the pipe in order to create an Output Pipe. For these pipe types
+the Pipe Service uses the "Pipe Resolver Message". The same message schema is
+used  for both the resolve query and for the response.</para>
+
+<figure id="fprms"><title id="fprms-title">Pipe Resolver Message Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>PipeResolver</classname>" type="<type>jxta:PipeResolver</type>"/>
+
+&lt;xs:simpleType name="<type>PipeResolverMsgType</type>">
+  &lt;xs:restriction base="xs:string">
+    &lt;!-- QUERY -->
+    &lt;xs:enumeration value="Query"/>
+    &lt;!-- ANSWER -->
+    &lt;xs:enumeration value="Answer"/>
+  &lt;/xs:restriction>
+&lt;/xs:simpleType>
+
+&lt;xs:complexType name="<type>PipeResolver</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="MsgType" type="jxta:PipeResolverMsgType"/>
+    &lt;xs:element name="PipeId" type="jxta:JXTAID"/>
+    &lt;xs:element name="Type" type="xs:string"/>
+
+    &lt;!-- used in the query -->
+    &lt;xs:element name="Cached" minOccurs="0" default="true" type="xs:boolean"/>
+    &lt;xs:element name="Peer" minOccurs="0" maxOccurs="unbounded" type="jxta:JXTAID" />
+
+    &lt;!-- used in the answer -->
+    &lt;xs:element name="Found" minOccurs="0" type="xs:boolean"/>
+    &lt;!-- This should refer to a peer adv, but is instead a whole doc -->
+    &lt;xs:element name="PeerAdv" minOccurs="0" type="xs:string"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>		
+</programlisting>
+</figure>
+
+<variablelist>
+ <varlistentry>
+  <term><sgmltag class="starttag">MsgType</sgmltag></term>
+	<listitem>
+		<simpara>Used to indicate if it is the Query or the 
+			Answer. May be one of:</simpara>
+      <variablelist>
+        <varlistentry>
+         <term><sgmltag class="element">Query</sgmltag></term>
+          <listitem>
+            <simpara>This is a query.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+         <term><sgmltag class="element">Answer</sgmltag></term>
+          <listitem>
+            <simpara>This is a response.</simpara>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">PipeId</sgmltag></term>
+	<listitem>
+		<simpara>The Pipe ID which is being resolved.</simpara>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Type</sgmltag></term>
+	<listitem>
+		<simpara>The type of pipe resolution being requested. This value 
+    <phrase role="rfc2119">must</phrase> match the value of 
+    <sgmltag class="starttag">Type</sgmltag> from the Pipe Advertisement.
+    </simpara>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Cached</sgmltag></term>
+	<listitem>
+		<simpara>If <constant>false</constant>, peers which do not have the pipe bound 
+   locally as an Input Pipe <phrase role="rfc2119">must not</phrase> respond to 
+   the query. They <phrase role="rfc2119">may</phrase> forward the query to 
+   peers which they believe to have the pipe bound as an Input Pipe. This 
+   feature is deprecated and implementations 
+   <phrase role="rfc2119">should</phrase> treat the tag as always being 
+   <constant>false</constant>.
+  </simpara>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Peer</sgmltag></term>
+	<listitem>
+		<simpara>A peer id. In Queries, if present, it specifies the Peer ID of the 
+    only peer from which responses will be expected. Responses from all other 
+    peers <phrase role="rfc2119">may</phrase> be ignored. This does not 
+    guarantee a response to the pipe binding request will be made by the peer. 
+    Response to pipe binding requests is always 
+    <phrase role="rfc2119">optional</phrase>.</simpara>
+    
+    <simpara>In Answer messages, all of the peers on which the Input Pipe is
+    known to be bound.</simpara>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Found</sgmltag></term>
+	<listitem>
+		<simpara>Used to indicate if the Input Pipe was found on the specified peer.
+    </simpara>
+	</listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">PeerAdv</sgmltag></term>
+	<listitem>
+		<simpara>Peer Advertisement of the peer which resolved the Input Pipe. This
+    peer <phrase role="rfc2119">may</phrase> appear in the list of peer ids
+    on which the Input Pipe is bound, but this should not be assumed.
+    </simpara>
+	</listitem>
+ </varlistentry>
+</variablelist>
+
+</section>
+
+<section id="proto-pbp-wh"><title>Propagate Pipe Message Header</title>
+
+<para>Every message sent on a propagate pipe includes a message element which
+is used to manage the propragation of messages. The message element is stored
+in the <constant>jxta</constant> namespace and has the name 
+<constant>JxtaWireHeader</constant>.</para>
+
+<figure id="fwhms"><title id="fwhms-title">Propagate Pipe Message Header Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>JxtaWire</classname>" type="<type>jxta:JxtaWire</type>"/>
+
+&lt;xs:complexType name="<type>jxta:JxtaWire</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="SrcPeer" minOccurs="0" type="jxta:JXTAID" />
+    &lt;xs:element name="PipeId" type="jxta:JXTAID" />
+    &lt;xs:element name="MsgId" type="xs:string" />
+    &lt;xs:element name="TTL" type="xs:unsignedInt" />
+    &lt;xs:element name="VisitedPeer" type="jxta:JXTAID"  maxOccurs="unbounded" />
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ <varlistentry>
+  <term><sgmltag class="starttag">SrcPeer</sgmltag></term>
+	<listitem>
+		<simpara>The peer which originated this message.</simpara>
+	</listitem>
+ </varlistentry>
+
+ <varlistentry>
+  <term><sgmltag class="starttag">PipeId</sgmltag></term>
+	<listitem>
+		<simpara>The ID of the pipe on which the message is being sent.</simpara>
+	</listitem>
+ </varlistentry>
+
+ <varlistentry>
+  <term><sgmltag class="starttag">MsgId</sgmltag></term>
+	<listitem>
+		<simpara>Each message has an associated token which is used for
+                duplicate tracking. This token is normally generated using a
+                pseudo random source or partially pseudo randomly in order to
+                reduce the chance of collisions.</simpara>
+	</listitem>
+ </varlistentry>
+
+ <varlistentry>
+  <term><sgmltag class="starttag">TTL</sgmltag></term>
+	<listitem>
+		<simpara>Each peer attempting to forward this message should
+                first decrement the TTL value. If the value reaches zero then
+                the message <phrase role="rfc2119">should not</phrase> be 
+                forwarded to any additional peers.
+                </simpara>
+	</listitem>
+ </varlistentry>
+
+ <varlistentry>
+  <term><sgmltag class="starttag">VisitedPeer</sgmltag></term>
+	<listitem>
+		<simpara>The set of peers which are known to have seen this
+                message. Peers which forward propagate pipe messages 
+                <phrase role="rfc2119">should</phrase> add themselves to this 
+                list before forwarding the message. They
+                <phrase role="rfc2119">should</phrase> also avoid forwarding the
+                message to any of the peers listed.</simpara>
+	</listitem>
+ </varlistentry>
+</variablelist>
+
+</section>
+
+</section>
+
+</chapter>
+
+<!-- **** END PROTOCOLS SECTION **** -->
+

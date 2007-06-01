@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook EBNF Module V1.2CR1//EN" "http://www.oasis-open.org/docbook/xml/ebnf/1.2CR1/dbebnf.dtd"
+[
+<!ENTITY book-legalnotice SYSTEM "book-JXTAProtocols-legalnotice.xml">
+<!ENTITY book-revhistory SYSTEM "book-JXTAProtocols-revhistory.xml">
+<!ENTITY book-abstract SYSTEM "book-JXTAProtocols-abstract.xml">
+<!ENTITY book-glossary SYSTEM "book-JXTAProtocols-glossary.xml">
+<!ENTITY book-bibliography SYSTEM "book-JXTAProtocols-bibliography.xml">
+<!ENTITY preface-conventions SYSTEM "preface-conventions.xml">
+<!ENTITY preface-introduction SYSTEM "preface-introduction.xml">
+<!ENTITY preface-overview SYSTEM "preface-overview.xml">
+<!ENTITY part-core SYSTEM "part-core.xml">
+<!ENTITY core-chapter-ids SYSTEM "core-chapter-ids.xml">
+<!ENTITY core-chapter-advertisements SYSTEM "core-chapter-advertisements.xml">
+<!ENTITY core-chapter-protocols SYSTEM "core-chapter-protocols.xml">
+<!ENTITY core-chapter-transports SYSTEM "core-chapter-transports.xml">
+<!ENTITY core-chapter-messages SYSTEM "core-chapter-messages.xml">
+<!ENTITY part-stdsvc SYSTEM "part-stdsvc.xml">
+<!ENTITY stdsvc-chapter-protocols SYSTEM "stdsvc-chapter-protocols.xml">
+<!ENTITY stdsvc-chapter-transports SYSTEM "stdsvc-chapter-transports.xml">
+<!ENTITY stdsvc-chapter-messages SYSTEM "stdsvc-chapter-messages.xml">
+<!ENTITY part-refimpls SYSTEM "part-refimpls.xml">
+<!ENTITY refimpls-chapter-j2se SYSTEM "refimpls-chapter-j2se.xml">
+]
+>
+<book lang="en">
+    <bookinfo>
+        <title>JXTA v2.0 Protocols Specification</title>
+        <!-- the intention here is to use the revhistory to replace this text -->
+        <pubdate condition="revhistory">2006</pubdate>
+        <corpauthor>Project JXTA 
+        <ulink url="http://www.jxta.org">http://www.jxta.org</ulink></corpauthor>
+        <address>
+          <email>info@jxta.org</email>
+          <otheraddr>http://www.jxta.org</otheraddr>
+        </address>
+        <publisher>
+          <publishername>Project JXTA 
+          <ulink url="http://www.jxta.org">
+          http://www.jxta.org</ulink></publishername>
+          <address>
+            <email>info@jxta.org</email>
+            <otheraddr>http://www.jxta.org</otheraddr>
+          </address>
+        </publisher>
+        &book-abstract; 
+        <keywordset>
+          <keyword>JXTA</keyword>
+          <keyword>www.jxta.org</keyword>
+          <keyword>http://www.jxta.org</keyword>
+          <keyword>P2P</keyword>
+          <keyword>Communications Protocol</keyword>
+          <keyword>peer-to-peer</keyword>
+          <keyword>peer-2-peer</keyword>
+        </keywordset>
+        <!-- <P>Copyright (C) The Internet Society (2002-2004).  All Rights Reserved.</P>-->
+        <copyright>
+          <year>2001</year>
+          <year>2002</year>
+          <year>2005</year>
+          <year>2006</year>
+          <year>2007</year>
+          <holder>Sun Microsystems Inc.</holder>
+        </copyright>
+        <copyright>
+          <year>2002</year>
+          <year>2003</year>
+          <year>2004</year>
+          <holder>The Internet Society. All Rights Reserved.</holder>
+        </copyright>
+        &book-legalnotice;
+        &book-revhistory;
+    </bookinfo>
+    &preface-conventions;
+    &preface-introduction; 
+    &preface-overview; 
+    &part-core;
+    &part-stdsvc;
+    &part-refimpls; 
+    &book-glossary;
+    &book-bibliography;
+</book>

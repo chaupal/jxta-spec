@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<preface>
+  <title>Conventions</title>
+  <para>The following conventions are used throughout this document.</para>
+  <section>
+    <title>Significant Keywords</title>
+    <para>The key words 
+    <phrase role="rfc2119">must</phrase>, 
+    <phrase role="rfc2119">must not</phrase>, 
+    <phrase role="rfc2119">required</phrase>, 
+    <phrase role="rfc2119">shall</phrase>, 
+    <phrase role="rfc2119">shall not</phrase>, 
+    <phrase role="rfc2119">should</phrase>, 
+    <phrase role="rfc2119">should not</phrase>, 
+    <phrase role="rfc2119">recommended</phrase>, 
+    <phrase role="rfc2119">not recommended</phrase>, 
+    <phrase role="rfc2119">may</phrase>, and 
+    <phrase role="rfc2119">optional</phrase> in this document are to be
+    interpreted as described in 
+    <citetitle pubwork="article">IETF RFC 2119</citetitle>
+    <xref linkend="bib-RFC2119" />.</para>
+  </section>
+  <section>
+    <title>Text Representations</title>
+    <para>All strings and text found in the JXTA Protocols should be assumed
+    to be encoded using Unicode 
+    <xref linkend="bib-USA28" /> Canonical UTF8 (NFC) (see 
+    <citetitle>Unicode Standard Annex #15 : Unicode Normalization
+    Forms</citetitle>
+    <xref linkend="bib-USA15" />) unless otherwise specified.</para>
+  </section>
+</preface>

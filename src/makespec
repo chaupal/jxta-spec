@@ -1,0 +1,1 @@
+xsltproc --debug --timing --nonet --stringparam use.extensions 0 --stringparam xsltproc.extensions 0 --output JXTAProtocols.html single-html.xsl book-JXTAProtocols.xml 

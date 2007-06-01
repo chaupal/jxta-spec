@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<chapter id="core-advert">
+  <title id="core-advert-title">Advertisements</title>
+  <section id="advert-i">
+    <title id="title-advert-i">Introduction</title>
+    <para>Advertisements are meta-data documents used by JXTA protocols to
+    describe resources. Advertisements are used to describe peers, peer
+    groups, pipes, content, services and many other types of resources. JXTA
+    Advertisements are presented in XML. Many of the JXTA protocols depend on
+    Advertisements to provide necessary information. JXTA protocols are used
+    to pass Advertisements between peers.</para>
+    <para>Services can define new Advertisement types by sub-typing existing
+    Advertisement types or by defining completely new Advertisements.
+    Advertisement sub-types allow for additional information to be provided
+    as well as richer meta-data.</para>
+    <para>Advertisements are composed of a series of hierarchically arranged
+    elements. The elements may appear in any order within the advertisement.
+    Each element can contain its data or additional elements. An element can
+    also have attributes. Attributes are name-value string pairs. An
+    attribute is used to store meta-data, which helps to describe the data
+    within the element.</para>
+    <para>The Core JXTA Protocols rely on the following
+    advertisements:</para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+          <xref linkend="advert-pa" endterm="advert-pa-title" />
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <xref linkend="advert-pga" endterm="advert-pga-title" />
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <xref linkend="advert-mca" endterm="advert-mca-title" />
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <xref linkend="advert-msa" endterm="advert-msa-title" />
+        </simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+          <xref linkend="advert-mia" endterm="advert-mia-title" />
+        </simpara>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section id="advert-x">
+    <title id="title-advert-x">XML and JXTA Advertisements</title>
+    <para>All JXTA advertisements are represented in XML. XML provides a
+    powerful means of representing data and metadata throughout a distributed
+    system. XML provides a universal (software-platform neutral)
+    representation:</para>
+    <itemizedlist>
+      <listitem>
+        <simpara>XML is programming language agnostic</simpara>
+      </listitem>
+      <listitem>
+        <simpara>XML is self-describing</simpara>
+      </listitem>
+      <listitem>
+        <simpara>XML content can be strongly-typed</simpara>
+      </listitem>
+      <listitem>
+        <simpara>XML ensures correct syntax</simpara>
+      </listitem>
+    </itemizedlist>
+    <para>These advantages allow peers to manage and use Advertisements
+    safely and to be able to ensure correct interactions with other peers.
+    The Advertisements defined by the 
+    <glossterm>JXTA Core Specification</glossterm>and the 
+    <glossterm>JXTA Standard Services</glossterm>are specified using the 
+    <citetitle>XML Schema Definition Language</citetitle>
+    <xref linkend="bib-XSD2001-1" />
+    <xref linkend="bib-XSD2001-2" />. Use of XML Schemas allows the
+    advertisement contents to be strongly type-checked and semanticly
+    validated beyond the syntactical validation provided by XML with DTDs.
+    Service and protocol authors are 
+    <phrase role="rfc2119">recommended</phrase>to specify their
+    Advertisements or Advertisement sub-types using XML Schema Language. DTDs
+    are normally prepared from the schema descriptions for use in
+    environments which do not support XML schema.</para>
+    <para>The other powerful feature of XML is its ability to be translated
+    into other encodings such as HTML and WML. This feature allows peers that
+    do not support XML to access advertised resources.</para>
+    <figure id="fpcafs">
+      <title>Common Advertisement Fragments Schemas</title>
+      <programlisting>
+&lt;xs:simpleType name="<type>JXTAID</type>">
+ &lt;xs:restriction base="xs:anyURI">
+  &lt;xs:pattern value="([uU][rR][nN]:[jJ][xX][tT][aA]:).+\-.+"/>
+ &lt;/xs:restriction>
+&lt;/xs:simpleType>
+
+&lt;xs:complexType name="<type>serviceParam</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="MCID" type="jxta:JXTAID"/>
+    &lt;xs:element name="Parm" type="xs:anyType"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+
+&lt;xs:complexType name="<type>Cred</type>">
+  &lt;xs:all>
+  &lt;/xs:all>
+&lt;/xs:complexType>
+      </programlisting>
+    </figure>
+  </section>
+  <section id="advert-pa">
+    <title id="advert-pa-title">Peer Advertisement</title>
+    <para>A Peer Advertisement describes a peer and the resources it provides
+    to the group. The Peer Advertisement holds specific information about the
+    peer such as its its unique id, its group id and optionally its name and
+    descriptive information. It may also contain endpoint addresses and any
+    run-time attributes that individual peer services want to publish (such
+    as being a rendezvous peer for a group).</para>
+    <figure id="fpas">
+      <title>Peer Advertisement Schema</title>
+      <programlisting>
+&lt;xs:element name="<classname>PA</classname>" type="<type>jxta:PA</type>"/>
+ &lt;xs:complexType name="<type>PA</type>">
+  &lt;xs:sequence>
+   &lt;xs:element name="PID" type="JXTAID"/>
+   &lt;xs:element name="GID" type="JXTAID"/>
+   &lt;xs:element name="Name" type="xs:string" minOccurs="0"/>
+   &lt;xs:element name="Desc" type="xs:anyType" minOccurs="0"/>
+   &lt;xs:element name="Svc" type="jxta:serviceParams" minOccurs="0" maxOccurs="unbounded"/>
+  &lt;xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+    </figure>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">PID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is a required element that uniquely identifies this
+          peer. Each peer has a unique id.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">GID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is a required element that identifies the Peer Group
+          to which this peer belongs.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Name</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is an optional string that can be associated with a
+          peer. The name is not required to be unique unless the name is
+          obtained from a centralized naming service that guarantees name
+          uniqueness.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Desc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is an optional string that can be used to index and
+          search for a peer. The string is not guaranteed to be unique. Two
+          peers may have the same keywords. The keywords string may contain
+          spaces.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Svc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Any number of such elements may exist. Each of them
+          describes the association between a group service denoted by its
+          Class ID (the value of an MCID element), and arbitrary parameters
+          encapsulated in a Parm element. For example, all accessible
+          endpoint addresses are published in association with the Endpoint
+          Service Class ID. The TLS Root certificate is published under the
+          PeerGroup Class ID (There is a class ID for Peer Group as well).
+          The flag that denotes that this peer is a rendezvous for this group
+          is published under the Rendezvous Service Class ID. Ultimately,
+          each service is responsible for what is published under its Class
+          ID. The Service section may also optionally contain an element
+          "isOff" meaning that this service is disabled. This element is used
+          to convey a configuration choice made by the owner of the
+          peer.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+  <section id="advert-pga">
+    <title id="advert-pga-title">Peer Group Advertisement</title>
+    <para>A Peer Group Advertisement describes peergroup specific resources:
+    name, group id, description, specification, and service
+    parameters.</para>
+    <figure id="fpgas">
+      <title>Peer Group Advertisement Schema</title>
+      <programlisting>
+&lt;xs:element name="<classname>PGA</classname>" type="<type>jxta:PGA</type>"/>
+
+&lt;xs:complexType name="<type>PGA</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="GID" type="jxta:JXTAID"/>
+    &lt;xs:element name="MSID" type="jxta:JXTAID"/>
+    &lt;xs:element name="Name" type="xs:string" minOccurs="0"/>
+    &lt;xs:element name="Desc" type="xs:anyType" minOccurs="0"/>
+    &lt;xs:element name="Svc" type="jxta:serviceParam" minOccurs="0" maxOccurs="unbounded"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+    </figure>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">GID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This element provides the Peer Group ID. The Peer Group ID
+          is the canonical way of refering to a group and uniquely identifies
+          the peer group. See 
+          <xref linkend="ids-jit-pgi" endterm="title-ids-jit-pgi" />for more
+          information on peer group ids.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">MSID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Peer group Specification ID. This designates the module
+          that provides the peer group mechanism itself for that group. The
+          spec ID designates an abstraction of that mechanism. This
+          abstraction is optionally described by a ModuleSpecAdvertisement,
+          and any number of implementations may exist, each described by a
+          ModuleImplAdvertisement. These advertisements may all be searched
+          by this SpecID.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Name</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is an optional name that can be associated with a
+          peergroup. The name is not required to be unique unless the name is
+          obtained from a centralized naming service that guarantee name
+          uniqueness.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Desc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is an optional element provides descriptive
+          information that may be used to index and search for a peergroup.
+          The content of this element may not be unique. For example, two
+          peergroups may have the same keywords.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Svc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Any number of such elements may exist. Each of them
+          describes the association between a group service denoted by its
+          Class ID (the value of an MCID element), and arbitrary parameters
+          encapsulated in a Parm element. This optional parameter may only be
+          meaningful to some services. It is used to configure a service
+          specifically in relation with its use by this group. For example, a
+          simple membership service may find an encrypted password list
+          there.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+  <section id="advert-mca">
+    <title id="advert-mca-title">Module Class Advertisement</title>
+    <para>A Module Class Advertisement describes a class of modules. That is,
+    an expected local behavior and the expected API for each JXTA binding
+    (that supports such modules). The purpose of this advertisement is to
+    provide a description of what a particular Module Class ID stands for. A
+    Module Class ID is what other modules or other code running on JXTA uses
+    to designate modules which it depends upon. The ModuleClassAdvertisement
+    is not required to provide a completely formal description of the
+    module's behavior and API. It is intended for humans who want to create
+    modules with a similar functionality. It is not required to publish a
+    Module Class Advertisement for a Module Class ID to be valid, although it
+    is a good practice.</para>
+    <figure id="fmcas">
+      <title>Module Class Advertisement Schema</title>
+      <programlisting>
+&lt;xs:element name="<classname>MCA</classname>" type="<type>jxta:MCA</type>"/>
+
+&lt;xs:complexType name="<type>MCA</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="MCID" type="jxta:JXTAID"/>
+    &lt;xs:element name="Name" type="xs:string" minOccurs="0"/?
+    &lt;xs:element name="Desc" type="xs:anyType" minOccurs="0"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+    </figure>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">MCID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Module Class ID. This is a required element that uniquely
+          identifies the class. Each module class has a unique id. The class
+          id representation is given in the Id Chapter.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Name</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is an optional name that can be associated with a
+          class. The name is not required to be unique unless the name is
+          obtained from a centralized naming service that guarantee name
+          uniqueness.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Desc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Description. This is an optional string that can be used
+          to describe and search for a class.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+  <section id="advert-msa">
+    <title id="advert-msa-title">Module Specification Advertisement</title>
+    <para>A Module Specification Advertisement describes the specification of
+    a module. That is, an expected on-wire behavior and protocol. The purpose
+    of this advertisement is to provide a description of what a particular
+    Module Specification ID stands for. A Module Specification ID is what
+    other modules or other code running on JXTA uses to designate a
+    particular network-compatible family of implementations of a given class.
+    It is more importantly how a group implementation may designate the
+    components which provide the various services that this group supports.
+    All the built-in core peergroup services (discovery, membership,
+    resolver,...) are modules.</para>
+    <para>It is not required to publish a Module Spec Advertisement for a
+    Module Spec ID to be valid, although it is a good practice.</para>
+    <para>A Module Spec Advertisement may also describe how to invoke and use
+    a module. A Module may be used through its API, by locating an
+    implementation, loading it and starting it, or a module may be usable
+    through a pipe or through a proxy module. Modules which permit this
+    include one or both of a Pipe Advertisement or the Module Spec ID of a
+    proxy module, in their ModuleSpecID. Publication of the Module Spec
+    Advertisement is of course required in that case.</para>
+    <para>A Module Specification Advertisement is not required to provide a
+    completely formal description of the module's network behavior or
+    protocol, it is intended for humans who want to create compatible
+    implementation of that specification.</para>
+    <figure id="fmsas">
+      <title>Module Specification Advertisement Schema</title>
+      <programlisting>
+&lt;xs:element name="<classname>MSA</classname>" type="<type>jxta:MSA</type>"/>
+
+&lt;xs:complexType name="<type>MSA</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="MSID" type="jxta:JXTAID"/>
+    &lt;xs:element name="Vers" type="xs:string"/>
+    &lt;xs:element name="Name" type="xs:string" minOccurs="0"/>
+    &lt;xs:element name="Desc" type="xs:anyType" minOccurs="0"/>
+    &lt;xs:element name="Crtr" type="xs:string" minOccurs="0"/>
+    &lt;xs:element name="SURI" type="xs:anyURI" minOccurs="0"/>
+    &lt;xs:element name="Parm" type="xs:anyType" minOccurs="0"/>
+    &lt;xs:element ref="jxta:PipeAdvertisement" minOccurs="0"/>
+    &lt;xs:element name="Proxy" type="xs:anyURI" minOccurs="0"/>
+    &lt;xs:element name="Auth" type="jxta:JXTAID" minOccurs="0"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+    </figure>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">MSID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>ModuleSpecID. This is a required element that uniquely
+          identifies the specification. Each module specification has a
+          unique id. The spec id representation is given in the Id
+          Chapter.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Vers</sgmltag>
+        </term>
+        <listitem>
+          <simpara>The mandatory version of the specification that this
+          advertises.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Name</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This is an optional name that can be associated with a
+          spec. The name is not required to be unique unless the name is
+          obtained from a centralized naming service that guarantee name
+          uniqueness.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Desc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Description. This is an optional string that can be used
+          to describe and search for a spec.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">CRTR</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Creator. This optional element designates the creator of
+          this specification.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">SURI</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Spec URI. This optional element is a URI that permits to
+          retrieve a document containing the specification that this
+          advertises.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Parm</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Arbitrary parameters to be interpreted by each
+          implementation.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">jxta:PipeAdvertisement</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Pipe advertisement. A pipe advertisement which this module
+          binds to an input pipe and which thus may be used to establish a
+          pipe to a nearby running implementation of this specification. Note
+          that the element name is identical to the Pipe Advertisement
+          document type since the entire element is an embedded pipe
+          advertisement document.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Proxy</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Proxy Spec ID. Optional ModuleSpecID of a proxy module
+          that may be used in order to communicate with modules of this
+          specification. Note that the process may be recursive. The proxy
+          module may be usable via pipes, or through a subsequent proxy
+          module, and itself require a subsequent authenticator. However
+          publishers of modules should probably avoid such designs.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Auth</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Authenticator Spec ID. Optional ModuleSpecID of an
+          authenticator module that may be required in order to communicate
+          with modules of this specification. Note that the process may be
+          recursive. The authenticator module may be usable via pipes, or
+          through a subsequent proxy module, and itself require a subsequent
+          authenticator. However publishers of modules should probably avoid
+          such designs.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+  <section id="advert-mia">
+    <title id="advert-mia-title">Module Implementation Advertisement</title>
+    <para>A Module Implementation Advertisement describes one of the
+    implementations of a module specification. Implementations of a given
+    specification may be searched by the SpecID. An implementation may be
+    selected by the type of environment in which it can be used (its
+    compatibility statement) as well as by its name, description or the
+    content of its parameters section.</para>
+    <para>A Module Implementation Advertisement also provides a means to
+    retrieve all the necessary data required in order to execute the
+    implementation being described. This information is encapsulated in the
+    Code and PURI elements. The interpretation of these elements are subject
+    to the the module's compatibility. For example, the standard peer group
+    implementation of the Java reference implementation expects the 
+    <sgmltag class="starttag">Code</sgmltag>element to specify a fully
+    qualified Java class name that designates a subclass of 
+    <constant>net.jxta.platform.Module</constant>and PURI to be the URI of a
+    downloadable package (a 
+    <filename>.jar</filename>file). Other execution environments could expect
+    the code to be inline within the 
+    <sgmltag class="starttag">Code</sgmltag>element or even offer several
+    options.</para>
+    <figure id="fmias">
+      <title>Module Implementation Advertisement Schema</title>
+      <programlisting>
+&lt;xs:element name="<classname>MIA</classname>" type="<type>jxta:MIA</type>"/>
+
+&lt;xs:complexType name="<type>MIA</type>">
+  &lt;xs:sequence>
+    &lt;xs:element name="MSID" type="jxta:JXTAID"/>
+    &lt;xs:element name="Comp" type="xs:anyType"/>
+    &lt;xs:element name="Code" type="xs:anyType"/>
+    &lt;xs:element name="PURI" type="xs:anyURI" minOccurs="0"/>
+    &lt;xs:element name="Prov" type="xs:string" minOccurs="0"/>
+    &lt;xs:element name="Desc" type="xs:anyType" minOccurs="0"/>
+    &lt;xs:element name="Parm" type="xs:anyType" minOccurs="0"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+    </figure>
+    <variablelist>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">MSID</sgmltag>
+        </term>
+        <listitem>
+          <simpara>ModuleSpecID. This is a required element that uniquely
+          identifies the specification being implemented. The SpecID
+          representation is given in the Id Chapter.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Comp</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Compatibility. A mandatory arbitrary element that
+          describes the environment in with this implementation may be
+          executed. Each framework capable of loading and executing module
+          has its own requirement on the contents of this element.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Code</sgmltag>
+        </term>
+        <listitem>
+          <simpara>This arbitrary element contains anything that is needed in
+          addition to the package in order to load and execute the code of
+          this implementation. In the case of a java implementation it
+          contains the fully qualified class name containing the module's
+          entry points. In other cases it may contain the entire
+          code.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">PURI</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Package URI. This optional element is a URI that permits
+          to retrieve a package containing the code of this
+          implementation.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Prov</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Provider. The provider of that implementation.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Desc</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Description. This is an optional string that can be used
+          to describe and search for a spec.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>
+          <sgmltag class="starttag">Parm</sgmltag>
+        </term>
+        <listitem>
+          <simpara>Parameter. Arbitrary parameters to be interpreted by the
+          implementation's code.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+</chapter>

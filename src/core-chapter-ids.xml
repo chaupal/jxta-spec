@@ -1,0 +1,280 @@
+<!-- **** BEGIN IDS SECTION **** -->
+
+<chapter id="ids">
+<title id="title-ids">IDs</title>
+
+<section id="ids-i">
+<title id="title-ids-i">Introduction</title>
+<para>The JXTA protocols often need to refer to peers, peer groups, pipes and 
+other JXTA resources. These references are presented in the protocols as JXTA 
+IDs. JXTA IDs are a means for uniquely identifying specific peer groups, peers, 
+pipes, codat and service instances. JXTA IDs provide unambiguous references 
+to the various JXTA entities. There are six types of JXTA entities which have 
+JXTA ID types defined: peergroups, peers, pipes, codats, module classes and 
+module specifications. Additional JXTA ID types may be defined in the future.
+</para>
+
+<para>JXTA IDs are normally presented as URNs. URNs are a form of URI that 
+<quote>... are intended to serve as persistent, location-independent, resource 
+identifiers</quote>. Like other forms of URI, JXTA IDs are presented as text. 
+See <citetitle pubwork="article">IETF RFC 2141</citetitle>
+<xref linkend="bib-RFC2141"/> for more information on URNs.</para>
+</section>
+
+<section id="ids-jip"><title id="title-ids-jip">JXTA ID Properties</title>
+<para>Every JXTA ID, regardless of format or type has the following 
+properties:</para>
+
+<itemizedlist>
+<listitem><simpara>Unambiguous. It <phrase role="rfc2119">must</phrase> be a 
+complete reference to the resource.</simpara></listitem>
+
+<listitem><simpara>Relatively Unique. A JXTA ID <phrase role="rfc2119">must</phrase> 
+refer to a single resource.</simpara></listitem>
+
+<listitem><simpara>Canonical. References to the same resource 
+<phrase role="rfc2119">should</phrase> encode to the same JXTA ID. This enables 
+JXTA IDs to be compared to determine if they refer to the same resource, but 
+understandably may not be achievable by all ID Formats.</simpara></listitem>
+
+<listitem><simpara>Opaque. In their URN presentation JXTA IDs
+<phrase role="rfc2119">should</phrase> be assumed to be opaque. The context of 
+an ID within a protocol message generally is sufficient to establish its type. A
+JXTA binding may be able to interpret an ID if it supports the ID Format. 
+Generally, only the immediate participants in a JXTA protocol need to understand 
+the contents of a JXTA ID, if at all.</simpara></listitem>
+</itemizedlist>
+</section>
+
+<section id="ids-ujip">
+<title id="title-ids-ujip">Using JXTA IDs in Protocols</title>
+<para>When JXTA IDs are used within protocols they are manipulated as text 
+string URIs. There are three operations available for URIs; compare, resolve, 
+decompose. JXTA ID URIs are comparable for equality as strings. JXTA ID URIs 
+can also be resolved to the resource they reference. Finally, JXTA ID URIs can 
+optionally be decomposed and interpreted by JXTA bindings. In order to interpret 
+a JXTA ID, a JXTA binding must support the 
+<firstterm linkend="gloss-idformat">JXTA ID Format</firstterm> used by that 
+JXTA ID. For many JXTA protocols and operations it is not necessary to decompose 
+the JXTA IDs.</para>
+</section>
+
+<section id="ids-fjiu">
+<title id="title-ids-fjiu">Format of a JXTA ID URN</title>
+<para>A JXTA ID is a standard URN in the JXTA ID namespace. JXTA ID URNs are 
+identified by the URN namespace identifier <constant>jxta</constant>. Each JXTA 
+ID URN also contains a JXTA ID Format keyword. The ID Format keyword indicates 
+how the ID was created and may also allow JXTA bindings to extract additional 
+information from the ID.</para>
+
+<para>Two ID formats have been defined which are identified by the 
+<constant>jxta</constant> and <constant>uuid</constant> keywords. It is possible
+to define additional JXTA ID Formats in order to refer to resources both within 
+JXTA and to bridge to other technologies.</para>
+</section>
+
+<section id="ids-ejiu"><title id="title-ids-ejiu">Example JXTA ID URNs</title>
+<para>The following examples demonstrate valid JXTA ID presentation forms. These 
+examples are not necessarily valid JXTA IDs.</para>
+
+<example id="ids-e">
+<title>Sample JXTA IDs</title>
+<programlisting>
+A.  urn:jxta:idform-1234567890
+B.  URN:jxta:idform-1234567890
+C.  urn:JXTA:idform-1234567890
+D.  urn:JXTA:IDForm-1234567890
+E.  urn:jxta:idform2-ABCDEFG
+F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
+</programlisting>
+</example>
+
+<para>In the preceding examples, A., B. and C. represent the same JXTA ID. Both 
+the <constant>URN</constant> portion and the <constant>JXTA</constant> are case 
+insensitive. Example D. is not equivalent to any of A., B. or C. because the 
+data portion of the URN is case sensitive. In the six examples, four different 
+JXTA ID Formats are used: <quote>idform</quote>, <quote>IDForm</quote>, 
+<quote>idform2</quote> and <quote>idform3</quote>. Definition of ID Format names
+that differ only in character case is 
+<phrase role="rfc2119">not recommended</phrase>. The interpretation of the 
+characters following the <quote>-</quote> is specific to each ID Format.</para>
+</section>
+
+<section><title>JXTA ID Representation</title>
+
+<para>JXTA IDs are presented as URNs of the <constant>jxta</constant> namespace.
+The JXTA ID Namespace specifies additional restrictions upon the format of the
+URN. These requriements are detailed in 
+<xref linkend="ids-fjia" endterm="ids-fjia-title"/>. The following figure uses 
+the ABNF syntax as defined in
+<citetitle pubwork="article">IETF RFC 2234</citetitle>
+<xref linkend="bib-RFC2234"/>.</para>
+
+<figure id="ids-fjia"><title id="ids-fjia-title">JXTA ID ABNF</title>
+<programlisting>
+&lt;JXTAURN>    ::= "urn:" &lt;JXTANS> ":" &lt;JXTAIDVAL>
+
+&lt;JXTANS>     ::= "jxta"
+
+&lt;JXTAIDVAL>  ::= &lt;JXTAFMT> "-" &lt;JXTAIDUNIQ>
+
+&lt;JXTAFMT>    ::= 1 * &lt;URN chars>
+
+&lt;JXTAIDUNIQ> ::= 1 * &lt;URN chars>
+
+&lt;URN chars>  ::= &lt;trans> | "%" &lt;hex> &lt;hex>
+
+&lt;trans>      ::= &lt;upper> | &lt;lower> | &lt;number> | &lt;other> |
+                 &lt;reserved>
+
+&lt;upper>      ::= "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" |
+                 "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" |
+                 "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" |
+                 "Y" | "Z"
+
+&lt;lower>      ::= "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" |
+                 "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" |
+                 "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" |
+                 "y" | "z"
+
+&lt;hex>        ::= &lt;number> | "A" | "B" | "C" | "D" | "E" | "F" |
+                 "a" | "b" | "c" | "d" | "e" | "f"
+
+&lt;number>     ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" |
+                 "8" | "9"
+
+&lt;other>      ::= "(" | ")" | "+" | "," | "-" | "." |
+                 ":" | "=" | "@" | ";" | "$" |
+                 "_" | "!" | "*" | "'"
+
+&lt;reserved>   ::= "%" | "/" | "?" | "#"
+</programlisting>
+</figure>
+<para>The jxta URN namespace does not currently define any special symbols from 
+the <constant>reserved</constant> set.</para>
+</section>
+
+<section id="ids-jif"><title id="title-ids-jif">JXTA ID Formats</title>
+<para>JXTA IDs are designed to support multiple ID Formats. ID Formats allow
+JXTA developers to utilize existing naming and ID schemes within JXTA. In the
+JXTA ID presentation, the ID's <quote>Format</quote> follows the JXTA URN 
+namespace. Any JXTA ID Format which follows the general requirements for URNs 
+and the <xref linkend="ids-jip" endterm="title-ids-jip"/> will be usable by 
+conformant JXTA implementations.</para>
+</section>
+
+<section id="ids-jit"><title id="title-ids-jit">JXTA ID Types</title>
+
+<para>JXTA IDs may refer to many types of resources; pipes, peers, etc. Each 
+JXTA ID format type may support references to one or more of these resource 
+types. Currently, five standard resource types have been identified; peer 
+groups, peers, pipes, content and service instances. Other types may be 
+defined.</para>
+
+<para>Each of the individual ID Types <phrase role="rfc2119">may</phrase> 
+provide additional requirements specific to its type.</para>
+
+<section id="ids-jit-pgi"><title id="title-ids-jit-pgi">Peer Group IDs</title>
+<para>Peer Group IDs refer to peer groups. A peer group ID should canonically, 
+uniquely and unambiguously refer to a peer group. Every ID Format 
+<phrase role="rfc2119">must</phrase> support this ID Type because all of the 
+other ID Types refer to the peer group to which they belong. Every ID Format 
+<phrase role="rfc2119">must</phrase> support encoding of the World Peer Group. 
+Support for other peer groups is <phrase role="rfc2119">optional</phrase>. 
+Example: You are defining an ID Format for Peer IDs based upon driver's license 
+number. Driver's licenses are not organized into groups. This can be considered 
+equivalent to all driver's licenses belonging to the same group, the global 
+<quote>world peer group</quote>.</para>
+</section>
+
+<section id="ids-jit-pei"><title id="title-ids-jit-pei">Peer IDs</title>
+<para>Peer IDs refer to peers. A Peer ID <phrase role="rfc2119">should</phrase> 
+canonically, uniquely and anambiguously refer to a peer. Support for this ID 
+Type is <phrase role="rfc2119">optional</phrase>. If a JXTA binding recognizes 
+the ID Format, it  <phrase role="rfc2119">should</phrase> be able to determine 
+the assocaiated Peer Group ID from a Peer ID. This Peer Group ID identifies the 
+peer group of which the peer is a member.</para>
+</section>
+
+<section id="ids-jit-ci"><title id="title-ids-jit-ci">Codat IDs</title>
+<para>Codat IDs refer to codats. A Codat ID <phrase role="rfc2119">should</phrase> 
+canonically, uniquely and anambiguously refer to a codat. Support for this ID 
+Type is <phrase role="rfc2119">optional</phrase>. If a JXTA binding recognizes 
+the ID Format, it  <phrase role="rfc2119">should</phrase> be able to determine 
+the assocaiated Peer Group ID from a Codat ID. This Peer Group ID identifies the 
+peer group of which the codat is a member.</para>
+</section>
+
+<section id="ids-jit-pii"><title id="title-ids-jit-pii">Pipe IDs</title>
+<para>Pipe IDs refer to pipes. A Pipe ID <phrase role="rfc2119">should</phrase> 
+canonically, uniquely and anambiguously refer to a pipe. Support for this ID 
+Type is <phrase role="rfc2119">optional</phrase>. If a JXTA binding recognizes 
+the ID Format, it  <phrase role="rfc2119">should</phrase> be able to determine 
+the assocaiated Peer Group ID from a Pipe ID. This Peer Group ID identifies the 
+peer group of which the pipe is a member.</para>
+</section>
+
+<section id="ids-jit-mci"><title id="title-ids-jit-mci">Module Class IDs</title>
+<para>A Module Class ID identifies a particular local behavior, that is, a 
+specific API for each execution environment for which an implementation exists. 
+A Module Class ID <phrase role="rfc2119">should</phrase> canonically, uniquely 
+and unambiguously refer to a module class as defined by an advertisement. 
+Support for this ID Type is <phrase role="rfc2119">optional</phrase>. If a JXTA 
+binding recognizes the ID Type, it should be able to extract a Base Class ID 
+from a Module Class ID. The Base Class ID allows applications to determine if 
+two Module Class IDs differ only in the <quote>role</quote> they perform. Module 
+Spec ID's <quote>roles</quote> allow for the same module to be reused within a 
+group and have instances distinguished. This is necessary when, for example, a 
+common database service is used, with each <quote>role</quote> accessing a 
+different data set.</para>
+</section>
+
+<section id="ids-jit-msi">
+<title id="title-ids-jit-msi">Module Spec IDs</title>
+<para>A ModuleSpecID uniquely identifies a particular network behavior (wire 
+protocol and choreography) that may be embodied by a Jxta Module. There may be 
+any number of implementations of a given Module Spec ID. A ModuleSpecID uniquely 
+identifies an abstract module for which there may be multiple platform specific 
+implementations. A ModuleSpecID is used to locate a compatible implementation 
+such that it can be instantiated.  All such implementations are assumed to be 
+network compatible. A Module Spec ID <phrase role="rfc2119">should</phrase> 
+canonically, uniquely and unambiguously refer to a module specification. Support 
+for this ID Type is <phrase role="rfc2119">optional</phrase>. If a JXTA binding 
+recognizes the ID Type, it should be able to extract a Module Class ID from a 
+Module Spec ID.</para>
+</section>
+</section>
+
+<section id="ids-jinf">
+<title id="title-ids-jinf">JXTA ID Formats : <quote>jxta</quote> ID Format</title>
+<para>The <quote>jxta</quote> ID Format is a <phrase role="rfc2119">required</phrase> ID 
+Format that is used for encoding <quote>well known</quote> JXTA identifiers. All 
+JXTA binding implementations <phrase role="rfc2119">must</phrase> support this ID Format. 
+There are three special reserved JXTA IDs; the Null ID, the World Peer 
+Group ID and the Net Peer Group ID. The <quote>jxta</quote> ID Format exists so 
+that for these few <quote>well known</quote> IDs only a single representation 
+exists. </para>
+
+<figure id="ids-fjifa"><title>JXTA ID : "jxta" ID Format ABNF</title>
+<programlisting>
+&lt;JXTAJXTAURN>    ::= "urn:" &lt;JXTANS> ":" &lt;JXTAJXTAFMT> "-"
+                     &lt;JXTAJXTAFMTID>
+
+&lt;JXTAJXTAFMT>    ::= "jxta"
+
+&lt;JXTAJXTAFMTID>  ::= &lt;JXTANULL> | &lt;JXTAWORLDGROUP> | &lt;JXTANETGROUP>
+
+&lt;JXTANULL>       ::= "Null"
+
+&lt;JXTAWORLDGROUP> ::= "WorldGroup"
+
+&lt;JXTANETGROUP>   ::= "NetGroup"
+</programlisting>
+</figure>
+
+</section>
+
+</chapter>
+
+<!-- **** END IDS SECTION **** -->
+

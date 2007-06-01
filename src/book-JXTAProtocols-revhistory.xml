@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<revhistory>
+  <revision>
+    <revnumber>1.2</revnumber>
+    <date>June 22, 2001</date>
+    <authorinitials>goober@jxta.org,</authorinitials>
+    <revremark>preliminary DocBook format</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.2</revnumber>
+    <date>September 22, 2001</date>
+    <authorinitials>goober@jxta.org</authorinitials>
+    <revremark>first release based on DocBook format (no intended changes
+    from 1.2 revision)</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.3</revnumber>
+    <date>November 20, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to the IDs chapter to document new IDs design.
+    Information on components provided as part of reference implementations
+    is also being moved to the reference implementation section (this may
+    eventually be a separate document).</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.4</revnumber>
+    <date>November 20, 2001</date>
+    <revremark>Updates to Protocol chapter, discovery behavior and minor
+    changes to the Resolver section.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.5</revnumber>
+    <date>November 21, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to Advertisements chapter, added sections for
+    ModuleClassAdvertisement, ModuleSpecAdvertisement,
+    ModuleImplAdvertisement. Updated sections for PeerAdvertisement and
+    PeerGroupAdvertisement.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.6</revnumber>
+    <date>November 28, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to Advertisements chapter, added sections for
+    PeerInfoAdvertisement. also includes typo corrections in various
+    sections</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.7</revnumber>
+    <date>November 29, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to the Protocol Section, and more description on
+    PeerInfoAdvertisement traffic field</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.8</revnumber>
+    <date>December, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Integrated docbookized version of Eric's sections about
+    enpoint service and router. Made some cosmetic fixes per last
+    review.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.9</revnumber>
+    <date>December 4, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to protocols chapter to use schemas to describe
+    message structure more formally. Remove Peer Membership Protocol. Remove
+    Content Advertisement (may be readded in documentation of CMS, but not
+    part of or used by core protocols) Minor cosmetic improvements to
+    copyright and ids chapter.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.10</revnumber>
+    <date>December 7, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to protocols chapter to use mores schemas to describe
+    message structure more formally. Examples for each as well.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.11</revnumber>
+    <date>December 7, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>More updates to the protocols chapter. Converting raw program
+    listings to figures and examples, addition of live cross references.
+    Preparing for glossary and bibliography.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.12</revnumber>
+    <date>December 9, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>More updates to the protocols chapter. PeerInfoProtocol and
+    Pipe Binding Protocol now have schemas. Converting raw program listings
+    to figures and examples, addition of live cross references. Preparing for
+    glossary and bibliography. Cosmetic changes to Messages
+    chapter</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.2.13</revnumber>
+    <date>December 17, 2001</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Peer Info Protocol was redone because the previous schema
+    though XML-like, was not representable with XML. (Endpoint Addresses as
+    tag names were the culprit). PIP now looks more like the Peer Discovery
+    Protocol with separate schemas for query and response. Document has been
+    restructured into three major sections; Core Specification, Standard
+    Services, and Reference Implementations. This restructuring makes
+    understanding the JXTA Protocols more straight-forward because
+    requirements and behaviours are now divided between functionality
+    required by all JXTA peers, functionality needed to interoperate with the
+    optional JXTA Protocols, and functionality required to interoperate with
+    specific JXTA implementations.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3</revnumber>
+    <date>January 3, 2002</date>
+    <revremark>Wrote introductions for each of the new document sections.
+    Introduced a glossary and bibliography. More restructuring of the source
+    docbook files. Changes to prepare for a printable form
+    document.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.1</revnumber>
+    <date>January 9, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Spelling and grammar corrections. More reorganization of
+    material into core, standard services and reference implementation parts.
+    Updating stylesheets and docbook usage based on techniques seen in other
+    docbook projects.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.2</revnumber>
+    <date>January 9, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>More moving content around into core and standard services.
+    More chapters reorganized. New text in advertisments chapter. More
+    bibliographic information.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.3</revnumber>
+    <date>January 14, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Redid the schemas for the advertisement chapter. Moved all of
+    the protocol advertisements and schemas to the appropriate protocols
+    chapters. Use of &lt;literal&gt; has now been replaced with
+    &lt;phrase&gt; and a role attribute of 
+    <emphasis>rfc2119</emphasis>. Improved field descriptions for some of the
+    core advertisements.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.4</revnumber>
+    <date>February 13, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Lots of minor revisions based on review cycle. Thanks to all
+    of the reviewers who took time to review and respond!</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.5</revnumber>
+    <date>April 19, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Redid some of the schema descriptions in a new and clearer
+    style, more will be converted of over time. Redid schemas and examples
+    for Pipe Binding Protocol section. A few changes to FO generation which
+    generates 
+    <emphasis>much</emphasis>better PDF output. Corrected a few specific
+    issues pointed out by Brendon Wilson.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.6</revnumber>
+    <date>June 10, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>More complete documentation of the Pipe Binding Protocol based
+    upon review of the J2SE and C implementations. Partial re-write of the
+    Messages chapter to flesh out some of the details. Remove text not
+    specific to the protocol (mostly dealing with namespace ":"
+    name).</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.7</revnumber>
+    <date>June 11, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Minor corrections following review. Now has an "Abstract"
+    section.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.3.8</revnumber>
+    <date>June 18, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Lots of corrections following a detailed review by Jeff
+    Altman, with many more corrections to come! A bit of reorganisation of
+    the messages chapter into two pieces. Some cleanups for TOC generation in
+    the HTML version. Still working on SVG figures. Next release will be 1.4
+    upon completion of all the feedback cleanups.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.4</revnumber>
+    <date>June 19, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>The Docbook source now validates against the Docbook 4.2 DTD.
+    This seemingly minor issue fixed a number of problems with the HTML, PDF
+    and rfc 2629 renderings and cross-referencing. Implemented all of the
+    feedback from the most recent review cycle. Fixed a number of the
+    figures.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.4.1</revnumber>
+    <date>June 21, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>More revisions following careful review. This version is being
+    released to coincide with the submission of the JXTA Specification as an
+    Internet-Draft to IETF.</revremark>
+  </revision>
+  <revision>
+    <revnumber>1.4.2</revnumber>
+    <date>October 10, 2002</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to Standard Transports sections. Updates to the
+    Endpoint Routing Protocol and Endpoint Router Transport. Adds new
+    optional SRDI message for Endpoint Resolver Protocol. Minor textual
+    improvements and clarifications elsewhere. New examples and
+    figures.</revremark>
+  </revision>
+  <revision>
+    <revnumber>2.0</revnumber>
+    <date>February 27, 2003</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Updates to Standard Transports sections. Clarifications in the
+    IDs section. Updates to the Pipe Resolver protocol. Minor textual
+    improvements and clarifications elsewhere. Added a section on "Users and
+    Peers". Added a number of glossary terms. More contributions to the
+    glossary are welcome. Updated version to "2.0". Rewrote or revised much
+    of the Overview chapter.</revremark>
+  </revision>
+  <revision>
+    <revnumber>2.1.1</revnumber>
+    <date>October 15, 2003</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Additional updates to the Introduction and Overview chapters. 
+    Many additions to the glossary section. Minor schema corrections.
+    </revremark>
+  </revision>
+  <revision>
+    <revnumber>2.2.1</revnumber>
+    <date>April 10th, 2004</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Additional updates to glossary and bibliography. Added updates to
+    pipes regarding propagate pipes.
+    </revremark>
+  </revision>
+    <revision>
+    <revnumber>2.3</revnumber>
+    <date>June 30th, 2004</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Additional information about the Rendezvous, Resolver and Pipe
+    Services.
+    </revremark>
+  </revision>
+  <revision>
+    <revnumber>2.3.5</revnumber>
+    <date>September 20th, 2005</date>
+    <authorinitials>mathieu@jxta.org</authorinitials>
+    <revremark>Homogeneous spec for Resolver queries and responses.
+    </revremark>
+  </revision>
+  <revision>
+    <revnumber>2.5</revnumber>
+    <date>June 23rd, 2006</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Clarifications to the HTTP Message Transport.
+    </revremark>
+  </revision>
+  <revision>
+    <revnumber>2.5.1</revnumber>
+    <date>August 23rd, 2006</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Corrections and clarifications to Route Advertisement 
+    and Pipe Resolver Message.</revremark>
+  </revision>
+  <revision>
+    <revnumber>2.5.2</revnumber>
+    <date>January 9th, 2007</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Corrections and clarifications from several sharp eyed readers.
+    Now includes complete specification of Binary Message Format version 2 and
+    specification of the endpoint SrcAddess and DstAddress message elements.
+    </revremark>
+  </revision>
+</revhistory>

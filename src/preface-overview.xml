@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<preface>
+  <title>Conceptual Overview</title>
+  <para>JXTA is intended to be a small system with a limited number of
+  concepts at its core. This chapter introduces the concepts which are
+  central to JXTA.</para>
+  <section>
+    <title>Peers</title>
+    <para>A JXTA peer is any networked device (sensor, phone, 
+    <acronym>PDA</acronym>, 
+    <acronym>PC</acronym>, server, supercomputer, etc.) that implements the
+    core JXTA protocols. Each peer is identified by a unique ID. Peers are
+    autonomous and operate independently and asynchronously of all other
+    peers. Some peers 
+    <phrase role="rfc2119">may</phrase> have dependencies upon other peers due
+    to special requirements such as the need for gateways, proxies, or routers.
+    </para>
+    <para>
+    Peers 
+    <phrase role="rfc2119">may</phrase> publish network services and resources
+    (
+    <acronym>CPU</acronym>, storage, databases, documents, etc.) for use by
+    other peers. A peer 
+    <phrase role="rfc2119">may</phrase> cache advertisements for JXTA
+    resources, but doing so is 
+    <phrase role="rfc2119">optional</phrase>. Peers 
+    <phrase role="rfc2119">may</phrase> have persistent storage.
+    </para>
+    <para>Peers are typically configured to spontaneously discover each other
+    on the network to form transient or persistent relationships with other
+    peers. Peers that provide the same set of services tend to be
+    interchangeable. As a result, peers typically need to interact with only a small
+    number of other peers (network neighbors or buddy peers). Peers 
+    <phrase role="rfc2119">should not</phrase> make assumptions about the
+    reliability of other peers. Peers 
+    <phrase role="rfc2119">may</phrase> join or leave the network at any time.
+    A peer 
+    <phrase role="rfc2119">should</phrase> always anticipate that connectivity
+    may be lost to any peer that it is currently communicating with.
+    </para>
+    <para>Peers 
+    <phrase role="rfc2119">may</phrase> advertise multiple network interfaces.
+    Each published interface is advertised as a peer endpoint. A peer
+    endpoint is a URI that uniquely identify a peer network interface (for example,
+    a URI might specify a TCP port and associated IP address). Peer
+    endpoints are used by peers to establish direct point-to-point
+    connections between two peers.</para>
+    <para>Communicating peers are not required to have direct point-to-point
+    network connection between themselves. A peer 
+    <phrase role="rfc2119">may</phrase> need to use one or more intermediary
+    peers to route a message to another peer that is separated due to physical
+    network connections or network configurations (e.g., NATs, firewalls, or
+    proxies).</para>
+    <section>
+      <title>Peers and Users</title>
+      <para>There is no explicit relationship between users and peers within
+      JXTA, but for many applications the two concepts are closely
+      related.</para>
+      <para>Frequently a peer will be under the control of a human operator,
+      the 
+      <quote>user</quote>, and will interact with the network on the
+      basis of the user's direction. However, not every peer has an associated
+      user. Many peers
+      exist to provide services and resources to the network, but are not
+      associated with any user. Examples include devices such as sensors and
+      printers, and services such as databases.</para>
+      <para>The concept of 
+      <quote>user</quote> exists primarily for identification: some applications
+      may need to allow users to tell each other apart and to manage
+      their interactions. Identity is also frequently tied to security and
+      permissions.</para>      
+    </section>
+  </section>
+  <section id="overview-peergroups">
+    <title id="overview-peergroups-title">Peer Groups</title>
+    <para>Peers self-organize into Peer Groups. A peer group is a collection
+    of peers that have a common set of interests. Each peer group is uniquely
+    identified by a PeerGroup Id. The JXTA protocols do not dictate
+    when, where, or why peer groups are created. The JXTA protocols only
+    describe how peers may publish, discover, join, and monitor
+    peer groups.</para>
+    <para>JXTA recognizes three common motivations for creating peer
+    groups:</para>
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>To create a secure environment.</emphasis>
+        Peer group boundaries permit
+        member peers to access and publish protected contents. Peer groups
+        form logical regions whose boundaries limit access to the peer group
+        resources. A peer group does not necessarily reflect the underlying
+        physical network boundaries such as those imposed by routers and
+        firewalls. Peer groups virtualize the notion of routers and firewalls,
+        subdividing the network into secure regions without respect to actual
+        physical network boundaries.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis>To create a scoping environment.</emphasis>
+        Peer groups are typically
+        formed and self-organized based upon the mutual interest of peers. No
+        particular rules are imposed on the way peer groups are formed, but
+        peers with the same interests will tend to join the same peer groups.
+        Peer groups serve to subdivide the network into abstract regions
+        providing an implicit scoping mechanism. Peer group boundaries define
+        the search scope when searching for a group's content.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis>To create a monitoring environment.</emphasis>
+        Peer groups permit peers to
+        monitor a set of peers for any special purpose, including heartbeat, traffic
+        introspection, and accountability.</para>
+      </listitem>
+    </itemizedlist>
+    <para>A peer group provides a set of services called peer group services.
+    JXTA defines a core set of peer group services, and the JXTA protocols specify
+    the wire format for these services. Additional peer group
+    services can be developed for delivering specific services. For example,
+    a lookup service could be implemented to find active (running on some
+    peer) and inactive (not yet running) service instances. The core peer
+    group services are:</para>
+    <variablelist>
+      <varlistentry>
+        <term>Discovery Service</term>
+        <listitem>
+          <simpara>The Discovery service is used by member peers to search
+          for peer group resources such as peers, peer groups, pipes, and
+          services.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Membership Service</term>
+        <listitem>
+          <simpara>The membership service is used by the current peer group members to
+          reject or accept a new group membership application (i.e., to
+          allow a new peer to join a peer group).
+          We expect that most peer groups will have a
+          membership service, though it may be a 
+          <quote>null</quote>authenticator service which imposes no real
+          membership policy.</simpara>
+          <simpara>Peers wanting to join a peer group
+          <phrase role="rfc2119">may</phrase> need to discover at least one
+          member of the peer group and then request to join. 
+          The request to join is either
+          rejected or accepted by the collective set of current members. The
+          membership service 
+          <phrase role="rfc2119">may</phrase> enforce a vote of peers or elect
+          a designated group representative to accept or reject new
+          membership requests.
+           </simpara>
+          <simpara>A peer 
+          <phrase role="rfc2119">may</phrase> belong to more than one
+          peer group simultaneously.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Access Service</term>
+        <listitem>
+          <simpara>The Access service is used to validate requests made by
+          one peer to another. The peer receiving the request provides the
+          requesting peer credentials and information about the request being
+          made to the Access Service to determine if the access is
+          permitted.</simpara>
+          <simpara>Not all actions within the peer group need to be checked
+          with the Access Service. Only those actions that are restricted to
+          a subset of member peers must be checked.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Pipe Service</term>
+        <listitem>
+          <simpara>The pipe service is used to manage and create pipe
+          connections between the different peer group members.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Resolver Service</term>
+        <listitem>
+          <simpara>The resolver service is used to address queries to
+          services running on peers in the group and collect
+          responses.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Monitoring Service</term>
+        <listitem>
+          <simpara>The monitoring service is used to allow one peer to
+          monitor other members of the same peer group.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <simpara>Not all the above services 
+    <phrase role="rfc2119">must</phrase> be implemented by a peer group. 
+    A peer group can implement only the services it finds useful and rely on the
+    default Net Peergroup to provide generic implementations of other 
+    services.</simpara>
+    <simpara> Each
+    service 
+    <phrase role="rfc2119">may</phrase> implement one or more of the JXTA
+    protocols, the specifications for which are the main content of this
+    document. A service will typically implement one protocol for simplicity
+    and modularity reasons, but some services may not implement any
+    protocols.</simpara>
+  </section>
+  
+  <section id="overview-services">
+    <title id="overview-services-title">Network Services</title>
+    <para>Peers cooperate and communicate to publish, discover and invoke
+    network services. A peer can publish as many services as it can
+    provide. Peers discover network services via the Peer Discovery
+    Protocol.</para>
+    <para>Network Service specifications are beyond the scope of this
+    document. Upcoming standards such as WSDL, ebXML, SOAP, UPnP might be
+    used within a JXTA Network.</para>
+    <para>The JXTA protocols recognize two levels of network services:</para>
+    <itemizedlist>
+      <listitem>
+        <simpara>Peer Services</simpara>
+      </listitem>
+      <listitem>
+        <simpara>Peer Group Services</simpara>
+      </listitem>
+    </itemizedlist>
+    <para>A peer service is accessible only on the peer that is publishing
+    the service. If that peer happens to fail, then the service also fails.
+    Multiple instances of the service can be run on different peers, but each
+    instance publishes its own advertisement.</para>
+    <para>A peer group service is composed of a collection of instances
+    (potentially cooperating with each other) of the service running on
+    multiple members of the peer group. If any one peer fails, the collective
+    peer group service is not affected: in most cases, the service is
+    still available from another peer member. Peer group services are
+    published as part of the peer group advertisement.</para>
+    <para>Services can either be pre-installed into a peer or loaded from the
+    network. The process of finding, downloading and installing a service
+    from the network is similar to performing a search on the internet for a
+    web page, retrieving the page, and then installing the required plug-in.
+    In order to actually run a service, a peer may need to locate an
+    implementation suitable for the peer's runtime environment. Multiple
+    implementations of the same service may allow Java peers to use Java code
+    implementations, and native peers to use native code
+    implementations.</para>
+    <section>
+      <title>Service Invocation</title>
+      <para>Service invocation is outside the scope of JXTA. JXTA is designed
+      to interoperate and be compatible with any Web service standards: WSDL,
+      uPnP, RMI, etc. The JXTA protocols define a generic framework to
+      publish and discover advertisements that may describe services. Peers
+      publish and discover advertisements via the Peer Discovery Protocol. An
+      advertisement for a service typically contains all necessary
+      information to either invoke or instantiate the service being
+      described. The JXTA protocols define Module Advertisements, but any
+      other form of service description may be introduced.</para>
+    </section>
+    <section>
+      <title>JXTA-Enabled Services</title>
+      <para>JXTA-Enabled services are services that are published using
+      a ModuleSpecAdvertisement. A ModuleSpecAdvertisement may specify a
+      pipe advertisement that can be used by a peer to create output pipes to
+      invoke the service. ModuleSpecAdvertisements may be extended in the
+      future to contain a list of pre-determined messages that can be sent by
+      a peer to interact with the service. A ModuleSpecAdvertisement may also
+      contain references to two other services that can be used as an
+      authenticator for the service and as a local proxy for the
+      service.</para>
+      <para>Each JXTA-enabled service is uniquely identified by its
+      ModuleSpecID.</para>
+    </section>
+  </section>
+  <section id="overview-ids">
+    <title id="overview-ids-title">IDs</title>
+    <para>Peers, peer groups, pipes, contents, and other resources need
+    to be uniquely identifiable within the JXTA protocols.
+    A JXTA ID uniquely identifies an entity and serves as a
+    canonical means of referring to that entity.</para>
+    <para>URNs are used for the expression of JXTA IDs.</para>
+  </section>
+  <section id="overview-advertisements">
+    <title id="overview-advertisements-title">Advertisements</title>
+    <para>All network resources, such as peers, peer groups, pipes and
+    services, are represented by advertisements. Advertisements are JXTA's
+    language neutral metadata structures for describing resources. The JXTA
+    Core Specification and Standard Services define, among others, the
+    following advertisement types:</para>
+    <itemizedlist>
+      <listitem>
+        <simpara>Peer Advertisement</simpara>
+      </listitem>
+      <listitem>
+        <simpara>PeerGroup Advertisement</simpara>
+      </listitem>
+      <listitem>
+        <simpara>ModuleClass Advertisement</simpara>
+      </listitem>
+      <listitem>
+        <simpara>ModuleSpec Advertisement</simpara>
+      </listitem>
+      <listitem>
+        <simpara>ModuleImpl Advertisement</simpara>
+      </listitem>
+      <listitem>
+        <simpara>Pipe Advertisement</simpara>
+      </listitem>
+      <listitem>
+        <simpara>Rendezvous Advertisement</simpara>
+      </listitem>
+    </itemizedlist>
+    <para>The complete specification of advertisements is given in the 
+    <xref linkend="core-advert" endterm="core-advert-title" /> chapter. 
+    Because the
+    JXTA protocols make heavy reference to these advertisements, the
+    reader should be familiar with advertisements before moving on to the
+    protocol specification chapters. Advertisements are, by far, the most
+    common document exchanged in the protocol messages.</para>
+    <para>Advertisments are published with a lifetime that specifies the
+    availability of the resource. An advertisement can be republished to
+    extend the lifetime of a resource.</para>
+    <para>Services and peer implementations can create their own advertisement
+    types, either from scratch or by subtyping the existing types.</para>
+  </section>
+  <section>
+    <title>Credentials</title>
+    <para>The need to support different levels of resource access in a
+    dynamic and ad hoc P2P network leads to a role-based trust model in which
+    an individual peer acts under the authority granted to it by another
+    trusted peer to perform a particular task. Peer relationships 
+    <phrase role="rfc2119">may</phrase> change quickly and the policies
+    governing access control need to be flexible in allowing or denying
+    access.</para>
+    <para>Four basic security requirements 
+    <phrase role="rfc2119">must</phrase> be provided:</para>
+    <variablelist>
+      <varlistentry>
+        <term>Confidentiality</term>
+        <listitem>
+          <simpara>Guarantees that the contents of the message are not
+          disclosed to unauthorized individuals.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Authorization</term>
+        <listitem>
+          <simpara>Guarantees that the sender is authorized to send a
+          message.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Data integrity</term>
+        <listitem>
+          <simpara>Guarantees that the message was not accidentally
+          or deliberately modified in transit.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Refutability</term>
+        <listitem>
+          <simpara>Guarantees the message was transmitted by a properly
+          identified sender and is not a replay of a previously transmitted
+          message.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>The structure of JXTA messages enables JXTA applications to add
+    arbitrary metadata information, such as credentials, digests,
+    certificates, and public keys, to messages.
+    Message digests guarantee the data integrity of messages.
+    Messages may also be encrypted and signed for confidentiality 
+    and refutability. Credentials can be used to provide message authentication
+    and authorization.</para>
+    <para>A credential is a token that, when presented in a message body, is
+    used to identify a sender and can be used to verify that sender's right
+    to send the message to the specified endpoint. The credential is an
+    opaque token that must be presented each time a message is sent.
+    The sending address placed in the message envelope is cross-checked
+    with the sender's identity in the credential. Each credential's
+    implementation is specified as a plug-in configuration, which allows
+    multiple authentication configurations to co-exist on the same
+    network.</para>
+    <para>It is the intent of the JXTA protocols to be compatible with widely
+    accepted transport-layer security mechanisms. Some JXTA implementations
+    contain a virtualized TLS implementation that allows it to secure
+    endpoint-to-endpoint communications regardless of the number of hops
+    required to deliver each message.</para>
+    <para>TLS and IPSec could also be used as JXTA transports. However, when
+    used as transports they provide integrity and confidentiality of message
+    transfer only between the two communicating peers.</para>
+  </section>
+  <section id="overview-pipes">
+    <title id="overview-pipes-title">Pipes</title>
+    <para>Pipes are virtual communication channels used to send and receive
+    messages between services or applications.  Pipes provide the illusion of a
+    virtual in and out mailbox that is independent of any single peer
+    location, and independent of network topology (multi-hops route).</para>
+    <para>Different quality of services can be implemented by a pipe. For
+    example:</para>
+    <variablelist>
+      <varlistentry>
+        <term>Uni-directional asynchronous</term>
+        <listitem>
+          <simpara>The endpoint sends a message, no guarantee of delivery is
+          made.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Synchronous request-response</term>
+        <listitem>
+          <simpara>The endpoint sends a message, and receives a correlated
+          answer.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Bulk transfer</term>
+        <listitem>
+          <simpara>Bulk reliable data transfer of binary data.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Streaming</term>
+        <listitem>
+          <simpara>Efficient control-flow data transfer.</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Secure</term>
+        <listitem>
+          <simpara>Secure reliable data streams.</simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <para>The uni-directional asynchronous pipe is 
+    <phrase role="rfc2119">required</phrase> by the JXTA protocols. Other pipe
+    variations may be implemented for use by services and their associated
+    protocols.</para>
+    <para>Pipes provide a
+    network abstraction over the peer endpoint transport. Peer endpoints
+    correspond to the available peer network interfaces that can be used to
+    send and receive data from another peer.
+    Pipes connect one or more peer endpoints. At each endpoint software
+    to send or receive, as well as to manage associated pipe message queues
+    or streams, is assumed, but message queues are 
+    <phrase role="rfc2119">optional</phrase>.</para>
+    <para>The pipe endpoints are referred
+    to as input pipes (receiver) and output pipes (transmitter).
+    Pipe endpoints are dynamically bound to a peer endpoint at
+    runtime, via the 
+    <xref linkend="proto-pbp" endterm="proto-pbp-title" />. The pipe binding
+    process consists of searching for and connecting the two or more
+    endpoints of a pipe.</para>
+    <para>When a message is sent into an output pipe, the message is sent by
+    the local peer endpoint to the peer endpoint(s) where the associated
+    input pipe is located. The set of peer endpoints currently associated
+    with the input pipes is discovered using the 
+    <xref linkend="proto-pbp" endterm="proto-pbp-title" />.</para>
+    <para>A pipe offers two modes of communication:</para>
+    <variablelist>
+      <varlistentry>
+        <term>Point to Point</term>
+        <listitem>
+          <simpara>A point to point pipe connects exactly two pipe endpoints
+          together: an input pipe that receives messages sent from an output
+          pipe. No reply or acknowledgment operation is supported. Additional
+          information in the message payload (like a unique id) may be required
+          to thread message sequences. The message payload may also contain a
+          pipe advertisement that can be used to open a pipe to reply to the
+          sender (send/response).</simpara>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term>Propagate Pipe</term>
+        <listitem>
+          <simpara>A propagate pipe connects one output pipe and multiple
+          input pipes together. Messages flow from the
+          output pipe (propagation source) into the input pipes. 
+          A propagate message is sent to
+          all listening input pipes. This process may create multiple copies
+          of the message to be sent. On TCP/IP, when the propagate scope maps
+          an underlying physical subnet in a 1-to-1 fashion, IP multicast may
+          be used as an implementation for propagate pipes. 
+          For transports (such as HTTP) that do not provide multicast, 
+          propagate pipes can be implemented using point-to-point communication.
+          </simpara>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <figure>
+      <title>JXTA Pipe Types</title>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/pipetype.gif" format="GIF" />
+        </imageobject>
+        <textobject>
+          <programlisting>
+Pipe Modes
+                            +-------+
+  (i) = Input Pipe          |       |
+  (o) = Output Pipe         | peer  |
+                            |       |
+                            +---+---+   Propagate
+                            |   |   |     Pipe
+                            |(i)|(o)|-------------+
+                            |   |   |             |
+                            +---+---+             |
+                                  |  send         |
+                                  |               |
+                                  |               |
+              receive             |     receive   V
++------+-----+                    |            +-----+------+
+|      | (i) |&lt;---------------+   |            | (i) |      |
+| peer +-----+ Point to Point |   |            +-----+ peer |
+|      | (o) |      Pipe      |   |            | (o) |      |
++------+-----+                |   |            +-----+------+
+                              |   |
+                              |   |
+                        send  |   V
+                            +---+---+
+                            |   |   |
+                            |(o)|(i)|
+                            |   |   |
+                            +---+---+
+                            |       |
+                            | peer  |
+                            |       |
+                            +-------+
+        
+</programlisting>
+        </textobject>
+        <textobject>
+          <phrase>Diagram showing both point-to-point pipes and propagate
+          pipes.</phrase>
+        </textobject>
+      </mediaobject>
+    </figure>
+    <para>Pipes may connect two peers that do not have a direct physical
+    link. In this case, one or more intermediary peer endpoints are used 
+    to route messages between the two pipe endpoints.</para>
+  </section>
+  <section>
+    <title>Messages</title>
+    <para>The information transmitted using pipes and between endpoints is
+    packaged as messages. Messages define an envelope to transfer any kind of
+    data. A message 
+    <phrase role="rfc2119">may</phrase> contain an arbitrary number of named
+    sub-sections which can hold any form of data.</para>
+    <para>It is the intent that the JXTA protocols be compliant with W3C XML
+    Protocol standards, so that the JXTA protocols can be implemented on XML
+    transports such as SOAP, XML-RPC, etc.</para>
+    <para>The JXTA protocols are specified as a set of XML messages exchanged
+    between peers. Each software platform binding describes how a message is
+    converted to and from a native data structures such as Java objects or 
+    <quote>C</quote> structures.</para>
+    <para>The use of XML messages to define protocols allows many different
+    kinds of peers to participate in a protocol. Each peer is free to
+    implement the protocol in a manner best suited to its abilities and
+    role.</para>
+  </section>
+  <section id="overview-codats">
+    <title id="overview-codats-title">Codats</title>
+    <para>The JXTA protocols assume that many types of contents may be
+    shared, exchanged, and replicated between peers. A content can be a text
+    file, a structured document (like a PDF or an XML file), a Java 
+    <filename>.jar</filename>  or loadable library, code or even an executable
+    process. No size limitation is assumed.</para>
+    <para>Content are published and shared amongst peer members of a
+    peer group. When a content is shared within the JXTA network it is
+    associated with a JXTA ID. The combination of a content and a JXTA ID is
+    known as a 
+    <firstterm linkend="gloss-codat">Codat</firstterm>. A codat may
+    belong to only one peer group. If the same content must be published in two
+    different peer groups, two different codats are created. The two codats 
+    <phrase role="rfc2119">may</phrase>, of course, represent the same
+    content.</para>
+    <para>Each codat is uniquely identified by a JXTA ID.
+    All codats make their existence known to peer members by publishing
+    a content advertisement.</para>
+    <para>A codat instance is a copy of a codat. Each codat copy may be
+    replicated on different peers in the peer group. Each copy has the same
+    codat id and an identical content.</para>
+    <para>Replicating codats within a peer group helps to ensure that each
+    item of content is more readily available. For example, if an item has
+    two instances residing on two different peers, only one of the peers
+    needs to be alive to respond to the content request.</para>
+    <para>The JXTA protocols do not specify how codats are replicated. This
+    decision is left to higher-level content service managers.</para>
+  </section>
+</preface>

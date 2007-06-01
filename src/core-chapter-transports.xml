@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<chapter id="core-trans">
+  <title id="core-trans-title">Core JXTA Message Transport Bindings</title>
+  <section id="trans-endpt">
+    <title id="trans-endpt-title">Endpoint Service</title>
+    <section id="trans-endpt-desc">
+      <title>Description</title>
+      <para>The Endpoint Service is responsible for performing end-to-end
+      messaging between two JXTA peers, using one of the underlying JXTA
+      transport protocols, such as the JXTA TCP or HTTP bindings.</para>
+      <para>The Endpoint Service is primarily used by other services or
+      applications that need to have an understanding of the network topology,
+      such as the Resolver Service or the Propagation Service.</para>
+      <para>The Endpoint Service is not responsible for routing messages for
+      peers that are not directly connected to each other. This task is
+      performed by the 
+      <xref linkend="trans-router" endterm="trans-router-title" />which
+      provides the illusion that the source and destination peers are directly
+      connected.</para>
+    </section>
+    <section id="trans-endpt-protocol">
+      <title>Protocol</title>
+      <para>When the Endpoint Service transmits a message it 
+      <phrase role="rfc2119">may</phrase> add a single element to the message:
+      the source peer ID.</para>
+      <para>The element name is: 
+      <constant>jxta:EndpointHeaderSrcPeer</constant>and its value is a textual
+      UTF-8 representation of the peer ID at the point of emission of the
+      message. This information is optional and is used by the emitter endpoint
+      service itself to detect and eliminate progagated messages that loop back
+      to the emitter.</para>
+      <para>If this element is not present the message is assumed to not be
+      looping back.</para>
+      <para>The endpoint service expects incoming and outgoing messages to have
+      a source address and a destination address. The encapsulation of that
+      information is specified by the message wire format being used.</para>
+      <para>Two additional common elements are optionally used by Message 
+      Transports in conjunction with the Endpoint Service. Message Transports
+      <phrase role="rfc2119">may</phrase> typically provide received messages to
+      the Endpoint Service containing these elements and the Endpoint service
+      will dispatch the messages based upon their content. Message Transports
+      <phrase role="rfc2119">may</phrase> use alternate mechanisms for
+      determining message source and destination addresses and need not use
+      these elements.</para>
+      <para>The <constant>jxta:EndpointSourceAddress</constant> contains an 
+      Endpoint Address for the source of this message. The source address has a 
+      variety of meanings based upon the usage of the underlying Message 
+      Transport. For low level transports such as <acronym>TCP</acronym> or 
+      <acronym>HTTP</acronym> the source address is the return address of the 
+      peer from which the message was received, ie. the hop address. For higher
+      level Message Transports such as the Endpoint Router Transport or the
+      <acronym>TLS</acronym> transport the source addresss is the virtual
+      Endpoint Address of the peer which originated the message regardless of
+      any intervening hops the message may have made.
+      </para>
+      <para>The <constant>jxta:EndpointDestinationAddress</constant> contains
+      an Endpoint Address which will be used by the Endpoint Service to dispatch
+      a received message to the recipient specified by the service name and
+      service parameter. The protocol address is also provided to the recipient
+      service and can be used in some protocols for determining how the message
+      was received. For example a service may wish to handle messages which were
+      sent directly differently than messages which were sent via propagation.
+      </para>
+    </section>
+  </section>
+  <section id="trans-router">
+    <title id="trans-router-title">Endpoint Router Transport Protocol</title>
+    <section id="trans-router-descr">
+      <title>Description</title>
+      <para>The Endpoint Router is a logical JXTA Transport Protocol that sits
+      below the Endpoint Service and beside the other Transport Protocols such
+      as the JXTA TCP and HTTP Transport Protocols.</para>
+      <para>The Endpoint Router is responsible for exchanging messages between
+      peers that do not have a direct connection between each other. The
+      Endpoint Router provides a virtual direct connection to the peer's
+      Endpoint Service.</para>
+    </section>
+    <section id="trans-router-proto">
+      <title>Protocol</title>
+      <para>The Endpoint Router protocol defines a set of queries and responses
+      used to communicate with instances of the Endpoint Router on other
+      peers.</para>
+      <itemizedlist>
+        <listitem>
+          <simpara>Route Query: when the Endpoint Router is requested to send a
+          message to a peer for which it does not have yet a route for, it
+          sends a Route Query request to other peers. Peers that have an route
+          for the given peer answers with Route Response.</simpara>
+        </listitem>
+        <listitem>
+          <simpara>Route Response: a peer that desires inform another peer
+          about a give route sends a Route Response to the peer. A Route
+          Response is replied following up a Route Query.</simpara>
+        </listitem>
+      </itemizedlist>
+      <para>In addition, the Endpoint Router defines an informational message
+      that requires no reply.</para>
+      <itemizedlist>
+        <listitem>
+          <simpara>NACK: a NACK is sent by any peer that detects that a route
+          used by another peer is not valid. Typically, this happens by a
+          router peer that are requested to route a message to peer for which
+          it does not have a route itself. NACK messages are optional: routers
+          are not required to send them, and while a NACK is typically sent to
+          the source peer of the message, peers can send NACK to other peers of
+          their choice.</simpara>
+        </listitem>
+      </itemizedlist>
+      <para>These messages are sent and received by the EndpointRouter using
+      the JXTA Resolver Service.</para>
+    </section>
+    <section id="trans_router_msg">
+      <title>EndpointRouter Message Element</title>
+      <para>The Endpoint Router Transport Protocol appends its own message
+      element to each message it transports. The name of the message element is
+      
+      <constant>JxtaEndpointRouter</constant>and contains an XML document
+      containing the following:</para>
+      <figure id="feprme">
+        <title>Endpoint Router Message Element</title>
+        <programlisting>
+<![CDATA[<xs:element name="ERM" type="jxta:ERM"/>
+
+<xs:complexType name="ERM">
+    <xs:sequence>
+        <xs:element name="Src" type="jxta:JXTAID" />
+        <xs:element name="Dest" type="xs:anyURI" />
+        <xs:element name="LastHop" minOccurs="0" type="jxta:JXTAID" />
+        <xs:element name="Fwd">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element ref="jxta:APA" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:complexType>
+        </xs:element>
+        <xs:element name="Rvs" minOccurs="0">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element ref="jxta:APA" maxOccurs="unbounded" />
+                </xs:sequence>
+            </xs:complexType>
+        </xs:element>
+    </xs:sequence>
+</xs:complexType>]]>
+</programlisting>
+      </figure>
+      <variablelist>
+        <varlistentry>
+          <term>
+            <sgmltag class="starttag">Src</sgmltag>
+          </term>
+          <listitem>
+            <simpara>The peer id of the originator of this message.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <sgmltag class="starttag">Dest</sgmltag>
+          </term>
+          <listitem>
+            <simpara>The Endpoint Address of the intended final destination of
+            this message. Includes final routing information of the service
+            name and service parameter.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <sgmltag class="starttag">LastHop</sgmltag>
+          </term>
+          <listitem>
+            <simpara>The peer id of the most recent peer to forward
+            this message. When a peer forwards a message, it 
+            <phrase role="rfc2119">should</phrase> update this field with its
+            own Endpoint Address.</simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <sgmltag class="starttag">Fwd</sgmltag>
+          </term>
+          <listitem>
+            <simpara>A loosely ordered list of Access Point Advertisements
+            which describe a probable route for this message. Loosely ordered
+            because it may describe alternative routes. In order to route the
+            message peers should scan the list for the <emphasis>last</emphasis>
+            peer for which they recognize and route message via that peer.
+            </simpara>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <sgmltag class="starttag">Rvs</sgmltag>
+          </term>
+          <listitem>
+            <simpara>An ordered array of Access Point Advertisements
+            which describe the known reverse route for this message. This is the
+            path which the message has traveled thus far. Due to unidirectional
+            links this route <phrase role="rfc2119">may</phrase> not be suitable
+            for sending response messages.</simpara>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <section id="trans-router-addr">
+        <title>EndpointRouter Endpoint Address format</title>
+        <para>Since the EndpointRouter is a transport protocol, it has its own
+        Endpoint Address format, which is:</para>
+        <figure id="fjera">
+          <title id="fjera-title">JXTA Endpoint Router Address Format</title>
+          <programlisting>jxta://<emphasis>[PeerID unique value]</emphasis></programlisting>
+        </figure>
+      </section>
+    </section>
+  </section>
+</chapter>

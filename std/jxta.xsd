@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+Copyright © 2002-2006 Sun Microsystems, Inc. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met: 
+
+1. Redistributions of source code must retain the above copyright notice, this 
+list of conditions and the following disclaimer. 
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+this list of conditions and the following disclaimer in the documentation and/or 
+other materials provided with the distribution. 
+
+3. The end-user documentation included with the redistribution, if any, must 
+include the following acknowledgment: "This product includes software developed 
+by the Sun Microsystems, Inc. for Project JXTA." Alternately, this 
+acknowledgment may appear in the software itself, if and wherever such 
+third-party acknowledgments normally appear. 
+
+4. The names "Sun" "Sun Microsystems, Inc." "JXTA" and "Project JXTA" must not 
+be used to endorse or promote products derived from this software without prior 
+written permission. For written permission, please contact Project JXTA at the 
+Project JXTA homepage <http://www.jxta.org>
+
+5. Products derived from this software may not be called "JXTA" nor may "JXTA" 
+appear in their name, without prior written permission of Sun. 
+
+THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, 
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
+FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SUN 
+MICROSYSTEMS INCORPORATED OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+This software consists of voluntary contributions made by many individuals on 
+behalf of Project JXTA. For more information on Project JXTA, please see the 
+Project JXTA homepage <http://www.jxta.org>
+
+This license is based on the BSD license adopted by the Apache Foundation. 
+
+$Id: jxta.xsd,v 1.25 2007/05/17 20:32:25 bondolo Exp $
+
+-->
+<!DOCTYPE xs:schema SYSTEM "http://www.w3.org/2001/XMLSchema.dtd">
+
+<xs:schema xmlns:jxta="http://jxta.org" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://jxta.org">
+    <xs:annotation>
+        <xs:documentation xml:lang="en">Primary Schema for JXTA 2.0
+
+            Types which begin in Capitals are the primary types. 
+
+            Types which begin in lowercase are types which are used internally. 
+    
+            See http://spec.jxta.org for more info.
+
+            TODO : - could also add checking for 'jxta' and 'uuid' id formats.
+        </xs:documentation>
+    </xs:annotation>
+    
+    <!-- Normative JXTA 2.0 Types -->
+
+    <xs:element name="JXTAID" type="jxta:JXTAID" />
+    <xs:element name="Cred" type="jxta:Cred" />
+    <xs:element name="PA" type="jxta:PA" />
+    <xs:element name="PGA" type="jxta:PGA" />
+    <xs:element name="MCA" type="jxta:MCA" />
+    <xs:element name="MIA" type="jxta:MIA" />
+    <xs:element name="MSA" type="jxta:MSA" />
+    <xs:element name="DiscoveryQuery" type="jxta:DiscoveryQuery" />
+    <xs:element name="DiscoveryResponse" type="jxta:DiscoveryResponse" />
+    <xs:element name="ResolverQuery" type="jxta:ResolverQuery" />
+    <xs:element name="ResolverResponse" type="jxta:ResolverResponse" />
+    <xs:element name="ResolverSRDI" type="jxta:ResolverSRDI" />
+    <xs:element name="RendezVousPropagateMessage" type="jxta:RendezVousPropagateMessage" />
+    <xs:element name="PeerInfoQueryMessage" type="jxta:PeerInfoQueryMessage" />
+    <xs:element name="PeerInfoResponseMessage" type="jxta:PeerInfoResponseMessage" />
+    <xs:element name="PipeAdvertisement" type="jxta:PipeAdvertisement" />
+    <xs:element name="RdvAdvertisement" type="jxta:RdvAdvertisement" />
+    <xs:element name="RA" type="jxta:RA" />
+    <xs:element name="APA" type="jxta:APA" />
+    <xs:element name="ERQ" type="jxta:ERQ" />
+    <xs:element name="ERR" type="jxta:ERR" />
+    <xs:element name="ERM" type="jxta:ERM" />
+    <xs:element name="PipeResolver" type="jxta:PipeResolver" />
+    <xs:element name="JxtaWire" type="jxta:JxtaWire" />
+    <xs:element name="LimitedRangeRdvMessage" type="jxta:LimitedRangeRdvMessage" />
+
+    
+    <!-- non-Normative JXTA 3.0 (still being defined) Types -->
+    
+    <xs:element name="RdvDiffusion" type="jxta:RdvDiffusion" />    
+    <xs:element name="LeaseRequestMessage" type="jxta:LeaseRequestMessage" />    
+    <xs:element name="LeaseResponseMessage" type="jxta:LeaseResponseMessage" />    
+
+
+    <!-- Non-normative Reference Impelemntation Configuration Advertisements -->
+    
+    <xs:element name="RdvConfig" type="jxta:RdvConfig" />
+
+    
+     <!-- Normative JXTA 1.0/2.0 Types -->
+
+    <xs:simpleType name="uuid">
+            <xs:annotation>
+                    <xs:documentation>A DCE UUID.</xs:documentation>
+            </xs:annotation>
+            <xs:restriction base="xs:string">
+                <!-- Could further restrict this with a pattern. -->
+                    <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+                    <xs:length value="36" fixed="true"/>
+            </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="JXTAID">
+        <xs:restriction base="xs:anyURI">
+            <xs:pattern value="([uU][rR][nN]:[jJ][xX][tT][aA]:).+\-.+" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="serviceParam">
+        <xs:sequence>
+            <xs:element name="MCID" type="jxta:JXTAID" />
+            <xs:element name="Parm" type="xs:anyType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Cred">
+        <xs:all>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="PA">
+        <xs:sequence>
+            <xs:element name="PID" type="jxta:JXTAID" />
+            <xs:element name="GID" type="jxta:JXTAID" />
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+            <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+            <xs:element name="Svc" type="jxta:serviceParam" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PGA">
+        <xs:sequence>
+            <xs:element name="GID" type="jxta:JXTAID" />
+            <xs:element name="MSID" type="jxta:JXTAID" />
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+            <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+            <xs:element name="Svc" type="jxta:serviceParam" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MCA">
+        <xs:sequence>
+            <xs:element name="MCID" type="jxta:JXTAID" />
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+            <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MSA">
+        <xs:sequence>
+            <xs:element name="MSID" type="jxta:JXTAID" />
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+            <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+            <xs:element name="Crtr" type="xs:string" minOccurs="0" />
+            <xs:element name="SURI" type="xs:anyURI" minOccurs="0" />
+            <xs:element name="Vers" type="xs:string" />
+            <xs:element name="Parm" type="xs:anyType" minOccurs="0" />
+            <xs:element ref="jxta:PipeAdvertisement" minOccurs="0" />
+            <xs:element name="Proxy" type="xs:anyURI" minOccurs="0" />
+            <xs:element name="Auth" type="jxta:JXTAID" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="MIA">
+        <xs:sequence>
+            <xs:element name="MSID" type="jxta:JXTAID" />
+            <xs:element name="Comp" type="xs:anyType" />
+            <xs:element name="Code" type="xs:anyType" />
+            <xs:element name="PURI" type="xs:anyURI" minOccurs="0" />
+            <xs:element name="Prov" type="xs:string" minOccurs="0" />
+            <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+            <xs:element name="Parm" type="xs:anyType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PipeAdvertisement">
+        <xs:sequence>
+            <xs:element name="Id" type="jxta:JXTAID" />
+            <xs:element name="Type" type="xs:string" />
+            <xs:element name="Name" type="xs:string" minOccurs="0" />
+            <xs:element name="Desc" type="xs:anyType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResolverQuery">
+        <xs:sequence>
+            <xs:element ref="jxta:Cred" minOccurs="0" />
+            <xs:element name="SrcPeerID" type="jxta:JXTAID" />
+            <!-- This could be extended with a pattern restriction -->
+            <xs:element name="HandlerName" type="xs:string" />
+            <xs:element name="QueryID" type="xs:string" />
+            <xs:element name="HC" type="xs:unsignedInt" />
+            <xs:element name="Query" type="xs:anyType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResolverResponse">
+        <xs:sequence>
+            <xs:element ref="jxta:Cred" minOccurs="0" />
+            <xs:element name="ResPeerID" type="jxta:JXTAID" minOccurs="0"/>
+            <xs:element name="HandlerName" type="xs:string" />
+            <xs:element name="QueryID" type="xs:string" />
+            <xs:element name="Response" type="xs:anyType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResolverSRDI">
+        <xs:sequence>
+            <xs:element ref="jxta:Cred" minOccurs="0" />
+            <xs:element name="HandlerName" type="xs:string" />
+            <xs:element name="Payload" type="xs:anyType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="DiscoveryQueryType">
+        <xs:restriction base="xs:string">
+            <!-- peer -->
+            <xs:enumeration value="0" />
+            <!-- group -->
+            <xs:enumeration value="1" />
+            <!-- adv -->
+            <xs:enumeration value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="DiscoveryQuery">
+        <xs:sequence>
+            <xs:element name="Type" type="jxta:DiscoveryQueryType" />
+            <xs:element name="Threshold" type="xs:unsignedInt" minOccurs="0" />
+            <xs:element name="Attr" type="xs:string" minOccurs="0" />
+            <xs:element name="Value" type="xs:string" minOccurs="0" />
+            <!-- The following should refer to a peer adv, but is instead a whole doc for historical reasons -->
+            <xs:element name="PeerAdv" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DiscoveryResponse">
+        <xs:sequence>
+            <xs:element name="Type" type="jxta:DiscoveryQueryType" />
+            <xs:element name="Count" type="xs:unsignedInt" minOccurs="0" />
+            <xs:element name="Attr" type="xs:string" minOccurs="0" />
+            <xs:element name="Value" type="xs:string" minOccurs="0" />
+            <!-- The following should refer to a peer adv, but is instead a whole doc for historical reasons -->
+            <xs:element name="PeerAdv" minOccurs="0">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="Expiration" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Response" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="Expiration" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RdvAdvertisement">
+        <xs:sequence>
+            <xs:element name="RdvGroupId" type="jxta:JXTAID" />
+            <xs:element name="RdvPeerId" type="jxta:JXTAID" />
+            <xs:element name="RdvServiceName" type="xs:string" />
+            <xs:element name="Name" type="xs:string" />
+            <!-- This should be a route -->
+            <xs:element name="RdvRoute" type="jxta:RA" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RendezVousPropagateMessage">
+        <xs:sequence>
+            <xs:element name="MessageId" type="xs:string" />
+            <!-- This should be a constrained subtype -->
+            <xs:element name="DestSName" type="xs:string" />
+            <xs:element name="DestSParam" type="xs:string" />
+            <xs:element name="TTL" type="xs:unsignedInt" />
+            <xs:element name="Path" type="jxta:JXTAID" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PeerInfoQueryMessage">
+        <xs:sequence>
+            <xs:element name="sourcePid" type="jxta:JXTAID" />
+            <xs:element name="targetPid" type="jxta:JXTAID" />
+            <!-- if not present then the response is the general peerinfo -->
+            <xs:element name="request" type="xs:anyType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PeerInfoResponseMessage">
+        <xs:sequence>
+            <xs:element name="sourcePid" type="jxta:JXTAID" />
+            <xs:element name="targetPid" type="jxta:JXTAID" />
+            <xs:element name="uptime" type="xs:unsignedLong" minOccurs="0" />
+            <xs:element name="timestamp" type="xs:unsignedLong" minOccurs="0" />
+            <xs:element name="response" type="xs:anyType" minOccurs="0" />
+            <xs:element name="traffic" type="jxta:piptraffic" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="piptraffic">
+        <xs:sequence>
+            <xs:element name="lastIncomingMessageAt" type="xs:unsignedLong" minOccurs="0" />
+            <xs:element name="lastOutgoingMessageAt" type="xs:unsignedLong" minOccurs="0" />
+            <xs:element name="in" type="jxta:piptrafficinfo" minOccurs="0" />
+            <xs:element name="out" type="jxta:piptrafficinfo" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="piptrafficinfo">
+        <xs:sequence>
+            <xs:element name="transport" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:unsignedLong">
+                            <xs:attribute name="Expiration" type="xs:anyURI" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PipeResolverMsgType">
+        <xs:restriction base="xs:string">
+            <!-- QUERY -->
+            <xs:enumeration value="Query" />
+            <!-- ANSWER -->
+            <xs:enumeration value="Answer" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="PipeResolver">
+        <xs:sequence>
+            <xs:element name="MsgType" type="jxta:PipeResolverMsgType" />
+            <xs:element name="PipeId" type="jxta:JXTAID" />
+            <xs:element name="Type" type="xs:string" />
+            <!-- used in the query -->
+            <xs:element name="Cached" default="true" minOccurs="0" type="xs:boolean" />
+            <xs:element name="Peer" minOccurs="0" maxOccurs="unbounded" type="jxta:JXTAID" />
+            <!-- used in the answer -->
+            <xs:element name="Found" minOccurs="0" type="xs:boolean" />
+            <!-- This should refer to a peer adv, but is instead a whole doc -->
+            <xs:element name="PeerAdv" minOccurs="0" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="APA">
+        <xs:sequence>
+            <xs:element name="PID" type="jxta:JXTAID" minOccurs="0"/>
+            <xs:sequence>
+                <xs:element name="EA" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RA">
+        <xs:sequence>
+            <xs:element name="DstPID" type="jxta:JXTAID" minOccurs="0"/>
+            <xs:element name="Dst">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:APA" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Hops" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:APA" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ERQ">
+        <xs:sequence>
+            <xs:element name="Dst" type="jxta:JXTAID" />
+            <xs:element name="Src">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:RA" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ERR">
+        <xs:sequence>
+            <xs:element name="Dst">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:RA" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Src">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:RA" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ERM">
+        <xs:sequence>
+            <xs:element name="Src" type="jxta:JXTAID" />
+            <xs:element name="Dest" type="xs:anyURI" />
+            <xs:element name="LastHop" minOccurs="0" type="jxta:JXTAID" />
+            <xs:element name="Fwd">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:APA" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Rvs" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="jxta:APA" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="JxtaWire">
+        <xs:sequence>
+            <xs:element name="SrcPeer" minOccurs="0" type="jxta:JXTAID" />
+            <xs:element name="PipeId" type="jxta:JXTAID" />
+            <xs:element name="MsgId" type="xs:string" /> <!-- actually a UUID -->
+            <xs:element name="TTL" type="xs:unsignedInt" />
+            <xs:element name="VisitedPeer" type="jxta:JXTAID" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+  
+    <xs:simpleType name="WalkDirection">
+        <xs:restriction base="xs:unsignedInt">
+            <!-- UP -->
+            <xs:enumeration value="1" />
+            <!-- DOWN -->
+            <xs:enumeration value="2" />
+            <!-- BOTH -->
+            <xs:enumeration value="3" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="LimitedRangeRdvMessage">
+        <xs:sequence>
+            <xs:element name="TTL" type="xs:unsignedInt" />
+            <xs:element name="Dir" type="jxta:WalkDirection" />
+            <xs:element name="SrcPeerID" type="jxta:JXTAID" />
+            <xs:element name="SrcSvcName" type="xs:string" />
+            <xs:element name="SrcSvcParams" minOccurs="0" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <!-- non-Normative JXTA 3.0 (still being defined) Types -->
+    
+    <xs:complexType name="LeaseRequestMessage">
+        <xs:sequence>
+            <xs:element name="Credential" type="jxta:Cred" />
+            <xs:element name="ClientAdv" minOccurs="0" >
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension  base="jxta:PA">
+                            <xs:attribute name="expiration" use="required" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Option" minOccurs="0" maxOccurs="unbounded" type="xs:anyType" />
+        </xs:sequence>
+        <xs:attribute name="client_id" use="required" type="jxta:JXTAID" />
+        <xs:attribute name="requested_lease" type="xs:unsignedLong" />
+        <xs:attribute name="server_adv_gen" type="jxta:uuid" />
+        <xs:attribute name="referral_advs" type="xs:unsignedInt" />
+    </xs:complexType>
+
+    <xs:complexType name="LeaseResponseMessage">
+        <xs:sequence>
+           <xs:element name="Credential" type="jxta:Cred" />
+            <xs:element name="ServerAdv" minOccurs="0" >
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension  base="jxta:PA">
+                            <xs:attribute name="adv_gen" use="required" type="jxta:uuid" />
+                            <xs:attribute name="expiration" use="required" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ReferralAdv" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension  base="jxta:PA">
+                            <xs:attribute name="adv_gen" type="jxta:uuid" />
+                            <xs:attribute name="expiration" use="required" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Option" minOccurs="0" maxOccurs="unbounded" type="xs:anyType" />
+          </xs:sequence>
+        <xs:attribute name="server_id" use="required" type="jxta:JXTAID" />
+        <xs:attribute name="offered_lease" type="xs:unsignedLong" />
+    </xs:complexType>
+ 
+     <xs:simpleType name="RdvDiffusionPolicy">
+        <xs:restriction base="xs:unsignedInt">
+            <!-- BROADCAST -->
+            <xs:enumeration value="0" />
+            <!-- MULTICAST -->
+            <xs:enumeration value="1" />
+            <!-- TRAVERSAL -->
+            <xs:enumeration value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+
+     <xs:simpleType name="RdvDiffusionScope">
+        <xs:restriction base="xs:unsignedInt">
+            <!-- GLOBAL -->
+            <xs:enumeration value="0" />
+            <!-- LOCAL -->
+            <xs:enumeration value="1" />
+            <!-- TERMINAL -->
+            <xs:enumeration value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="RdvDiffusion">
+        <xs:sequence>
+            <xs:element name="TargetHash" minOccurs="0" type="xs:string" />
+            <xs:element name="DestSvcName" type="xs:string" />
+            <xs:element name="DestSvcParam" minOccurs="0" type="xs:string" />
+          </xs:sequence>
+        <xs:attribute name="src_id" use="required" type="jxta:JXTAID" />
+        <xs:attribute name="policy" use="required" type="jxta:RdvDiffusionPolicy" />
+        <xs:attribute name="scope" use="required" type="jxta:RdvDiffusionScope" />
+        <xs:attribute name="ttl" type="xs:unsignedInt" />
+    </xs:complexType> 
+
+    <xs:complexType name="PeerviewPing">
+        <xs:sequence>
+            <xs:element name="Credential" type="jxta:Cred" />
+             <xs:element name="Option" minOccurs="0" maxOccurs="unbounded" type="xs:anyType" />
+       </xs:sequence>
+        <xs:attribute name="src_id" use="required" type="jxta:JXTAID" />
+        <xs:attribute name="dst_id" type="jxta:JXTAID" />
+        <xs:attribute name="dst_ea" type="xs:anyURI" />
+        <xs:attribute name="dst_adv_gen" type="jxta:uuid" />
+    </xs:complexType>
+
+    <xs:complexType name="PeerviewPong">
+        <xs:sequence>
+            <xs:element name="Credential" type="jxta:Cred" />
+            <xs:element name="InstanceMask" type="xs:string" />
+            <xs:element name="TargetHash">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="radius" use="required" type="xs:positiveInteger" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Adv" minOccurs="0">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension  base="jxta:PA">
+                            <xs:attribute name="adv_gen" use="required" type="jxta:uuid" />
+                            <xs:attribute name="expiration" use="required" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ClusterMember" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="TargetHash" minOccurs="0">
+                            <xs:complexType>
+                                <xs:simpleContent>
+                                    <xs:extension base="xs:string">
+                                        <xs:attribute name="radius" use="required" type="xs:positiveInteger" />
+                                    </xs:extension>
+                                </xs:simpleContent>
+                            </xs:complexType>
+                        </xs:element>
+                   </xs:sequence>
+                   <xs:attribute name="peer_id" use="required" type="jxta:JXTAID" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Partner" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="TargetHash" minOccurs="0">
+                            <xs:complexType>
+                                <xs:simpleContent>
+                                    <xs:extension base="xs:string">
+                                        <xs:attribute name="radius" use="required" type="xs:positiveInteger" />
+                                    </xs:extension>
+                                </xs:simpleContent>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="peer_id" use="required" type="jxta:JXTAID" />
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Option" minOccurs="0" maxOccurs="unbounded" type="xs:anyType" />
+        </xs:sequence>
+        <xs:attribute name="peer_id" use="required" type="jxta:JXTAID" />
+    </xs:complexType>
+    
+    <xs:complexType name="PeerviewAddressRequest">
+        <xs:sequence>
+            <xs:element name="Credential" type="jxta:Cred" />
+            <xs:element name="InstanceMask" type="xs:string" />
+            <xs:element name="CurrentTargetHash" minOccurs="0">
+                <xs:complexType>
+                    <xs:simpleContent>
+                        <xs:extension base="xs:string">
+                            <xs:attribute name="radius" use="required" type="xs:positiveInteger" />
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Adv">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension  base="jxta:PA">
+                            <xs:attribute name="adv_gen" use="required" type="jxta:uuid" />
+                            <xs:attribute name="expiration" use="required" type="xs:unsignedLong" />
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Option" minOccurs="0" maxOccurs="unbounded" type="xs:anyType" />
+       </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PeerviewAddressAssign">
+        <xs:sequence>
+            <xs:element name="Credential" type="jxta:Cred" />
+            <xs:element name="InstanceMask" type="xs:string" />
+            <xs:element name="TargetHash" type="xs:string" />
+            <xs:element name="Option" minOccurs="0" maxOccurs="unbounded" type="xs:anyType" />
+        </xs:sequence>
+        <xs:attribute name="peer_id" use="required" type="jxta:JXTAID" />
+    </xs:complexType>
+    
+    <!-- Non-normative Reference Impelemntation Configuration Advertisements -->
+    
+    <xs:simpleType name="RdvConfiguration">
+        <xs:restriction base="xs:string">
+            <!-- AD HOC -->
+            <xs:enumeration value="adhoc" />
+            <!-- client -->
+            <xs:enumeration value="client" />
+            <!-- client -->
+            <xs:enumeration value="rendezvous" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="RdvConfig">
+        <xs:sequence>
+            <xs:element name="seeds" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="addr" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:simpleContent>
+                                    <xs:extension base="jxta:JXTAID">
+                                        <xs:attribute name="seeding" type="xs:boolean" default="false"/>
+                                    </xs:extension>
+                                </xs:simpleContent>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="useOnlySeeds" type="xs:boolean" default="false"/>
+                    <xs:attribute name="connectDelay" type="xs:unsignedLong"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="config" type="jxta:RdvConfiguration"/>
+        <xs:attribute name="maxTTL" type="xs:unsignedInt"/>
+        <xs:attribute name="autoRendezvousInterval" type="xs:unsignedInt"/>
+        <xs:attribute name="probeRelays" type="xs:boolean" default="true"/>
+        <xs:attribute name="maxClients" type="xs:unsignedInt"/>
+        <xs:attribute name="leaseDuration" type="xs:unsignedLong"/>
+        <xs:attribute name="leaseMargin" type="xs:unsignedLong"/>
+        <xs:attribute name="minHappyPeerView" type="xs:unsignedInt"/>
+    </xs:complexType>
+
+</xs:schema>

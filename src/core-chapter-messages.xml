@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<chapter id="msgs"><title id="msgs-title">Messages</title>
+
+<section><title>Introduction</title>
+<para>Messages are the basic unit of data exchange between peers. Pipes send and 
+receive messages to and from services; any protocol implemented by a service 
+will send and receive messages. Messages are encoded using <quote>wire</quote> 
+representations for transmission. Each JXTA transport will use the message 
+representations most appropriate for its characteristics and the peers'
+preferences. See <xref linkend="msgs-fmts" endterm="msgs-fmts-title"/> for
+information about representations.</para>
+
+</section>
+
+ <!-- 1 Message -->
+
+<section><title>Message</title>
+
+<para>A message is a set of named and typed contents called elements.  Thus a 
+message is essentially a set of name/value pairs. The content can be an 
+arbitrary type. Many core services send XML advertisements as message element 
+contents.</para>
+
+<para>As a message passes down the JXTA protocol stack (applications, services, 
+endpoint and transports), each level may add one or more named elements to the 
+message. As a message is passed back up the stack on the receiving peer, the 
+protocol handlers <phrase role="rfc2119">should</phrase> remove those elements.
+</para>
+
+<para>A message is an ordered sequence of message elements. The most recently 
+added element appears at the end of the message.</para>
+
+</section>
+
+<!-- 2 Message -->
+
+<section><title>Element</title>
+
+<para>A message element contains a namespace, an optional name, an optional 
+type, an optional signature or digest and content.</para>
+
+  <!-- 2.1 Namespace -->
+
+<section id="msgs-namespace"><title id="msgs-namespace-title">Namespace</title>
+
+<para>Every element is assigned to a namespace. Namespaces are used to organize
+elements used by different message users and transports within the same message.
+</para>
+
+<para>Two namespaces names are considered equivalent if their representation in
+canonical UTF8 (NFC) (see <citetitle>Unicode Standard Annex #15 : Unicode 
+Normalization Forms</citetitle> <xref linkend="bib-USA15"/>) is byte-for-byte 
+identical.</para>
+
+<para>Two message element namespaces are pre-defined, <constant>""</constant> 
+(empty string) and <constant>jxta</constant>. The <constant>""</constant> 
+namespace is reserved for user applications and services--none of the JXTA protocols or 
+services will use or modify elements in this namespace.</para>
+
+<para>The <constant>jxta</constant> namespace is reserved for internal use by 
+the JXTA protocols and services. Applications 
+<phrase role="rfc2119">should not</phrase> create, manipulate or assume the 
+interpretation of any of the content of elements in the 
+<constant>jxta</constant> namespace. In some bindings, applications 
+<phrase role="rfc2119">may</phrase> be forbidden from accessing or creating 
+elements in the <constant>jxta</constant> namespace.
+</para>
+
+<para>Use of namespaces by services and applications other than the "" namespace 
+is <phrase role="rfc2119">optional</phrase>. Namespaces require no formal
+registration as the protocols used need only be agreed upon by the participants.
+</para>
+
+</section>
+
+  <!-- 2.1 Name -->
+
+<section id="msgs-name"><title id="msgs-name-title">Name</title>
+
+<para>Elements may have an optional name. Elements in the same
+message <phrase role="rfc2119">may</phrase> have the same name.</para>
+
+</section>
+
+  <!-- 2.2 Type -->
+
+  <section id="msgs-type"><title id="msgs-type-title">Type</title>
+
+  <para>A type is specified as a MIME type. See <xref linkend="bib-RFC2046"/>.  
+  The MIME type is encoded in canonical UTF8 (NFC) using the presentation
+		and encoding of 
+		<citetitle>Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</citetitle> 
+		<xref linkend="bib-RFC2046"/>, ie. any encoding specified by RFC 2046 is 
+		performed before the string is encoded into UTF8 from its native 
+		representation.</para>
+		
+		<para>The type is used by the applications and 
+  services that process the element.  There is no restriction on the set of MIME 
+  types that can be used by applications and services.  In addition to the 
+  applications and services which use the particular element, the type of the 
+  element may also be examined by the JXTA message transport to determine how to 
+		format the message element to ensure the most effcient transfer.</para>
+
+   <para>If the type is not specified for an element "application/octet-stream" 
+   is assumed.</para>
+
+  </section>
+
+  <!-- 2.3 Content -->
+
+  <section><title>Content</title>
+
+   <para>The contents of the Element data are opaque to except to the 
+   applications and services which use these elements.</para>
+
+  </section>
+
+ </section>
+
+</chapter>

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+ <bibliography>
+  <biblioentry id="bib-ISO11578" xreflabel="ISO11578">
+    <abbrev>ISO11578</abbrev>
+    <title>
+       Information Technology - Open Systems Interconnection - Remote Procedure Call (RPC)
+    </title>
+    <date>1996</date> 
+    <biblioset>
+      <title>ISO/IEC</title> 
+      <volumenum>11578:1996</volumenum> 
+    </biblioset>
+    <publisher>
+      <publishername>ISO (International Organization for Standardization)</publishername>
+    </publisher>
+  </biblioentry>
+
+	  <biblioentry id="bib-RFC821" xreflabel="RFC821">
+    <abbrev>RFC821</abbrev>
+    <title>
+      <ulink url="http://ietf.org/rfc/rfc821.txt">Simple Mail Transfer Protocol (SMTP)</ulink> 
+    </title>
+    <authorgroup>
+      <author>
+        <surname>Postel</surname>
+        <othername role="mi">B.</othername>
+	<firstname>Jonathan</firstname>
+        <affiliation>
+	  <orgname>
+		Information Sciences Institute
+		University of Southern California
+	</orgname>
+	</affiliation>
+      </author>
+    </authorgroup>
+    <date>August 1982</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>821</volumenum> 
+    </biblioset>
+    <publisher>
+      <publishername>Internet Engineering Task Force</publishername>
+    </publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-RFC1521" xreflabel="RFC1521">
+    <abbrev>RFC1521</abbrev>
+    <title>
+      <ulink url="http://ietf.org/rfc/rfc821.txt">Multipurpose Internet Mail Extensions (MIME) Part One: Mechanisms for Specifying and Describing the Format of Internet Message Bodies</ulink> 
+    </title>
+    <authorgroup>
+	<author>
+        <surname>Borenstein</surname><firstname>N.</firstname>
+        <affiliation><orgname>Bellcore</orgname></affiliation>
+      </author>
+      <author>
+        <surname>Freed</surname><firstname>N.</firstname>
+        <affiliation><orgname>Innosoft</orgname></affiliation>
+      </author>
+    </authorgroup>
+    <date>September 1993</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>1521</volumenum> 
+    </biblioset>
+    <publisher>
+      <publishername>Internet Engineering Task Force</publishername>
+    </publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-RFC2045" xreflabel="RFC2045">
+    <abbrev>RFC2045</abbrev>
+    <title>
+      <ulink url="http://ietf.org/rfc/rfc2046.txt">Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies</ulink> 
+    </title>
+    <authorgroup>
+      <author>
+        <surname>Freed</surname><firstname>N.</firstname>
+        <affiliation><orgname>Innosoft</orgname></affiliation>
+      </author>
+	<author>
+        <surname>Borenstein</surname><firstname>N.</firstname>
+        <affiliation><orgname>First Virtual</orgname></affiliation>
+      </author>
+    </authorgroup>
+    <date>November 1996</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2045</volumenum> 
+    </biblioset>
+    <publisher>
+      <publishername>Internet Engineering Task Force</publishername>
+    </publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-RFC2046" xreflabel="RFC2046">
+    <abbrev>RFC2046</abbrev>
+    <title>
+      <ulink url="http://ietf.org/rfc/rfc2046.txt">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</ulink> 
+    </title>
+    <authorgroup>
+      <author>
+        <surname>Freed</surname><firstname>N.</firstname>
+        <affiliation><orgname>Innosoft</orgname></affiliation>
+      </author>
+			<author>
+        <surname>Borenstein</surname><firstname>N.</firstname>
+        <affiliation><orgname>First Virtual</orgname></affiliation>
+      </author>
+    </authorgroup>
+    <date>November 1996</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2046</volumenum> 
+    </biblioset>
+    <publisher>
+      <publishername>Internet Engineering Task Force</publishername>
+    </publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-RFC2119" xreflabel="RFC2119">
+   <abbrev>RFC2119</abbrev>
+   <title>
+	<ulink url="http://ietf.org/rfc/rfc2119.txt">Key words for use in RFCs to Indicate Requirement Levels</ulink> 
+   </title>
+   <authorgroup>
+	<author>
+       <surname>Bradner</surname><firstname>S.</firstname>
+       <affiliation><orgname>Harvard University</orgname></affiliation>
+    </author>
+   </authorgroup>
+   <date>March 1997</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2119</volumenum> 
+    </biblioset>
+	<publisher>
+		<publishername>Internet Engineering Task Force</publishername>
+	</publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-RFC2141" xreflabel="RFC2141">
+   <abbrev>RFC2141</abbrev>
+   <title>
+	<ulink url="http://ietf.org/rfc/rfc2141.txt">URN Syntax</ulink> 
+   </title>
+   <authorgroup>
+    <author>
+    <surname>Moats</surname><firstname>R.</firstname>
+     <affiliation>
+      <shortaffil>AT&amp;T</shortaffil>
+      <orgname>AT&amp;T Corporation</orgname>
+					</affiliation>
+    </author>
+   </authorgroup>
+   <date>May 1997</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2141</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>Internet Engineering Task Force</publishername>
+			</publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-RFC2234" xreflabel="RFC2234">
+   <abbrev>RFC2234</abbrev>
+   <title>
+				<ulink url="http://ietf.org/rfc/rfc2234.txt">Augmented BNF for Syntax Specifications: ABNF</ulink> 
+			</title>
+			<authorgroup>
+				<author>
+					<surname>Overell</surname><firstname>P.</firstname>
+     <affiliation><orgname>Demon Internet Ltd.</orgname></affiliation>
+    </author>
+    <editor>
+					<surname>Crocker</surname><firstname>D.</firstname>
+     <affiliation><orgname>Internet Mail Consortium</orgname></affiliation>
+    </editor>
+   </authorgroup>
+   <date>November 1997</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2234</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>Internet Engineering Task Force</publishername>
+			</publisher>
+  </biblioentry>
+		
+  <biblioentry id="bib-RFC2246" xreflabel="RFC2246">
+   <abbrev>RFC2246</abbrev>
+   <title>
+				<ulink url="http://ietf.org/rfc/rfc2246.txt">The TLS Protocol : Version 1.0</ulink> 
+			</title>
+			<authorgroup>
+				<editor>
+					<surname>Dierks</surname><firstname>Tim</firstname>
+     <affiliation><orgname>Certicom</orgname></affiliation>
+    </editor>
+    <editor>
+					<surname>Allen</surname><firstname>Christopher</firstname>
+     <affiliation><orgname>Certicom</orgname></affiliation>
+    </editor>
+   </authorgroup>
+   <date>January 1999</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2246</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>Internet Engineering Task Force</publishername>
+			</publisher>
+  </biblioentry>
+		
+  <biblioentry id="bib-RFC2616" xreflabel="RFC2616">
+   <abbrev>RFC2616</abbrev>
+   <title>
+				<ulink url="http://ietf.org/rfc/rfc2616.txt">Hypertext Transfer Protocol -- HTTP/1.1</ulink> 
+			</title>
+			<authorgroup>
+				<author>
+					<surname>Fielding</surname>
+					<othername role="mi">T.</othername>
+					<firstname>Roy</firstname>
+     <affiliation>
+						<orgname>Uiversity of California Irvine</orgname>
+					</affiliation>
+    </author>
+				<author>
+					<surname>Gettys</surname>
+					<firstname>James</firstname>
+     <affiliation><orgname>World Wide Web Consortium</orgname></affiliation>
+    </author>
+				<author>
+					<surname>Mogul</surname>
+					<othername role="mi">C.</othername>
+					<firstname>Jeffrey</firstname>
+     <affiliation>
+						<orgname>Western Research Laboratory, Compaq computer Corporation</orgname>
+					</affiliation>
+    </author>
+				<author>
+					<surname>Nielsen</surname>
+					<othername role="mi">Frystyk</othername>
+					<firstname>Henrik</firstname>
+     <affiliation>
+						<orgname>World Wide Web Consortium</orgname>
+					</affiliation>
+    </author>
+				<author>
+					<surname>Masinter</surname>
+					<firstname>Larry</firstname>
+     <affiliation>
+						<orgname>Xerox Corporation</orgname>
+					</affiliation>
+    </author>
+   </authorgroup>
+   <date>June 1999</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>2616</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>Internet Engineering Task Force</publishername>
+			</publisher>
+  </biblioentry>
+		
+  <biblioentry id="bib-RFC3080" xreflabel="RFC3080">
+   <abbrev>RFC3080</abbrev>
+   <title>
+				<ulink url="http://ietf.org/rfc/rfc3080.txt">The Blocks Extensible Exchange Protocol Core</ulink> 
+			</title>
+			<authorgroup>
+				<author>
+					<surname>Rose</surname>
+					<othername role="mi">T.</othername>
+					<firstname>Marshall</firstname>
+     <affiliation><orgname>Invisible Worlds, Inc.</orgname></affiliation>
+    </author>
+   </authorgroup>
+   <date>March 2001</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>3080</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>Internet Engineering Task Force</publishername>
+			</publisher>
+  </biblioentry>
+		
+  <biblioentry id="bib-RFC3081" xreflabel="RFC3081">
+   <abbrev>RFC3081</abbrev>
+   <title>
+				<ulink url="http://ietf.org/rfc/rfc3081.txt">The Blocks Extensible Exchange Protocol Core</ulink> 
+			</title>
+			<authorgroup>
+				<author>
+					<surname>Rose</surname>
+					<othername role="mi">T.</othername>
+					<firstname>Marshall</firstname>
+     <affiliation><orgname>Invisible Worlds, Inc.</orgname></affiliation>
+    </author>
+   </authorgroup>
+   <date>March 2001</date> 
+    <biblioset>
+      <title>IETF RFC</title> 
+      <volumenum>3081</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>Internet Engineering Task Force</publishername>
+			</publisher>
+  </biblioentry>
+				
+  <biblioentry id="bib-USA15" xreflabel="USA15">
+   <abbrev>USA15</abbrev>
+   <title>
+				<ulink url="http://www.unicode.org/unicode/reports/tr15/">Unicode Standard Annex #15: Unicode Normalization Forms</ulink> 
+			</title>
+			<authorgroup>
+				<author>
+					<surname>Davis</surname>
+					<firstname>Mark</firstname>
+     <affiliation><orgname>International Business Machines</orgname></affiliation>
+    </author>
+				<author>
+					<surname>Dürst</surname>
+					<firstname>Martin</firstname>
+    </author>
+   </authorgroup>
+   <date>26 March 2002</date> 
+    <biblioset>
+      <title>Unicode Standard Annex</title> 
+      <volumenum>15</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>The Unicode Consortium</publishername>
+			</publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-USA28" xreflabel="USA28">
+   <abbrev>USA28</abbrev>
+   <title>
+				<ulink url="http://www.unicode.org/unicode/reports/tr28/tr28-3.html">Unicode Standard Annex #28: Unicode 3.2</ulink> 
+			</title>
+			<authorgroup>
+					<corpauthor>The Unicode Consortium</corpauthor>
+			</authorgroup>
+   <date>27 March 2002</date> 
+    <biblioset>
+      <title>Unicode Standard Annex</title> 
+      <volumenum>28</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>The Unicode Consortium</publishername>
+			</publisher>
+  </biblioentry>
+
+  <biblioentry id="bib-XML10" xreflabel="XML10">
+   <abbrev>XML10</abbrev>
+   <title>
+				<ulink url="http://www.w3.org/TR/REC-xml">Extensible Markup Language (XML) 1.0 (Second Edition)</ulink> 
+			</title>
+			<authorgroup>
+					<corpauthor>World Wide Web Consortium</corpauthor>
+			</authorgroup>
+   <date>6 October 2000</date> 
+    <biblioset>
+      <title>W3C Recommendation</title> 
+      <volumenum>2e</volumenum> 
+    </biblioset>
+			<publisher>
+				<publishername>World Wide Web Consortium</publishername>
+			</publisher>
+  </biblioentry>
+
+
+		<biblioentry id="bib-XSD2001-1" xreflabel="XSD2001-1">
+   <abbrev>XSD2001-1</abbrev>
+   <title>
+				<ulink url="http://www.w3.org/TR/xmlschema-1/">XML Schema Part 1: Structures</ulink> 
+			</title>
+			<authorgroup>
+				<editor>
+					<surname>Thompson</surname>
+					<othername role="mi">S.</othername>
+					<firstname>Henry</firstname>
+     <affiliation><orgname>University of Edinburgh</orgname></affiliation>
+    </editor>
+				<editor>
+					<surname>Beech</surname>
+					<firstname>David</firstname>
+     <affiliation><orgname>Oracle Corporation</orgname></affiliation>
+    </editor>
+				<editor>
+					<surname>Maloney</surname>
+						<firstname>Murray</firstname>
+     <affiliation><orgname>Commerce One</orgname></affiliation>
+    </editor>
+				<editor>
+					<surname>Mendelsohn</surname>
+					<firstname>Noah</firstname>
+     <affiliation><orgname>Lotus Development Corporation</orgname></affiliation>
+    </editor>
+   </authorgroup>
+   <date>2 May 2001</date> 
+			<publisher>
+				<publishername>W3C</publishername>
+			</publisher>
+  </biblioentry>
+
+		<biblioentry id="bib-XSD2001-2" xreflabel="XSD2001-2">
+   <abbrev>XSD2001-2</abbrev>
+   <title>
+				<ulink url="http://www.w3.org/TR/xmlschema-2/">XML Schema Part 2: Datatypes</ulink> 
+			</title>
+			<authorgroup>
+				<editor>
+					<surname>Biron</surname>
+					<othername role="mi">V.</othername>
+					<firstname>Paul</firstname>
+     <affiliation><orgname>Kaiser Permanente, for Health Level Seven</orgname></affiliation>
+    </editor>
+    <editor>
+					<surname>Malhotra</surname><firstname>Ashok</firstname>
+     <affiliation><orgname>Microsoft, formerly of IBM</orgname></affiliation>
+    </editor>
+   </authorgroup>
+    <date>2 May 2001</date> 
+			<publisher>
+				<publishername>W3C</publishername>
+			</publisher>
+  </biblioentry>
+
+ </bibliography>

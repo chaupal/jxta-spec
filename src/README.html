@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<HTML>
+  <HEAD>
+    <TITLE>How To Update the JXTA Spec Project Web Pages</TITLE>
+  </HEAD>
+  <BODY>
+    <H1><FONT COLOR="#800000">
+        How To Update the JXTA Spec Project Web Pages
+    </FONT></H1>
+    
+    <H2><FONT COLOR="#800000">Introduction</FONT></H2>
+
+    <P>This document describes the process you should follow in order
+      to update the JXTA Protocols Specifications Document.  The spec document
+      is maintained as a series of .xml documents in DocBook format.  There is
+      a seperate file for each section of the specifications document which are
+      then combined by a seperate document.
+
+    <P>The subset of DocBook tags used in the .xml files is somewhat minimal, making
+      it fairly easy to pick up the neccesary syntax by just reviewing the
+      current .xml files themselves.  Tables are a bit tricky, but otherwise the
+      the structure is straightforward.
+
+    <P>The .xml files are transformed into an HTML document using docbook-xsl 
+      stylesheets and an xslt processor.  The stylesheets and processor are not
+      included in the CVS repository but can be easily found on the web 
+      (see <A href="#references">References</A> below).  You must install the
+      docbook-xsl package in order to generate/build and html document.
+    
+    <P>
+    <H2><FONT COLOR="#800000">Steps</FONT></H2>
+    <OL>
+      <LI> CVS checkout the spec\www\v1.0\docboook module
+      <LI> create a symbolic link <tt>docbook-xsl</tt> in the docbook subdirectory pointing
+           to your local installation of the docbook-xsl files (ex: 
+           <tt>ln -s ~/packages/docbook-xsl-1.60.1 docbook-xsl</tt>)
+      <LI>Make your changes to the corresponding <b><i>section-name.xml</i></b> files.
+
+      <LI>If you are adding or deleting a new section of the overall document, update
+	the <b><i>book-JXTAProtocols.xml</i></b> file.
+
+      <LI>When you are ready to publish a new spec revision, update the 
+	<b><i>book-JXTAProtocols-revhistory.xml</i></b> file with the new version information.
+
+      <LI> Run the following command from the spec\www\v1.0\docbook directory:
+	<br><tt>xsltproc single-html.xsl book-JXTAProtocols.xml > JXTAProtocols.html</tt>
+        <br><i>or</i>
+   	<br><tt>java -cp xalan.jar;xerces.jar;xml-apis.jar org.apache.xalan.xslt.Process -IN book-JXTAProtocols.xml -XSL single-html.xsl -OUT JXTAProtocols.html</tt>
+
+      <LI>If the processing generates errors, more than likely you have created some
+	markup that is not compliant with the DocBook dtd.  Check you changes.  Try
+	to do a validation on the book-JXTAProtocols.xml file to spot errors.
+
+      <LI>Use CVS to commit your changes
+	
+      <LI>You're done!
+    </OL>
+
+    <P>
+    <H2><FONT COLOR="#800000">Notes:</FONT></H2>
+    <UL>
+      <LI>The above steps assume you are using <tt>xsltproc</tt> to build the .html 
+	document.  Other xslt engines should be able to do the transform as well.
+	My experience with <tt>xalan</tt> generated an html file with
+	very few CRLFs in the resulting document. <tt>xsltproc</tt> was also
+	significantly faster.
+      <LI>The <b><i>single-html.xsl</i></b> stylesheet above assumes you have 
+	installed the docbook-xsl package at the same directory level as
+	the .xml files.  If you have installed the package elsewhere, either :
+                <ul>
+                <li>Make a temporary change to the single-html.xsl file to reflect 
+                the location.</li>
+                <li>Create a directory link to the actual location.</li>
+                <li>Specify the location of the docbook-xsl via an XML Catalog
+                to your XSLT processor.</li></UL>
+      <LI>The build process will run significantly faster if the <tt>--nonet</tt>
+	option is added to the xsltproc command line.  However, the resulting
+	document will have problems with the internal footnote references and
+	is not suitable for publishing.  While very good for local testing, the
+	resulting html document should not be commited back to the CVS tree.
+      <LI>An alternative to the previous --nonet option is to bring the docbook
+	dtd files local and change the http reference in sections-combined.xsl
+	to reflect the local path.
+      <LI>The <b><i>single-html.xsl</i></b> generates a single large html file.  Work
+	is ongoing to generate a series separately linked html files.
+      <LI>The &lt;calloutlist&gt; tags present particularly in the section-protocols.xml
+	file are being used to annotate the spec document with differences against the
+	reference implementation.  The single-html.xsl file removes these annotations,
+	however they can be included by instead processing the single-html-callouts.xsl
+	file.
+    </UL>
+
+    <P>
+    <H2><FONT COLOR="#800000"><A name="references"></A>References:</FONT></H2>
+    <UL>
+      <LI>DocBook: The Definitive Guide - 
+         <A href="http://www.oasis-open.org/docbook/documentation/reference/html/docbook.html">
+         http://www.oasis-open.org/docbook/documentation/reference/html/docbook.html</A>
+      <LI>DocBook: Crash Course - <A href="http://www.caldera.de/~eric/crash-course/HTML/">DocBook Crash Course</A>
+      <LI>docbook-xsl - <A href="http://sourceforge.net/projects/docbook">
+          http://sourceforge.net/projects/docbook</A>
+      <LI>docbook DTDs - <A href="http://www.oasis-open.org/docbook/sgml/index.shtml">
+	http://www.oasis-open.org/docbook/sgml/index.shtml</A>
+      <LI>xsltproc - <A href="http://xmlsoft.org/XSLT/">http://xmlsoft.org/XSLT/</A>
+      <LI>xalan - <A href="http://xml.apache.org/xalan-j/index.html">
+	http://xml.apache.org/xalan-j/index.html</A>
+    </UL>
+
+    <i>$Revision: 1.7 $</i><BR/>
+    <i>$Date: 2005/10/05 17:22:02 $</i>
+</BODY>
+</HTML>

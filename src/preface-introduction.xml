@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<preface id="introduction">
+  <title id="introduction-title">Introduction</title>
+<section>
+    <title>Why JXTA?</title>
+    <para>The 
+    <firstterm linkend="gloss-jxta">JXTA</firstterm> 
+    Protocols comprise an open network computing platform designed
+    for peer-to-peer (P2P) computing. The set of generalized JXTA protocols enable
+    all connected devices on the network -- including cell phones, 
+    <acronym moreinfo="Personal Digital Assistant">PDA</acronym>s, PCs and
+    servers -- to communicate and collaborate as peers. 
+    The JXTA protocols enable developers to build and deploy
+    interoperable services and applications, further spring-boarding the 
+    peer-to-peer revolution on the Internet.</para>
+    <para>The JXTA protocols standardize the manner in which peers:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Discover each other</para>
+      </listitem>
+      <listitem>
+        <para>Self-organize into peer groups</para>
+      </listitem>
+      <listitem>
+        <para>Advertise and discover network resources</para>
+      </listitem>
+      <listitem>
+        <para>Communicate with each other</para>
+      </listitem>
+      <listitem>
+        <para>Monitor each other</para>
+      </listitem>
+    </itemizedlist>
+    <para>The JXTA protocols are designed to be independent of the 
+    underlying implementation. In particular, the JXTA protocols
+    <emphasis>do not</emphasis>:</para>
+    <itemizedlist>
+      <listitem>
+        <para>Require the use of any particular computer language or
+        operating system.</para>
+      </listitem>
+      <listitem>
+        <para>Require the use of any particular network transport or
+        topology.</para>
+      </listitem>
+      <listitem>
+        <para>Require the use of any particular authentication, security or
+        encryption model.</para>
+      </listitem>
+    </itemizedlist>
+    <para>JXTA provides a simple and generic P2P
+    platform with all the basic functions necessary to host all types of 
+    network services:</para>
+    <itemizedlist>
+      <listitem>
+        <para>JXTA is defined by a small number of protocols. Each protocol
+        is easy to implement and integrate into P2P services and
+        applications. Thus, service offerings from one vendor can be used
+        transparently by the user community of another vendor's
+        system.</para>
+      </listitem>
+      <listitem>
+        <para>The JXTA protocols are defined to be independent of programming
+        languages, so that they can be implemented in C/C++, Java, Perl, and
+        numerous other languages. Heterogeneous devices with completely
+        different software stacks can interoperate using the JXTA
+        protocols.</para>
+      </listitem>
+      <listitem>
+        <para>The JXTA protocols are designed to be independent of transport
+        protocols. They can be implemented on top of TCP/IP, HTTP, Bluetooth,
+        HomePNA, and many other protocols.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>The JXTA Protocols</title>
+    <para>The JXTA protocols are a set of
+    six protocols that have been specifically designed for ad hoc, pervasive,
+    and multi-hop peer-to-peer (P2P) network computing. Using the JXTA
+    protocols, peers can cooperate to form self-organized and self-configured
+    peer groups independent of their positions in the network (edges,
+    firewalls, network address translators, public vs. private address
+    spaces), and without the need of a centralized management
+    infrastructure.</para>
+    <para>The JXTA protocols are designed to 
+    have very low overhead, make few assumptions about the underlying
+    network transport and impose few requirements on the peer environment,
+    and yet are able to be used to deploy a wide variety of P2P applications
+    and services in a highly unreliable and changing network
+    environment.</para>
+    <para>Peers use the JXTA protocols to advertise their resources and to
+    discover network resources (services, pipes, etc.) available from other
+    peers. Peers form and join peer groups to create special relationships.
+    Peers cooperate to route messages allowing for full peer connectivity.
+    The JXTA protocols allow peers to communicate without the need to
+    understand or manage the potentially complex and dynamic network
+    topologies which are increasingly common.</para>
+    <para>The JXTA protocols allow peers to dynamically route messages across
+    multiple network hops to any destination in the network (potentially
+    traversing firewalls). Each message carries with it either a complete or
+    partially ordered list of gateway peers through which the message might
+    be routed. Intermediate peers in the route may assist the routing by
+    using routes they know of to shorten or optimize the route a message is
+    set to follow.</para>
+    <para>The JXTA protocols are composed of six protocols that work together
+    to allow the discovery, organization, monitoring and communication
+    between peers:</para>
+    <itemizedlist>
+      <listitem>
+        <simpara>
+        <xref linkend="proto-prp" endterm="proto-prp-title" /> 
+        (<acronym>PRP</acronym>) is the mechanism by which a peer can send a
+        query to one or more peers, and receive a response (or multiple
+        responses) to the query. The 
+        <acronym>PRP</acronym> implements a query/response protocol. The
+        response message is matched to the query via a unique id included in
+        the message body. Queries can be directed to the whole group or to
+        specific peers within the group.</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+        <xref linkend="proto-pdp" endterm="proto-pdp-title" />  
+        (<acronym>PDP</acronym>) is the mechanism by which a peer can
+        advertise its own resources, and discover the resources from other
+        peers (peer groups, services, pipes and additional peers). Every peer
+        resource is described and published using an advertisement.
+        Advertisements are programming language-neutral metadata structures
+        that describe network resources. Advertisements are represented as
+        XML documents.</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+        <xref linkend="proto-pip" endterm="proto-pip-title" /> 
+        (<acronym>PIP</acronym>) is the mechanism by a which a peer may obtain
+        status information about other peers. This can include
+        state, uptime, traffic
+        load, capabilities, and other information.</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+        <xref linkend="proto-pbp" endterm="proto-pbp-title" /> 
+        (<acronym>PBP</acronym>) is the mechanism by which a peer can
+        establish a virtual communication channel or pipe between one or more
+        peers. The PBP is used by a peer to bind two or more ends of the
+        connection (pipe endpoints). Pipes provide the foundation
+        communication mechanism between peers.</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+        <xref linkend="proto-erp" endterm="proto-erp-title" /> 
+        (<acronym>ERP</acronym>) is the mechanism by which a peer can discover
+        a route (sequence of hops) used to send a message to another peer. If
+        a peer 
+        <quote>A</quote>wants to send a message to peer 
+        <quote>C</quote>, and there is no known direct route between 
+        <quote>A</quote>and 
+        <quote>C</quote>, then peer 
+        <quote>A</quote>needs to find intermediary peer(s) who will route the
+        message to 
+        <quote>C</quote>. ERP is used to determine the route information.
+        If the network topology changes and makes a previously used route
+        unavailable, peers can use ERP to find an alternate route.</simpara>
+      </listitem>
+      <listitem>
+        <simpara>
+        <xref linkend="proto-rvp" endterm="proto-rvp-title" /> 
+        (<acronym>RVP</acronym>) is the mechanism by which peers can subscribe
+        or be a subscriber to a propagation service. Within a peer group,
+        peers can be either rendezvous peers or peers that are listening to
+        rendezvous peers. The Rendezvous Protocol allows a peer to send
+        messages to all the listening instances of the service. The RVP is
+        used by the Peer Resolver Protocol and by the Pipe Binding Protocol
+        in order to propagate messages.</simpara>
+      </listitem>
+    </itemizedlist>
+    <para>All of these protocols are implemented using a common messaging
+    layer. This messaging layer is what binds the JXTA protocols to various
+    network transports. (see 
+    <xref linkend="msgs" endterm="msgs-title" />)</para>
+    <para>Each of the JXTA protocols is independent of the others. A peer is
+    not required to implement all of the JXTA protocols to be a JXTA peer. A
+    peer only implements the protocols that it needs to use. For example:</para>
+    <itemizedlist>
+      <listitem>
+        <para>A device may have all the necessary advertisements it uses
+        pre-stored in memory, and therefore not need to implement the
+        Peer Discovery Protocol.</para>
+      </listitem>
+      <listitem>
+        <para>A peer may use a pre-configured set of router peers to route
+        all its messages. Because the peer just sends messages to the known
+        routers to be forwarded, 
+        it does not need to fully implement the
+        Endpoint Routing Protocol.</para>
+      </listitem>
+      <listitem>
+        <para>A peer may not need to obtain or wish to provide status
+        information to other peers, hence the peer might not implement the
+        Peer Information Protocol.</para>
+      </listitem>
+    </itemizedlist>
+    <para>Each peer must implement two protocols in order to
+    be addressable as a peer: the Peer Resolver Protocol and the Endpoint
+    Routing Protocol. These two protocols and the advertisements, services
+    and definitions they depend upon are known as the 
+    <firstterm linkend="gloss-jcs">JXTA Core Specification</firstterm>. The 
+    <xref linkend="core" endterm="core-title" /> establishes the base
+    infrastructure used by other services and applications.</para>
+    <para>The remaining JXTA protocols, services and advertisements are
+    optional. JXTA implementations are not required to provide these
+    services, but are strongly recommended to do so. Implementing these
+    services provides greater interoperability with other implementations
+    and broader functionality. These common JXTA services are known as the 
+    <firstterm linkend="gloss-jss">JXTA Standard Services</firstterm>.</para>
+    <figure id="intro-fjp">
+      <title id="intro-fjp-title">JXTA Protocols</title>
+      <mediaobject>
+    <!-- 
+       <imageobject>
+          <imagedata fileref="images/protocols_stack.svg" format="SVG" />
+        </imageobject>
+    -->
+        <textobject>
+          <programlisting>
+  +------------------------+     +------------------------+
+  |  +------------------+  |     |  +------------------+  |
+  |  | Peer Information | &lt;-------&gt; | Peer Information |  |
+  |  +------------------+  |     |  +------------------+  |
+  |                        |     |                        |
+  |  +------------------+  |     |  +------------------+  |
+  |  | Peer Rendezvous  | &lt;-------&gt; | Peer Rendezvous  |  |
+  |  +------------------+  |     |  +------------------+  |
+  |                        |     |                        |
+  |  +------------------+  |     |  +------------------+  |
+  |  | Pipe Binding     | &lt;-------&gt; | Pipe Binding     |  |
+  |  +------------------+  |     |  +------------------+  |
+  |                        |     |                        |
+  |  +------------------+  |     |  +------------------+  |
+  |  | Peer Discovery   | &lt;-------&gt; | Peer Discovery   |  |
+  |  +------------------+  |     |  +------------------+  |
+  |Peer                    |     |Peer                    |
+  +------------------------+     +------------------------+
+
+  +------------------------+     +------------------------+
+  |  +------------------+  |     |  +------------------+  |
+  |  | Peer Resolver    | &lt;-------&gt; | Peer Resolver    |  |
+  |  +------------------+  |     |  +------------------+  |
+  |                        |     |                        |
+  |  +------------------+  |     |  +------------------+  |
+  |  | Endpoint Routing | &lt;-------&gt; | Endpoint Routing |  |
+  |  +------------------+  |     |  +------------------+  |
+  |Endpoint                |     |Endpoint                |
+  +------------------------+     +------------------------+
+
+  +------------------------+     +------------------------+
+  |       Transport        |     |      Transport         |
+  +------------------------+     +------------------------+
+</programlisting>
+        </textobject>
+      </mediaobject>
+    </figure>
+    <para>A peer may decide to cache advertisements discovered via the Peer
+    Discovery Protocol for later usage. It is important to point out that
+    caching is not required by the JXTA architecture, but caching can be an
+    important optimization. By caching advertisements, a peer avoids
+    the need to perform a new discovery each time it accesses a network
+    resource. In highly-transient environment, performing the discovery is
+    the only viable solution. In static environments, caching is more
+    efficient.</para>
+    <para>A unique characteristic of P2P networks, like JXTA, is their
+    ability to spontaneously replicate information toward end-users. Popular
+    advertisements are likely to be replicated more often, making them easier
+    to find as more copies become available. Peers do not have to return to
+    the same peer to obtain the advertisements they seek.
+    Instead of querying the original source of an advertisement, peers may
+    query neighboring peers that have already cached the information. Each
+    peer may potentially become an advertisement provider to any other
+    peer.</para>
+    <para>The JXTA protocols have been designed to allow JXTA to be easily
+    implemented on uni-directional links and asymmetric transports. In
+    particular, many forms of wireless networking do not provide equal
+    capability for devices to send and receive. JXTA permits any
+    uni-directional link to be used when necessary, improving overall
+    performance and network connectivity in the system. The intent is for the
+    JXTA protocols to be as pervasive as possible, and easy to implement on
+    any transport. Implementations on reliable and bi-directional transports
+    such as TCP/IP or HTTP should lead to efficient bi-directional
+    communications.</para>
+    <para>The JXTA uni-directional and asymmetric transport also plays well
+    in multi-hop network environments where the message latency may be
+    difficult to predict. Furthermore, peers in a P2P network tend to have
+    nondeterministic behaviours. They may join or leave the network on a very
+    frequent basis.</para>
+  </section>
+  <section>
+    <title>The JXTA Three Layer Cake</title>
+    <para>The JXTA Project is logically divided in three layers.</para>
+    <itemizedlist>
+      <listitem>
+        <para><emphasis>Platform.</emphasis>  
+        This layer encapsulates minimal and essential
+        primitives that are common to P2P networking, including peers,
+        peer groups, discovery, communication, monitoring, and associated
+        security primitives. This layer is ideally shared by all P2P devices
+        so that interoperability becomes possible.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis>Services.</emphasis> 
+        This layer includes network services that may not be
+        absolutely necessary for a P2P network to operate but are common or
+        desirable for P2P environments. Examples of network
+        services include search and indexing, directory, storage systems,
+        file sharing, distributed file systems, resource aggregation and
+        renting, protocol translation, authentication and PKI
+        services.</para>
+      </listitem>
+      <listitem>
+        <para><emphasis>Applications.</emphasis> 
+        This layer includes P2P instant messaging,
+        entertainment content management and delivery, P2P E-mail systems,
+        distributed auction systems, and many others. Obviously, the boundary
+        between services and applications is not rigid. An application to one
+        customer can be viewed as a service to another customer.</para>
+      </listitem>
+    </itemizedlist>
+  </section>
+  <section>
+    <title>JXTA Assumptions</title>
+    <para>This section is a guide to the assumptions that shape the JXTA 
+    design. There are two types of assumptions stated here: those which
+    describe the requirements of JXTA implementations and those which
+    describe the expected behaviour of the JXTA network.</para>
+    <para>A peer 
+    <phrase role="rfc2119">shall not</phrase> make assumptions about the
+    runtime environments or programming languages in use by another peer. The
+    network of peers reachable by any peer is likely to contain many peers
+    with heterogeneous implementations and capabilities.</para>
+    <para>A peer 
+    <phrase role="rfc2119">should</phrase> assume that the capabilities and
+    complexity of the network peers supporting these protocols can range from
+    a single light switch to a highly-available supercomputer cluster.</para>
+    <para>A peer 
+    <phrase role="rfc2119">must</phrase> implement the JXTA protocols such
+    that all interaction with other peers is correct and conformant.</para>
+    <para>A peer 
+    <phrase role="rfc2119">may</phrase> implement only the JXTA protocols it
+    requires for correct and conformant interaction with other peers.</para>
+    <para>A peer 
+    <phrase role="rfc2119">may</phrase> choose to partially implement
+    protocols if unimplemented portions will never be used. (e.g. it may
+    implement client-side
+    or server-side portions only.)</para>
+    <para>Peers wishing to interact with other peers within the JXTA network 
+    <phrase role="rfc2119">should</phrase> be willing to participate fully in
+    the protocols. In particular, peers 
+    <phrase role="rfc2119">should</phrase> cache advertisements and forward
+    messages for other peers in the JXTA network. However, this participation is 
+    <phrase role="rfc2119">optional</phrase>.</para>
+    <para>The JXTA protocols 
+    <phrase role="rfc2119">may</phrase> be deployed over a wide variety of
+    network configurations including the Internet, corporate intranets, a
+    dynamic proximity network, or in a home networking environment.
+    Applications should avoid assumptions about the underlying network
+    environment.</para>
+    <para>Peers receiving a corrupted or detectably compromised message 
+    <phrase role="rfc2119">must</phrase> discard the message. Messages may be
+    corrupted or intentionally altered during network transmission.</para>
+    <para>Peers 
+    <phrase role="rfc2119">may</phrase> appear, disappear and migrate at any
+    time without notice. In particular, the JXTA protocols support very
+    arbitrary environment changes allowing a peer to dynamically discover and
+    reconnect to its changing environment.</para>
+    <para>The communication path between any pair of peers 
+    <phrase role="rfc2119">may</phrase> at times not work equally well in both
+    directions. That is, communications between two peers will in many cases
+    be able to operate bi-directionally, but at times the connection between
+    two peers may be only uni-directional, allowing one peer to successfully
+    send messages to the other while no communication is possible in the
+    reverse direction.</para>
+    <para>The JXTA protocols are defined as idempotent protocol exchanges.
+    The same messages 
+    <phrase role="rfc2119">may</phrase> be sent/received more than once 
+    during the course of a protocol exchange. No protocol states are required
+    to be maintained at both ends.</para>
+    <para>Due to unpredictability of P2P networks, assumptions 
+    <phrase role="rfc2119">must not</phrase> be made about the time required
+    for a message to reach a destination peer. The 
+    <xref linkend="core-proto" endterm="core-proto-title" />
+    <phrase role="rfc2119">must not</phrase> impose any timing requirements
+    for message receipt.</para>
+    <para>The JXTA Transport Protocols (see 
+    <xref linkend="core-trans" endterm="core-trans-title"/> and 
+    <xref linkend="stdsvc-trans" endterm="stdsvc-trans-title" />) 
+    <phrase role="rfc2119">must not</phrase> impose any timing requirements on
+    the 
+    <xref linkend="core-proto" endterm="core-proto-title" />, but 
+    <phrase role="rfc2119">may</phrase> have timing requirements internal to
+    themselves.</para>
+    <para>The 
+    <xref linkend="stdsvc-proto" endterm="stdsvc-proto-title" /> (e.g. 
+    <xref linkend="proto-pdp" endterm="proto-pdp-title" />, 
+    <xref linkend="proto-pip" endterm="proto-pip-title" />, 
+    <xref linkend="proto-pbp" endterm="proto-pdp-title" />, etc.) and
+    application defined protocols 
+    <phrase role="rfc2119">may</phrase> impose timing requirements on message
+    delivery and receipt.</para>
+    <para>A JXTA protocol message which is routed through multiple hops 
+    <phrase role="rfc2119">should not</phrase> be assumed to reliably
+    delivered, even if only reliable transports such as TCP/IP are used
+    through all hops. A congested peer 
+    <phrase role="rfc2119">may</phrase> drop messages at any time rather than
+    routing them.</para>
+    <para>JXTA protocol messages and advertisements are defined using XML and
+    are <phrase role="rfc2119">required</phrase> to be well-formed XML documents. 
+    The use of a full XML parser is <phrase role="rfc2119">optional</phrase> as long as 
+    the requirements of the being well-formed and the JXTA protocol are met. Small
+    JXTA implementations <phrase role="rfc2119">may</phrase> choose to use pre-built
+    XML or XML templates for message and advertisement construction.</para>
+    <para>The JXTA protocols 
+    <phrase role="rfc2119">must not</phrase> require a broadcast or multicast
+    capability of the underlying network transport. Messages intended for
+    receipt by multiple peers (propagation) 
+    <phrase role="rfc2119">may</phrase> be implemented using point-to-point
+    communications.</para>
+    <para>A peer 
+    <phrase role="rfc2119">should</phrase> make the assumption that if a
+    destination address is not available at any time during the message
+    transmission, the message will not be delivered.</para>
+    <para>A peer 
+    <phrase role="rfc2119">must not</phrase> assume that there is a guaranteed
+    return route to a peer from which it has received communication. The lack
+    of a return route may either be temporary or permanent.</para>
+    <para>Each peer 
+    <phrase role="rfc2119">must</phrase> be a member of the World Peergroup
+    and Net Peergroups. Membership in these groups is automatic.</para>
+    <para>Peers 
+    <phrase role="rfc2119">must</phrase> be members of the same peer group in
+    order to exchange messages.</para>
+    <para>Names are not unique unless a coordinated naming service is used to
+    guarantee name uniqueness. A naming service is typically a service that
+    guarantees, within a given scope, the uniqueness of name and can be used
+    to register name mapping. Examples of name services are DNS and LDAP. A
+    naming service is 
+    <phrase role="rfc2119">optional</phrase>. JXTA does not define its own
+    naming service.</para>
+    <para>Once content has been published to the JXTA network, it 
+    <phrase role="rfc2119">should not</phrase> be assumed that that the
+    content can be later retrieved from the JXTA network. The content may be
+    available only from peers that are not currently reachable.</para>
+    <para>Once a content has been published to the JXTA network, it 
+    <phrase role="rfc2119">must not</phrase> be assumed that the content can
+    be deleted. Republication of content by peers is unrestricted and the
+    content may propagate to peers which are not reachable from the
+    publishing peer.</para>
+  </section>
+</preface>

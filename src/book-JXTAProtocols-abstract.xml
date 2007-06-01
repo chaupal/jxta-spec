@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<abstract>
+<para>
+The JXTA protocols defines a suite of six XML-based protocols that standardize 
+the manner in which peers self-organize into peergroups, publish and discover 
+peer resources, communicate, and monitor each other. The Endpoint Routing 
+Protocol (ERP) is the protocol by which a peer can discover a route (sequence 
+of hops) to send a message to another peer potentially traversing firewalls and 
+NATs. The Rendezvous Protocol (RVP) is used for propagating a message within a 
+peergroup. The Peer Resolver Protocol (PRP) is the protocol used to send a 
+generic query to one or more peers, and receive a response (or multiple 
+responses) to the query. The Peer Discovery Protocol (PDP) is used to publish 
+and discover resource advertisements. The Peer Information Protocol (PIP) is 
+the protocol by a which a peer may obtain status information about another 
+peers. The Pipe Binding Protocol (PBP) is the protocol by which a peer can 
+establish a virtual communication channel or pipe between one or more peers.
+The JXTA protocols permit the establishment a virtual network overlay on top of 
+physical networks allowing peers to directly interact and organize 
+independently of their network location and connectivity. The JXTA protocols 
+have been designed to be easily implemented on unidirectional links and
+asymmetric transports.
+</para>
+</abstract>
+

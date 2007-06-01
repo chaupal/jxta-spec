@@ -1,0 +1,13 @@
+#/bin/bash
+
+docbookdir=/home/mike/mod.docbook-xsl-1.51.1
+
+docbookcp=$docbookdir/extensions/xalan2.jar
+
+xalanopts="-DIAG -V -XML -PARAM use.extensions 1 -PARAM xalan.extensions 1"
+
+infile=book-JXTAProtocols.xml
+outfile=rfc.JXTAProtocols.xml
+xslfile=single-rfc2629.xsl
+
+java -cp $docbookcp org.apache.xalan.xslt.Process $xalanopts -IN $infile -XSL $xslfile -OUT $outfile

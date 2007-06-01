@@ -1,0 +1,5 @@
+infile=book-JXTAProtocols.xml
+outfile=RFC.JXTAProtocols.xml
+xslfile=single-rfc2629.xsl
+
+xsltproc --timing --nonet --stringparam use.extensions 1 --stringparam xsltproc.extensions 1 --output $outfile $xslfile $infile

@@ -1,0 +1,12 @@
+#/bin/bash
+
+docbookdir=docbook-xsl
+docbookcp=$docbookdir/extensions/xalan2.jar
+
+xalanopts="-DIAG -V -HTML -PARAM use.extensions 1 -PARAM xalan.extensions 1"
+
+infile=book-JXTAProtocols.xml
+outfile=JXTAProtocols.html
+xslfile=single-html.xsl
+
+java -cp $docbookcp org.apache.xalan.xslt.Process $xalanopts -IN $infile -XSL $xslfile -OUT $outfile

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<chapter id="msgs-fmts">
+<title id="msgs-fmts-title">JXTA Message Wire Representations</title>
+
+<para>In order to send JXTA messages between peers JXTA a serialized
+<quote>wire</quote> encoding of the message must be created. The standard JXTA 
+<firstterm linkend="gloss-messageTransport">Message Transport</firstterm>
+implementations use a common set of wire encodings. There are two standard 
+message encoding formats for JXTA Messages, XML and binary. Each JXTA Message 
+Transport uses the encoding format most appropriate for its' capabilities.</para>
+
+<section><title>General Requirements</title>
+
+<para>Message encoding formats for Message Transports 
+<phrase role="rfc2119">must</phrase> allow for the faithful transmission of 
+arbitrary messages.</para>
+
+<para>Message Elements with duplicate names <phrase role="rfc2119">must</phrase>
+be supported.</para>
+</section>
+
+
+ <!-- 3 Binary Message Format -->
+
+ <section id="msgs-fmts-jbm"><title id="msgs-fmts-jbm-title">Binary Message Format</title>
+
+  <para><acronym>XML</acronym> and other textual representations such as <acronym>MIME</acronym> 
+  <xref linkend="bib-RFC2045"/> are inefficient for the transmission of 
+  arbitrary application data. The JXTA Binary Message Format is designed to
+  facilitate the efficient transmission of data between peers.</para>
+
+  <para>Message Transports which are capable of sending and receiving unencoded
+  binary data will probably prefer to use the Binary Message Format. This format
+  is designed such that all components are of declared size, no parsing is ever 
+  required to determine lengths.</para>
+
+  <!-- 3.1 Conventions -->
+
+  <section><title>Conventions</title>
+
+   <para>Multi-byte lengths are sent with the high order byte first (also known
+   as "Big Endian" or "Network Byte Order"). All strings start with a two byte 
+   length, followed by a UTF string value. The message format is specified 
+   using <acronym>ABNF</acronym> <xref linkend="bib-RFC2234"/>. 
+   <acronym>ABNF</acronym> is normally used for <acronym>ASCII</acronym> 
+   grammars, but here we use it to define a byte sequence for a binary message.
+   </para>
+
+  </section>
+
+  <!-- 3.2 Message -->
+
+  <section id="jbmv1"><title>Binary Message Version 1</title>
+
+<figure id="fjbmabnf"><title>JXTA Binary Message Version 1 ABNF</title>
+<programlisting>
+msg        ::= "jxmg"             ; signature (0x6a 0x78 0x6d 0x67)
+
+               version            ; One byte. "0".
+
+               namespaces
+
+               element_count      ; two bytes (binary)
+
+               1* elm
+
+namespaces ::= namespace_count    ; two bytes (binary)
+
+               0* namespace       ; Each namespace is a string
+
+namespace  ::= string
+               
+string     ::= len2               ; two bytes (binary)
+               
+               len2 * UTF8 chars  ; characters
+
+elm        ::= "jxel"             ; signature (0x6a 0x78 0x65 0x6c)
+
+               namespaceid        ; one byte (binary)
+
+               flags              ; Indicates which parts follow (binary)
+
+               name               ; element name
+
+               [type]             ; Present if (flags &amp; HAS_TYPE)
+
+               [encoding]         ; Present if (flags &amp; HAS_ENCODING)
+
+               len4               ; Four byte binary length of content
+
+               content            ; element content
+         
+               [signature]        ; associated signature element
+                                  ; Present if (flags &amp; HAS_SIGNATURE) 
+
+name       ::= string
+
+type       ::= string             ; Mime Media Type <xref linkend="bib-RFC2046" />
+
+encoding   ::= string             ; Mime Media Type <xref linkend="bib-RFC2046" />
+
+content    ::= len4 * byte        ; the bytes of the content.
+                    
+signature  ::= elm
+
+flags      ::= byte               ; HAS_TYPE      = 0x01;
+                                  ; HAS_ENCODING  = 0x02;
+                                  ; HAS_SIGNATURE = 0x04;
+</programlisting>
+</figure>
+
+  <!-- 3.2 Message -->
+
+  <section><title>Message Header</title>
+
+<para>Each message starts with the four byte signature <constant>jxmg</constant>.
+(<constant>0x6a 0x78 0x6d 0x67</constant>) The signature is used to aid in sanity 
+checking a transport implementation. This is followed by a one byte version 
+number which must <constant>0</constant> (zero). Next is a list of namespaces 
+used by this message. See the production rule for namespaces below. And last is 
+a two byte element count followed by the elements themselves.</para>
+
+</section>
+
+  <!-- 3.3 Namespaces -->
+
+  <section><title>Namespaces</title>
+
+<para>Each message element a member of a namespace. The namespaces of all 
+elements are placed into an ordered list at the start of the message. Each entry 
+in the list is assigned an id.  The first entry in the list is assigned an id of
+<constant>2</constant>. The id of each successive namespace is one plus the id of 
+the preceding namespace. The ids <constant>0</constant>, and 
+<constant>1</constant> are preassigned. <constant>0</constant> represents the 
+empty namespace. <constant>1</constant> is the <constant>jxta</constant>
+namespace. See <xref linkend="msgs-namespace" endterm="msgs-namespace-title"/>
+for information regarding use of namespaces. </para>
+
+<para>The namespaces portion of a binary message starts with a two byte 
+namespace count. The count is followed by a sequence of namespace names. It is 
+permissible for this sequence to be empty.</para>
+
+</section>
+
+
+
+  <!-- 3.4 Element -->
+
+  <section><title>Message Element Header</title>
+
+<para>Each message elements starts with the four byte signature 
+<constant>jxel</constant> (<constant>0x6a 0x78 0x65 0x6c</constant>).  The 
+signature is used to aid in sanity checking a transport implementation.  Next is 
+the namespace id byte.  This byte indicates which name space this element 
+belongs to. The next byte is the flags byte.  Bits in this flag byte indicate 
+which of the optional components of an element are present. 
+<constant>HAS_ENCODING</constant> is currently unsupported.
+</para>
+
+<para>The flags are followed by the element name. The MIME Media Type of the
+element, if present, follows the element name. If the type is not specified for 
+an element then the type <constant>application/octet-stream</constant> is
+assumed. The element type is optionally followed by the encoding type. Next is 
+the four byte length of the content, followed by the content data of the element.
+</para>
+
+  </section>
+
+ </section>
+
+   <section id="jbmv2"><title>Binary Message Version 2</title>
+   
+   <para>In mid-2006 a new version of the JXTA Binary Message was developed.
+This new version currently remains optional for all JXTA implementations. The 
+new version was developed in order to reduce the wire overhead of JXTA Binary
+Messages and to improve support for larger messages, non-UTF8 character 
+encodings and content encoding. </para>
+
+<figure id="fjbmabnf2"><title>JXTA Binary Message Version 2 ABNF</title>
+<programlisting>
+msg         ::= "jxmg"             ; signature (0x6a 0x78 0x6d 0x67)
+                version            ; One byte. "1".
+                flags              ; UTF-16BE String = 0x01
+                                   ; UTF-32BE String = 0x02
+                namestable         ; Common names used in element headers
+                element_count      ; The number of message elements or zero
+                element_count * element
+
+namestable  ::= names_count        ; Number of names defined in the table.
+                                   ; Does not include implicit names.
+                names_count * string  ; names_count names
+
+names_count ::= 2 * byte           ; 2 byte MSB
+
+string      ::= len2               ; string length
+                len2 * chars       ; characters (UTF-8, UTF-16BE, UTF-32BE per flags)               
+
+element     ::= "jxel"             ; signature (0x6a 0x78 0x65 0x6c)
+                flags              ; Flags for Message Element
+                                   ; Body lengths are UINT64 = 0x01
+                                   ; Element Name is literal = 0x02
+                                   ; Element has MIME Type = 0x04
+                                   ; Element has Signature Element = 0x08
+                                   ; Element has Content Encodings = 0x10
+                                   ; Signature is of encoded element body = 0x20
+                namespaceid        ; name
+                (name | string)    ; (see flag 0x02)
+                [type]             ; (see flag 0x04)
+                [encodings]        ; (see flag 0x10)
+                elementLen         ; length of content (see flag 0x01)
+                content            ; element content
+                [signature]        ; associated signature element
+                                   ; (see flag 0x10)
+                                  
+type        ::= name               ; Mime Media Type <xref linkend="bib-RFC2046" />
+
+encodings   ::= num_encodings      ; number of encodings
+                num_encodings * encoding
+               
+encoding    ::= elementLen         ; pre-encoded element length
+                name               ; encoding mime type.
+                
+num_encodings ::= len1             ; 1 byte length
+
+elementLen  ::= (len4 | len8)      ; len4 or len8 (see flag 0x01)
+
+content     ::= elementLen * byte  ; the bytes of the content.
+
+signature   ::= element            ; signature message element
+
+len1        ::= 1 * byte           ; 1 byte length
+
+len2        ::= 2 * byte           ; 2 byte length (MSB order)
+
+len4        ::= 4 * byte           ; 4 byte length (MSB order)
+
+len8        ::= 8 * byte           ; 8 byte length (MSB order)
+
+name        ::= (2 * byte | 0xFFFF {string})
+</programlisting>
+</figure>
+
+  <!-- 3.2 Message -->
+
+  <section><title>Message Header</title>
+
+<para>Each JXTA Binary Message begins with a header that provides basic 
+parametes and options for the message. The message header starts with a four 
+byte signature, <constant>jxmg</constant> 
+(<constant>0x6a 0x78 0x6d 0x67</constant>). The signature is used to aid in 
+sanity  checking a transport implementation. This is followed by a one byte 
+version number which <phrase role="rfc2119">must</phrase> be 
+<constant>1</constant>. The version number is followed by message flags. These
+flags apply to all message elements included in the message. Following the flags
+is a list of names used by this message. The Message Header ends with a count of
+the Message Elements which will follow. The element count 
+<phrase role="rfc2119">may</phrase> also be zero indicating that the message 
+elements are uncounted.
+</para>
+
+</section>
+
+  <!-- 3.3 Namespaces -->
+
+  <section><title>Names Table</title>
+
+<para>Every message includes a table of names (strings). The names table 
+provides a mechanism for looking up commonly used Message Element header strings. 
+Each entry in the list is assigned an ID.  The first entry in the list is
+assigned an id of <constant>2</constant>. The ID of each successive name is
+one plus the id of the preceding names. The IDs <constant>0</constant>,  
+<constant>1</constant>, and <constant>0xFFFF</constant> are preassigned. 
+<constant>0</constant> represents the 
+empty namespace. <constant>1</constant> is the <constant>jxta</constant>
+namespace. <constant>0xFFFF</constant> is used when a literal name must be used
+within a Message Element. Generally this happens when messages are created 
+<phrase>on-the-fly</phrase> and the name was not known at the time the Message
+was begun. </para>
+
+<para>The names table portion of a JXTA Binary Message starts with a two byte 
+names count. The count is followed by a sequence of name strings. It is 
+permissible for this sequence to be empty.</para>
+
+</section>
+
+
+
+  <!-- 3.4 Element -->
+
+  <section><title>Message Element Header</title>
+
+<para>Each Message Element header starts with the four byte signature 
+<constant>jxel</constant> (<constant>0x6a 0x78 0x65 0x6c</constant>). The 
+signature is used to aid in sanity checking a transport implementation. The
+signature is followed by the Message Element flags. The flags control Message 
+Element specific options. The flags are followed by the namespace ID. Each
+Message Element is part of a specific namespace. The name space ID identifies 
+the name of the namespace. The namespace is followed by the name of the 
+Message Element. Depending upon the setting of flag #1 this may be either a name
+ID or a string literal. String literals are commonly used for names which only
+occur once within the context of a message. Optionally following the Message
+Element Name is the Message Element Type. The Message Element Type identifies
+the MIME multimedia type associated with this message element's content. If no
+Message Element Type is included then the MIME type is assumed to be 
+<constant>application/octet-stream</constant>. Following the type is the optional
+content encoding information. If present the content encoding information
+describes any content transformations which have been applied to the Message 
+Element content and must be reversed in order to recover the content.
+Examples of content encoding include compression, chunking and encryption.
+Following the content encoding information is the Message Element content length.
+The content length specifies the size in bytes of the encoded Message Element 
+content. The content length is followed by the Message Element content which may
+need to be unencoded as it is processed.
+</para>
+
+  </section>
+
+ </section>
+
+</section>
+
+ <!-- 4 XML Message Format -->
+
+ <section><title>XML Message Format</title>
+
+  <para>The XML message format is used for transports which can transmit text 
+  but not raw binary data.  An effort is made to keep the message elements as 
+  readable as possible.  See the section on encoding.</para>
+
+  <!-- 4.1 Message -->
+
+  <section><title>Message</title>
+
+   <example id="msgs-exm"><title id="msgs-exm-title">XML Message</title>
+   <programlisting>
+&lt;?xml version="1.0"?>
+
+&lt;!DOCTYPE Message>
+
+&lt;Message version="0">
+ &lt;Element name="jxta:SourceAddress" mime_type="text/plain">
+  tcp://123.456.205.212
+ &lt;/Element>
+ &lt;Element name="stuff" encoding="base64" mime_type="application/octet-stream">
+  AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4
+  OTo7PD0+P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ub3Bx
+  cnN0dXZ3eHl6e3x9fn+AgYKDhIWGh4iJiouMjY6PkJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmq
+  q6ytrq+wsbKztLW2t7i5uru8vb6/wMHCw8TFxsc=
+ &lt;/Element>
+&lt;/Message>
+   </programlisting>
+    </example>
+   
+   <para>The top level XML element is the Message element.  There is one 
+   required attribute, version. The value of version must be zero "0".  The body 
+   of the Message element is a sequence of Element elements.</para>
+
+  </section>
+
+
+
+  <!-- 4.2 Element -->
+
+  <section><title>Element</title>
+
+   <para>Each Element must have a name and mime_type attribute.  Optionally an 
+   encoding attribute may be present.</para>
+
+
+
+   <!-- 4.2.1 Name -->
+
+   <section><title>Name</title>
+
+    <para>This a required attribute names the element.  The name contains the 
+    namespace, followed by a colon, followed by the simple name of the element.  
+    </para>
+
+   </section>
+
+
+
+   <!-- 4.2.2 MIME type -->
+
+   <section><title>MIME type</title>
+
+    <para>A required attribute indicating the MIME type of the element.  If the 
+    MIME type was not specified in the message, a type of 
+    "application/octet-stream" is used.</para>
+
+   </section>
+
+
+
+   <!-- 4.2.3 Encoding -->
+
+   <section><title>Encoding</title>
+
+    <para>Encoding is <phrase role="rfc2119">optional</phrase>  The only 
+    supported encoding at this time is base64. 
+				<citetitle pubwork="article">IETF RFC 1521</citetitle> 
+				<xref linkend="bib-RFC1521"/>  If the encoding is not present, 
+    the content is just treated as a string.  While name, type and content are 
+    parts of a message which will be found in all implementations, the encoding 
+    is added by this particular format.</para>
+
+    <para>Note: The reference implementation uses the following technique to 
+    select encoding. If the MIME major type is "text", the content is treated 
+    as a string. Therefore, no encoding attribute is present on the element.  
+    Otherwise the content is base64 encoded. This will result in human readable 
+    text where possible. The content will successfully be transferred using an 
+    XML message even if the user has incorrectly specified the MIME type. There 
+    is no requirement that an implementation follow this rule. Implementations 
+    will still interoperate whether or not this rule is used.</para>
+
+   </section>
+
+  </section>
+
+ </section>
+
+
+</chapter>

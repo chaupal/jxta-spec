@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<chapter id="refimpl-j2se">
+
+<title id="refimpl-j2se-title">Java 2 SE Reference Implementation</title>
+
+<section id="refimpl-j2se-ids">
+<title id="refimpl-j2se-ids-title">JXTA ID Formats</title>
+
+<para>These ID Formats have been defined for JXTA Language Binding Reference 
+Implementations.</para>
+
+<section id="refimpls-ids-jiuft">
+<title id="title-refimpls-ids-jiuft">JXTA ID Formats : <quote>uuid</quote> ID Format</title>
+<para>The Java 2SE reference implementation of JXTA provides an implementation 
+of JXTA IDs based upon UUIDs 
+<citetitle pubwork="article">ISO/IEC 11578:1996</citetitle>
+<xref linkend="bib-ISO11578"/>. This 
+<phrase role="rfc2119">optional</phrase> ID Format is identified as the 
+<constant>uuid</constant> format. In this implementation, UUIDs are 
+encoded as hex digits as the basis generating unique identifiers. At the end of 
+each UUID ID are two hex characters that identify the type of JXTA ID. 
+Currently, six ID Types have been defined.</para>
+
+<figure id="ids-fuifa"><title id="ids-fuifa-title">JXTA "uuid" ID Format ABNF</title>
+<programlisting>
+&lt;JXTAUUIDURN&gt;    ::= &quot;urn:&quot; &lt;JXTANS&gt; &quot;:&quot; &lt;JXTAUUIDFMT&gt; &quot;-&quot;
+                     &lt;(1*(&lt;hex&gt; &lt;hex&gt;)) &lt;JXTAUUIDIDTYPE&gt;
+
+&lt;JXTAUUIDFMT&gt;    ::= &quot;uuid&quot;
+
+&lt;JXTAUUIDIDTYPE&gt; ::= &lt;CODATID&gt; | &lt;PEERGROUPID&gt; | &lt;PEERID&gt; |
+                     &lt;PIPEID&gt; | &lt;MODULECLASSID&gt; | &lt;MODULESPECID&gt;
+
+&lt;CODATID&gt;        ::= &quot;01&quot;
+
+&lt;PEERGROUPID&gt;    ::= &quot;02&quot;
+
+&lt;PEERID&gt;         ::= &quot;03&quot;
+
+&lt;PIPEID&gt;         ::= &quot;04&quot;
+
+&lt;MODULECLASSID&gt;  ::= &quot;05&quot;
+
+&lt;MODULESPECID&gt;   ::= &quot;06&quot;
+</programlisting>
+</figure>
+
+<para>The characters preceding the ID Type identifier are the encoded form of 
+the ID. The encoding consists of a variable number of characters dependant upon 
+the ID Type being encoded. To decode the ID the hex characters are translated in 
+order and placed into the elements of a byte array from which the various ID 
+components can be retrieved. All of JXTA UUID IDs are currently manipulated as
+64 byte arrays although no ID Type currently requires all the full 64 bytes to 
+encode their contents. Position 63 always contains the UUID ID Type value. The 
+remainder of the ID fields are defined beginning at Position 0 and increment 
+towards Position 63.</para>
+
+<para>To make the text presentation of JXTA UUID IDs as URNs more compact 
+implementations must not encode the value of unused Positions within the array. 
+Since they are irrelevant to the value of the ID they can be assumed to be zero. 
+Implementations must also omit from the encoding the value of any Positions that 
+precede the unused portion and contain zero. The reference Java implementation 
+accomplishes this by scanning from Position 62 towards Position 0 searching for 
+the first non-zero value. It then encodes from position 0 to the discovered 
+location followed by the encoding for Position 63. The text encoding of a JXTA 
+ID must be canonical according to the URN specification, thus this 
+<quote>zero-saving</quote> technique <phrase role="rfc2119">must</phrase> be present in every 
+implementation.</para>
+
+
+<example><title>Sample "uuid" Format ID</title>
+<programlisting>
+urn:jxta:uuid-00030102040501
+
+<emphasis>Decodes to:</emphasis>
+
+0:00  1:03  2:01  3:02  4:04  5:05  6-62:00  63:01
+</programlisting>
+</example>
+
+</section>
+
+<section id="refimpls-ids-jufd">
+<title id="title-refimpls-ids-jufd">JXTA UUID Field Definitions</title>
+
+<para>Each of the six JXTA ID Types  has a specific definition for how 
+its fields are represented within the common 64-byte array structure. Common 
+between the six ID Types is the definition of Position 63. This location is 
+reserved for the ID Type.</para>
+
+<section id="refimpls-ids-jufd-jucif">
+<title id="title-refimpls-ids-jufd-jucif">JXTA UUID Codat ID Fields</title>
+
+<para>Each Codat is assigned a unique codat id that enables canonical references 
+to be made to the codat in the context of a specific peer group. A CodatID is 
+formed by the conjunction of a PeerGroupID, a randomly chosen value that has a 
+high probability of being unique, and an optional SHA1 cryptographic hash of the 
+codat contents.</para>
+
+<figure><title>JXTA UUID Codat ID Fields</title>
+<informaltable frame="all">
+<tgroup cols="6">
+<colspec colwidth="75pt" colname="c1"/>
+<colspec colwidth="75pt" colname="c2"/>
+<colspec colwidth="75pt" colname="c3"/>
+<colspec colwidth="75pt" colname="c4"/>
+<colspec colwidth="75pt" colname="c5"/>
+<colspec colwidth="75pt" colname="c6"/>
+<tbody>
+<row><entry>0:Group MSB</entry><entry namest="c2" nameend="c6">0-15:...GROUP UUID...</entry></row>
+<row><entry namest="c1" nameend="c5">...GROUP UUID (cont.)...</entry><entry>15:Group LSB</entry></row>
+<row><entry>16:ID MSB</entry><entry namest="c2" nameend="c6">16-31:...CODAT UUID...</entry></row>
+<row><entry namest="c1" nameend="c5">...CODAT UUID (cont.)...</entry><entry>31:ID LSB</entry></row>
+<row><entry>32:Hash</entry><entry namest="c2" nameend="c6">32-51:CODAT SHA1 Hash...</entry></row>
+<row><entry namest="c1" nameend="c6">...CODAT SHA1 Hash...</entry></row>
+<row><entry namest="c1" nameend="c2">...CODAT SHA1 Hash</entry><entry>51:Hash</entry><entry namest="c4" nameend="c6"></entry></row>
+<row><entry namest="c1" nameend="c5"></entry><entry>63:ID Type</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+</section>
+
+<section id="refimpls-ids-jufd-jupgif"><title id="title-refimpls-ids-jufd-jupgif">JXTA UUID PeerGroup ID Fields</title>
+<para>
+Each peer group is assigned a unique id that enables canonical references to that  peer group.</para>
+<figure><title>JXTA UUID PeerGroup ID Fields</title>
+<informaltable frame="all">
+<tgroup cols="4">
+<colspec colwidth="112pt" colname="c1"/>
+<colspec colwidth="112pt" colname="c2"/>
+<colspec colwidth="112pt" colname="c3"/>
+<colspec colwidth="112pt" colname="c4"/>
+<tbody>
+<row><entry>0:MSB</entry><entry namest="c2" nameend="c4">0-15...GROUP UUID...</entry></row>
+<row><entry namest="c1" nameend="c3">...GROUP UUID (cont.)</entry><entry>15:LSB</entry></row>
+<row><entry>0:MSB</entry><entry namest="c2" nameend="c4">0-15...PARENT GROUP UUID...</entry></row>
+<row><entry namest="c1" nameend="c3">...PARENT GROUP UUID (cont.)</entry><entry>15:LSB</entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c3"></entry><entry>63:IDType</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+</section>
+
+<section id="refimpls-ids-jufd-jupeif"><title id="title-refimpls-ids-jufd-jupeif">JXTA UUID Peer ID Fields</title>
+<para>
+Each peer is assigned a unique peer id that enables canonical references to be made to the peer in the context of a specific peer group.</para>
+<figure><title>JXTA UUID Peer ID Fields</title>
+<informaltable frame="all">
+<tgroup cols="4">
+<colspec colwidth="112pt" colname="c1"/>
+<colspec colwidth="112pt" colname="c2"/>
+<colspec colwidth="112pt" colname="c3"/>
+<colspec colwidth="112pt" colname="c4"/>
+<tbody>
+<row><entry>0:Group MSB</entry><entry namest="c2" nameend="c4">0-15...GROUP UUID...</entry></row>
+<row><entry namest="c1" nameend="c3">...GROUP UUID (cont.)</entry><entry>15:Group LSB</entry></row>
+<row><entry>16:ID MSB</entry><entry namest="c2" nameend="c4">16-31:...PEER UUID...</entry></row>
+<row><entry namest="c1" nameend="c3">...PEER UUID (cont.)...</entry><entry>31:ID LSB</entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c3"></entry><entry>63:IDType</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+</section>
+
+<section id="refimpls-ids-jufd-jupiif"><title id="title-refimpls-ids-jufd-jupiif">JXTA UUID Pipe ID Fields</title>
+<para>
+Each pipe is assigned a unique pipe id that enables canonical references to be made to the pipe in the context of a specific peer group.</para>
+<figure><title>JXTA UUID Pipe ID Fields</title>
+<informaltable frame="all">
+<tgroup cols="8">
+<colspec colname="c0" colwidth="1*"/>
+<colspec colname="c1" colwidth="1*"/>
+<colspec colname="c2" colwidth="1*"/>
+<colspec colname="c3" colwidth="1*"/>
+<colspec colname="c4" colwidth="1*"/>
+<colspec colname="c5" colwidth="1*"/>
+<colspec colname="c6" colwidth="1*"/>
+<colspec colname="c7" colwidth="1*"/>
+<thead>
+<row>
+  <entry>0</entry>
+  <entry>1</entry>
+  <entry>2</entry>
+  <entry>3</entry>
+  <entry>4</entry>
+  <entry>5</entry>
+  <entry>6</entry>
+  <entry>7</entry>
+</row>
+</thead>
+<tfoot>
+<row>
+  <entry>0</entry>
+  <entry>1</entry>
+  <entry>2</entry>
+  <entry>3</entry>
+  <entry>4</entry>
+  <entry>5</entry>
+  <entry>6</entry>
+  <entry>7</entry>
+</row>
+</tfoot>
+<tbody>
+<row><entry colname="c0">0:Group MSB</entry><entry namest="c1" nameend="c7">0-15...GROUP UUID...</entry></row>
+<row><entry namest="c0" nameend="c6">...GROUP UUID (cont.)</entry><entry colname="c7">15:Group LSB</entry></row>
+<row><entry colname="c0">16:ID MSB</entry><entry namest="c1" nameend="c7">16-31:...PIPE UUID...</entry></row>
+<row><entry namest="c0" nameend="c6">...PIPE UUID (cont.)...</entry><entry colname="c7">31:ID LSB</entry></row>
+<row><entry namest="c0" nameend="c7"></entry></row>
+<row><entry namest="c0" nameend="c7"></entry></row>
+<row><entry namest="c0" nameend="c7"></entry></row>
+<row><entry namest="c0" nameend="c6"></entry><entry colname="c7">63:IDType</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+</section>
+
+<section id="refimpls-ids-jufd-jumcif"><title id="title-refimpls-ids-jufd-jumcif">JXTA UUID Module Class ID Fields</title>
+<para>
+Each Module is assigned a Module service id that enables canonical references to 
+be made to the service in the context of a specific peer group and optionally 
+within the context of a specific peer.</para>
+<figure><title>JXTA UUID Module Class ID Fields</title>
+<informaltable frame="all">
+<tgroup cols="4">
+<colspec colwidth="112pt" colname="c1"/>
+<colspec colwidth="112pt" colname="c2"/>
+<colspec colwidth="112pt" colname="c3"/>
+<colspec colwidth="112pt" colname="c4"/>
+<tbody>
+<row><entry>0:MSB</entry><entry namest="c2" nameend="c4">0-15...MODULE UUID...</entry></row>
+<row><entry namest="c1" nameend="c3">...MODULE UUID (cont.)</entry><entry>15:LSB</entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c3"></entry><entry>63:IDType</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+</section>
+
+<section id="refimpls-ids-jufd-jumsif"><title id="title-refimpls-ids-jufd-jumsif">JXTA UUID Module Spec ID Fields</title>
+<para>
+Each Service is assigned a unique service id that enables canonical references to be made to the service in the context of a specific peer group and optionally within the context of a specific peer.</para>
+<figure><title>JXTA UUID Module Spec ID Fields</title>
+<informaltable frame="all">
+<tgroup cols="4">
+<colspec colwidth="112pt" colname="c1"/>
+<colspec colwidth="112pt" colname="c2"/>
+<colspec colwidth="112pt" colname="c3"/>
+<colspec colwidth="112pt" colname="c4"/>
+<tbody>
+<row><entry>0:CLASS MSB</entry><entry namest="c2" nameend="c4">0-15...MODULE CLASS...</entry></row>
+<row><entry namest="c1" nameend="c3">...MODULE CLASS (cont.)</entry><entry>15:CLASS LSB</entry></row>
+<row><entry>16:SPEC MSB</entry><entry namest="c2" nameend="c4">16-31:...SPEC UUID...</entry></row>
+<row><entry namest="c1" nameend="c3">...SPEC UUID (cont.)...</entry><entry>31:SPEC LSB</entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c4"></entry></row>
+<row><entry namest="c1" nameend="c3"></entry><entry>63:IDType</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</figure>
+
+</section>
+
+</section>
+
+</section>
+
+<section id="trans-router-refimpl">
+<title>J2SE JXTA Endpoint Router Implementation</title>
+
+<para>This section describes the implementation of the Endpoint Router in the 
+J2SE implementation of JXTA. This is just an example of how the EndpointRouter 
+protocol can be implemented, but there is several other manners the Endpoint 
+Router could be implemented. Other optimizations or robustness mechanisms could 
+be added or changed in other implementations of the Endpoint Router.</para>
+
+<para>In this section, the term Endpoint Router refers to the J2SE Endpoint 
+Router implementation and not to the Endpoint Router protocol as the term has 
+been used in the previous sections.</para>
+
+<para>Also, the current implementation does not yet implement the entire 
+protocol (pending tasks). What is not yet implemented is outlined in this 
+document.</para>
+
+<para>The Endpoint Router manages a cache of routes to destination peers.</para>
+
+<para>[PENDING TASK] Currently the cache does not associate a life time to a 
+route in the cache. This is needed as routes are dynamic and constantly
+changing in a peer to peer network. A life time of 15-20 minutes is probably a 
+good guess.</para>
+
+<para>When the Endpoint Router is asked to send a message to a peer for which it 
+does not yet have a route, it sends out a RouteQuery, using the Resolver
+Service.  When the router is asked to route a message, if the message 
+contains the forward route, this route is used, even if the router knows 
+another route (the forward route within the message takes precedence). If the 
+forward route is not valid (the next hop in the list is not reachable), or if 
+the message does not contain a forward route, the local route is then used. If 
+there is no local route, then the message is dropped.</para>
+
+<para>[PENDING TASK] When a router is asked to route a message, and when no 
+route is available, it should search for a route (sending a RouteQuery), and/or 
+send a NACK message back to the source of the message.</para>
+
+<para>When the Endpoint Router receives a RouteQuery, if it knows a route, it 
+answer with a RouteResponse including the forward route.</para>
+
+<para>[PENDING TASK] PingQuery and PingResponse are not yet implemented. In 
+particular, routes should be checked once in a while.</para>
+
+<para>[PENDING TASK] NACK is not yet implemented.</para>
+
+<para>When the Endpoint Router receives an incoming message, and when the 
+incoming message contains a reverse route, the reverse route is added into 
+the local cache of routes. Note that the Endpoint Router detects loops and 
+other errors both in reverse route and forward route.</para>
+
+<para>The Endpoint Router does not remove its message element, even when 
+routed message is eventually delivered locally to the destination application. 
+This allow the application to decide to forward the message to another peer, 
+while keeping the routing information, especially the reverse route, allowing 
+the final destination to respond to the original source of the message without 
+having to issue a RouteQuery.</para>
+</section>
+    
+</chapter>
+

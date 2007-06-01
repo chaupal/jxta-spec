@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+
+<chapter id="core-proto">
+<title id="core-proto-title">JXTA Core Protocols</title>
+
+<section id="proto-prp">
+<title id="proto-prp-title">Peer Resolver Protocol</title>
+
+<section id="proto-prp-intro"><title>Introduction</title>
+<para>The <glossterm linkend="gloss-prp">Peer Resolver Protocol</glossterm>
+(<acronym>PRP</acronym>) provides a generic query/response interface 
+applications and services can use for building resolution services. The 
+<acronym>PRP</acronym> provides the ability to issue queries within a peer 
+group and later identifying matching responses. Each query or response is 
+addressed to a specific named handler. The Resolver Service of each peer group 
+cooperates with the named handlers to provide the query routing strategies and 
+policies. The named handlers provide the specific semantics for how the query is 
+distributed and resolved within the peer group and how responses to the query 
+are handled. In most situations the service or application has the best 
+knowledge of the group topology and how the query should be routed. A query 
+<phrase role="rfc2119">may</phrase> be received and processed by any number of 
+peers withinin the peer group, possibly all, and it is processed accordingly by a 
+handler if such a named handler is registered on that peer.</para>
+
+<para>Peers <phrase role="rfc2119">may</phrase> also participate in the Shared 
+Resource Distributed Index (<acronym>SRDI</acronym>). <acronym>SRDI</acronym>
+provides a generic mechanism JXTA services and applications can utilize a 
+distributed index of shared resources with other peers that are grouped as a 
+set of more capable peers such as rendezvous peers. These indices can be used 
+to direct queries in the direction where the query is most likely to be 
+answered, and repropagate messages to peers interested in these propagated 
+messages.</para>
+
+</section>
+
+<section id="proto-prp-rqm">
+<title id="proto-prp-rqm-title">Resolver Query Message</title>
+
+<para>The resolver query message is used to send a resolver query to the named 
+handler on one or more peers that are members of the peer group. The resolver 
+query is sent as a query string to a specific handler. Each query has a unique 
+Id. The query string can be any string that will be interpreted by the targeted 
+handler.</para>
+
+<figure id="frqs"><title>Resolver Query Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>ResolverQuery</classname>" type="jxta:ResolverQuery"/>
+
+&lt;xs:complexType name="ResolverQuery">
+  &lt;xs:sequence>
+    &lt;xs:element ref="jxta:Cred" minOccurs="0" />
+    &lt;xs:element name="SrcPeerID" type="jxta:JXTAID" />
+    &lt;!-- This could be extended with a pattern restriction -->
+    &lt;xs:element name="HandlerName" type="xs:string" />
+    &lt;xs:element name="QueryID" type="xs:string" />
+    &lt;xs:element name="HC" type="xs:unsignedInt" />
+    &lt;!-- For historical reasons the query is a whole flattened document -->
+    &lt;xs:element name="Query" type="xs:anyType" />
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">jxta:Cred</sgmltag></term>
+	<listitem>
+	<simpara>The credential of the sender.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">HandlerName</sgmltag></term>
+  <listitem>
+  <simpara>A string that specifies the destination of this query.</simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">SrcPeerID</sgmltag></term>
+  <listitem>
+    <simpara>The id of the peer originating the query (as a URN).</simpara>
+   </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">QueryID</sgmltag></term>
+  <listitem>
+    <simpara>An opaque indentifier to be used by the querier to match replies. 
+    The <sgmltag class="starttag">QueryID</sgmltag> 
+    <phrase role="rfc2119">should</phrase> be included in the responses to this 
+    query.</simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">HC</sgmltag></term>
+  <listitem>
+    <simpara>specifies the number of hops the query has been through
+    The <sgmltag class="starttag">HC</sgmltag> 
+    <phrase role="rfc2119">should</phrase> be incremented by each peer that 
+    fowards the query.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Query</sgmltag></term>
+  <listitem>
+    <simpara>Contains the query.</simpara>
+  </listitem>
+ </varlistentry>
+</variablelist>
+
+<example id="frqe"><title>Resolver Query</title>
+<programlisting>
+&lt;?xml version="1.0"?>
+
+&lt;!DOCTYPE jxta:ResolverQuery>
+
+&lt;jxta:ResolverQuery xmlns:jxta="http://jxta.org">
+    &lt;HandlerName>
+        urn:jxta:uuid-DEADBEEFDEAFBABAFEEDBABE0000000305
+    &lt;/HandlerName>
+    &lt;jxta:Cred>
+        JXTACRED
+    &lt;/jxta:Cred>
+    &lt;QueryID>
+        0
+    &lt;/QueryID>
+    &lt;HC>
+        0
+    &lt;/HC>
+    &lt;SrcPeerID>
+        urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503
+    &lt;/SrcPeerID>
+    &lt;Query>
+        &amp;lt;?xml version="1.0"?>
+
+        &amp;lt;!DOCTYPE jxta:DiscoveryQuery>
+
+        &amp;lt;jxta:DiscoveryQuery xmlns:jxta="http://jxta.org">
+            &amp;lt;Type>
+                0
+            &amp;lt;/Type>
+            &amp;lt;Threshold>
+                50
+            &amp;lt;/Threshold>
+            &amp;lt;PeerAdv>
+                &amp;lt;?xml version="1.0"?>
+
+                &amp;lt;!DOCTYPE jxta:PA>
+                    <emphasis>... remainder omitted for brevity ...</emphasis>
+                &amp;lt;/jxta:PA>
+            &amp;lt;/PeerAdv>
+            &amp;lt;Attr>
+            &amp;lt;/Attr>
+            &amp;lt;Value>
+            &amp;lt;/Value>
+        &amp;lt;/jxta:DiscoveryQuery>
+    &lt;/Query>
+&lt;/jxta:ResolverQuery>
+</programlisting>
+</example>
+
+</section>
+
+<section id="proto-prp-rrm"><title id="proto-prp-rrm-title">Resolver Response Message</title>
+
+<para>A resolver response message is used to send a response to a resolver query 
+message.</para>
+
+<figure id="frrs"><title>Resolver Response Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>ResolverResponse</classname>" type="ResolverResponse"/>
+
+&lt;xs:complexType name="ResolverResponse">
+  &lt;xs:sequence>
+    &lt;xs:element ref="jxta:Cred" minOccurs="0"/>
+    &lt;xs:element name="ResPeerID" type="jxta:JXTAID" minOccurs="0" />
+    &lt;xs:element name="HandlerName" type="xs:string"/>
+    &lt;xs:element name="QueryID" type="xs:string"/>
+    &lt;!-- For historical reasons the response is a whole flattened document -->
+    &lt;xs:element name="Response" type="xs:anyType"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+  <varlistentry>
+  <term><sgmltag class="starttag">jxta:Cred</sgmltag></term>
+  <listitem>
+	 <simpara>The credential of the respondent.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">HandlerName</sgmltag></term>
+  <listitem>
+	 <simpara>Specifies how to handle the response.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">ResPeerID</sgmltag></term>
+  <listitem>
+    <simpara>The id of the peer originating the response (as a URN).</simpara>
+   </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">QueryID</sgmltag></term>
+  <listitem>
+	<simpara>The query identifier of the query to which this is a response.
+    </simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Response</sgmltag></term>
+  <listitem>
+        <simpara>The responses.</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist> 
+
+<example id="frre"><title>Resolver Response</title>
+<programlisting>
+&lt;?xml version="1.0"?>
+
+&lt;!DOCTYPE jxta:ResolverResponse>
+
+&lt;jxta:ResolverResponse xmlns:jxta="http://jxta.org">
+    &lt;HandlerName>
+        urn:jxta:uuid-DEADBEEFDEAFBABAFEEDBABE0000000305
+    &lt;/HandlerName>
+    &lt;jxta:Cred>
+        JXTACRED
+    &lt;/jxta:Cred>
+    &lt;QueryID>
+        0
+    &lt;/QueryID>
+    &lt;ResPeerID>
+        urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503
+    &lt;/ResPeerID>
+    &lt;Response>
+        &amp;lt;?xml version="1.0"?>
+
+        &amp;lt;!DOCTYPE jxta:DiscoveryResponse>
+
+        &amp;lt;jxta:DiscoveryResponse xmlns:jxta="http://jxta.org">
+            &amp;lt;Count>
+                1
+            &amp;lt;/Count>
+            &amp;lt;Type>
+                2
+            &amp;lt;/Type>
+            &amp;lt;PeerAdv>
+                &amp;amp;lt;?xml version="1.0"?>
+
+                &amp;amp;lt;!DOCTYPE jxta:PA>
+
+                &amp;amp;lt;jxta:PA xmlns:jxta="http://jxta.org">
+                    <emphasis>... remainder omitted for brevity ...</emphasis>
+                &amp;amp;lt;/jxta:PA>
+            &amp;lt;/PeerAdv>
+            &amp;lt;Response Expiration="7200000">
+                &amp;amp;lt;?xml version="1.0"?>
+
+                &amp;amp;lt;!DOCTYPE jxta:PipeAdvertisement>
+
+                &amp;amp;lt;jxta:PipeAdvertisement xmlns:jxta="http://jxta.org">
+                    &amp;amp;lt;Id>
+                        urn:jxta:uuid-59616261646162614E50472050325033D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D104
+                    &amp;amp;lt;/Id>
+                    &amp;amp;lt;Type>
+                        JxtaPropagate
+                    &amp;amp;lt;/Type>
+                    &amp;amp;lt;Name>
+                        JxtaTalkUserName.IP2PGRP
+                    &amp;amp;lt;/Name>
+                &amp;amp;lt;/jxta:PipeAdvertisement>
+            &amp;lt;/Response>
+        &amp;lt;/jxta:DiscoveryResponse>
+    &lt;/Response>
+&lt;/jxta:ResolverResponse>
+</programlisting>
+</example>
+
+</section>
+
+
+<section id="proto-prp-rsm"><title>Resolver SRDI Message</title>
+
+<para>The resolver SRDI message is used to send a resolver 
+<acronym>SRDI</acronym> message to the named handler on one or more peers that 
+are members of the peer group. The resolver <acronym>SRDI</acronym> message is 
+sent to a specific handler. The payload string may be any string that will be 
+interpreted by the targeted handler.</para>
+
+<figure id="frsrdis"><title>Resolver SRDI Schema</title>
+<programlisting>
+&lt;xs:element name="<classname>ResolverSRDI</classname>" type="jxta:ResolverSRDI"/>
+
+&lt;xs:complexType name="ResolverSRDI">
+  &lt;xs:all>
+    &lt;xs:element name="HandlerName" type="xs:string"/>
+    &lt;xs:element ref="jxta:Cred" minOccurs="0"/>
+    &lt;xs:element name="Payload" type="xs:anyType"/>
+  &lt;/xs:all>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ <varlistentry>
+  <term><sgmltag class="starttag">HandlerName</sgmltag></term>
+  <listitem>
+	 <simpara>A string that specifies the destination of this message.</simpara>
+  </listitem>
+ </varlistentry>
+ <varlistentry>
+ <term><sgmltag class="starttag">jxta:Cred</sgmltag></term>
+  <listitem>
+	<simpara>The credential of the sender.</simpara>
+  </listitem>
+ </varlistentry>
+
+ <varlistentry>
+  <term><sgmltag class="starttag">Payload</sgmltag></term>
+  <listitem>
+	<simpara>Contains the payload.</simpara>
+ </listitem>
+</varlistentry>
+</variablelist>
+
+<example id="frsrdie"><title>Resolver SRDI</title>
+<programlisting>
+&lt;?xml version="1.0"?>
+
+&lt;!DOCTYPE jxta:ResolverSRDI>
+
+&lt;jxta:ResolverSRDI xmlns:jxta="http://jxta.org">
+    &lt;HandlerName>
+        urn:jxta:uuid-DEADBEEFDEAFBABAFEEDBABE0000000305
+    &lt;/HandlerName>
+    &lt;jxta:Cred>
+        JXTACRED
+    &lt;/jxta:Cred>
+    &lt;Payload>
+        &amp;lt;?xml version="1.0"?>
+
+        &amp;lt;!DOCTYPE jxta:GenSRDI>
+                    <emphasis>... remainder omitted for brevity ...</emphasis>
+        &amp;lt;/jxta:GenSRDI>
+    &lt;/Payload>
+&lt;/jxta:ResolverSRDI>
+</programlisting>
+</example>
+
+</section>
+
+<section><title>Listener and Element Naming</title>
+<para>The <acronym>PRP</acronym> communicates by exchanging Messages using the
+Endpoint Service. Endpoint Addresses specify a handler name. The 
+<acronym>PRP</acronym> attaches a listener by that name to the 
+<xref linkend="trans-endpt" endterm="trans-endpt-title"/>.</para>
+
+<para>All <acronym>PRP</acronym> implementations 
+<phrase role="rfc2119">must</phrase> use the same scheme for building their 
+handler names. The convention used by all services of the world peer group is to 
+use the concatenation of the service name, the peer group ID, and a value unique 
+within the service.</para>
+
+<figure id="flnsa"><title>Listener Naming Syntax ABNF</title>
+<programlisting>
+&lt;JXTARSLVRRSQRY>   ::= &lt;JXTARSLVRNAM> &lt;JXTAIDVAL> &lt;JXTARSLVRQRYTAG>
+
+&lt;JXTARSLVRRSRSP>   ::= &lt;JXTARSLVRNAM> &lt;JXTAIDVAL> &lt;JXTARSLVRRSPTAG>
+
+&lt;JXTARSLVRRSSRDI>  ::= &lt;JXTARSLVRNAM> &lt;JXTAIDVAL> &lt;JXTARSLVRSRDITAG>
+
+&lt;JXTARSLVRQRYTAG>  ::= "ORes"
+
+&lt;JXTARSLVRRSPTAG>  ::= "IRes"
+
+&lt;JXTARSLVRSRDITAG> ::= "Isrdi"
+
+&lt;JXTARSLVRNAM>     ::= "jxta.service.resolver"
+
+&lt;JXTAIDVAL>        ::= <emphasis>See <xref linkend="ids-fjia" endterm="ids-fjia-title"/></emphasis>
+</programlisting>
+</figure>
+
+<para>The listeners used by the <acronym>PRP</acronym> are named as follows:</para>
+
+<variablelist>
+  <varlistentry>
+    <term>Queries</term>
+    <listitem><simpara>jxta.service.resolver[group unique Id string]ORes
+    (<emphasis>ORes</emphasis> is a literal string)</simpara></listitem>
+  </varlistentry>
+        
+  <varlistentry>
+    <term>Responses</term>
+    <listitem><simpara>jxta.service.resolver[group unique Id string]IRes 
+    (<emphasis>IRes</emphasis>is a literal string)</simpara></listitem>
+  </varlistentry>
+
+  <varlistentry>
+    <term>Srdi</term>
+    <listitem><simpara>jxta.service.resolver[group unique Id string]Isrdi 
+    (<emphasis>Isrdi</emphasis> is a literal string)</simpara></listitem>
+  </varlistentry>
+</variablelist>
+
+<para>Query and response messages are included in messages as elements named
+as follows:</para>
+
+<itemizedlist>
+<listitem><simpara>
+<emphasis>Queries</emphasis>: [group unique Id string]ORes (<emphasis>ORes</emphasis> is a literal string)
+</simpara></listitem>
+<listitem><simpara>
+<emphasis>Responses</emphasis>: [group unique Id string]IRes (<emphasis>IRes</emphasis> is a literal string)
+</simpara></listitem>
+<listitem><simpara>
+<emphasis>Srdi</emphasis>: [group unique Id string]Isrdi (<emphasis>Isrdi</emphasis> is a literal string)
+</simpara></listitem>
+</itemizedlist>
+
+</section>
+
+<section><title>Behaviour</title>
+
+<section>
+<title>Handler Name</title>
+<para>The Handler Name in <acronym>PRP</acronym> messages plays a role similar 
+to that of the handler name in the Endpoint Message addresses: it is a 
+demultiplexing key that specifies how, by which higher-level protocol, or by 
+which module, the message is to be processed. </para>
+
+<para>In the Java and <quote>C</quote> reference implementations, the users of 
+the <acronym>PRP</acronym> are typically services. Each instance of a given 
+service (one per peer per group that uses this service) generates a handler name 
+that is unique on its peer, but will be identical for the instances of this 
+service on other peers. This is by convention achieved by concatenating the 
+service name (which is unique in the group), the group id, which is unique in 
+the peer, and a additional parameter which serves to discriminate between 
+several handlers used by the same service, if needed.</para>
+
+<para>The handler name is used both to register the appropriate handler for 
+incoming queries or responses, and as a destination for outgoing queries or 
+responses. For convenience, most clients of the resolver do define two names: 
+one for propagated messages (mostly queries), and one for unicast messages 
+(mostly responses).</para>
+
+<para>The <acronym>PRP</acronym> typically uses the Rendezvous Service to 
+disseminate a query to multiple peers or unicast messages to send queries to 
+specified peers.</para>
+
+<para>The <acronym>PRP</acronym> <phrase role="rfc2119">should</phrase> refuse, and the existing 
+reference implementations <phrase role="rfc2119">shall</phrase> refuse the 
+registration of more than one handler with the same name. A service 
+<phrase role="rfc2119">should</phrase> register for any handler name that it 
+uses as a destination, thereby preventing other services from registering 
+themselves to receive these messages. This means that in principle a service or 
+application that receives queries or responses from a service instance on 
+another peer is de-facto the local instance of that service and 
+<phrase role="rfc2119">should</phrase> handle these messages as specified. <acronym>PRP</acronym> 
+is designed for same-to-same communication, not client-server.</para>
+
+</section>
+
+<section><title>Policies and Quality of Service</title>
+<para> The <acronym>PRP</acronym> does not guarantee peers that define a query handler name will 
+receive that query, nor does it mandate that all peers that define this handler 
+name will receive it. Only a best effort is made at disseminating the query in a 
+way that maximizes the chance of obtaining a response, if one can be obtained.
+</para>
+
+<para>There is no guarantee that a response to a resolver query request will be 
+made. It is important to point that response to a ResolverQuery request is 
+<phrase role="rfc2119">optional</phrase>. A peer is not required to respond.
+</para>
+
+<para>There is no guarantee that a Resolver SRDI Message will be honored.
+It is important to point out that accepting a Resolver SRDI Message is 
+<phrase role="rfc2119">optional</phrase>. A peer is not required to accept the 
+message.</para>
+
+<para>The <acronym>PRP</acronym> does not assume the presence of reliable message delivery. 
+Multiple Resolver query messages may be sent--none, one, multiple or redundant 
+responses may be received.</para>
+
+<para>The <acronym>PRP</acronym> provides a generic mechanism for services to send queries, and 
+receive responses and SRDI messages. As a service, the reference implementation 
+helps other services by taking care of all messaging aspects, caching queries 
+responses, and SRDI messages and in forwarding queries, based on the invoker's 
+decision. The <acronym>PRP</acronym> performs authentication, and verification of credentials and 
+drops incorrect messages.</para>
+
+<para>The actual task of propagating a query to the next set of peers is 
+delegated to the 
+<xref linkend="proto-rvp" endterm="proto-rvp-title"/>. 
+The Rendezvous service is responsible for determining the set of peers that 
+should receive a message being propagated, but never automatically re-propagates 
+an incoming propagated message.  It is left to the service (query handler) 
+handling the message to determine if further propogation should be performed.
+The <acronym>PRP</acronym>'s policy is the following: if the query handler does not instruct the 
+<acronym>PRP</acronym> to discard the query, and if the local peer is a rendezvous, then the query 
+is re-propagated (within the limits of loop and <acronym>TTL</acronym> rules enforced by the 
+Rendezvous service). In addition, if instructed by the query handler, an 
+identical query may be issued with the local peer as the originator.</para>
+</section>
+
+</section>
+
+</section>
+
+<section id="proto-erp"><title id="proto-erp-title">Endpoint Routing Protocol</title>
+
+<para>The JXTA network is ad hoc, multi-hop, and adaptive by nature. 
+Connections in the network may be transient, and message routing is 
+nondeterministic. Routes <phrase role="rfc2119">may</phrase> be unidirectional 
+and change rapidly. Peers <phrase role="rfc2119">may</phrase> join and leave 
+frequently. A peer inside a firewall can send a message directly to a peer 
+outside a firewall. But a peer outside the firewall cannot establish a 
+connection directly with a peer inside the firewall.</para>
+
+<para>The Endpoint Routing Protocol (<acronym>ERP</acronym>) defines a set of  
+request/query messages that are processed by a routing service to help a peer
+route messages to their destination.</para>
+
+<para>When a peer is asked to send a message to a given peer endpoint address, 
+it looks in its local cache to see if it has a route to this peer. If it does 
+not find a route, it sends a route resolver query message to its available peer 
+routers asking for routing information. A peer can have as many peer routers as 
+it can find or they can be pre-configured. Pre-configured routers are 
+<phrase role="rfc2119">optional</phrase>.</para>
+
+<para>The peer routers provide the low-level infrastructure to route messages 
+between two peers in the network. Any number of peers in a peergroup can elect 
+themselves to become peer routers for other peers. Peers routers offer the 
+ability to cache route information, as well as bridging different physical 
+or logical networks. A peer can dynamically find its router peer via a qualified 
+discovery search. A peer can find out if a peer it has discovered is a peer 
+router via the peer advertisement <sgmltag class="starttag">Parms</sgmltag>
+element.</para>
+
+<para>When a peer router receives a route query, if it knows a route to the 
+destination, it answers the query by returning the route 
+information as an enumeration of hops. Once a route has been discovered, a
+message can be sent to the first router and that router will use the route 
+information to route the message to the destination peer. The route is ordered 
+from the next hop to the final destination peer. At any point the routing 
+information <phrase role="rfc2119">may</phrase> become obsolete requiring the
+current router to discover a new route in order to complete the message delivery.
+</para>
+
+<para>The peer endpoint adds extra routing information to the messages sent by a 
+peer. When a message goes through a peer, the endpoint of that peers leaves its 
+trace on the message. The trace can be used for loop detection, and to discard 
+recurrent messages. The trace is also used to record new route information by 
+peer routers.</para>
+
+<para>ERP provides last resort routing for a peer. More intelligent routing 
+can be implemented by more sophisticated routing services in place of the core 
+routing service. High-level routing services can manage and optimize routes more 
+efficiently than the core service. JXTA intends is to provide the hooks 
+necessary for user defined routing services to manipulate and update the route 
+table information (route advertisements) used by the peer router. The intent is 
+to have complex route analysis and discovery be performed above the core by 
+high-level routing services, and have those routing services provide intelligent 
+hints to the peer router to route messages.</para>
+
+<para>The Endpoint Routing Protocol is used to find the available routes 
+to send a message to a destination peer. This is accomplished through message 
+exchanges between peer routers. Peer routing may be necessary to enable two 
+peers to communicate depending on their location in the network. For instance, 
+the two peers may be on different transports; the peers may be separated by a 
+firewall; or may be using incompatible private IP address spaces.  When 
+necessary one or more peer routers can be used to deliver a message from the 
+originating peer endpoint to the destination peer endpoint.</para>
+
+<section id="proto-erp-epa"><title>Endpoint Addresses</title>
+
+<para>JXTA Endpoints are identified using URIs known as Endpoint Addresses.
+Endpoint Addresses can describe both physical network locations and virtual
+addresses for peers and groups.</para>
+		
+<figure><title>Endpoint Address URI ABNF</title>
+<programlisting>
+&lt;ENDPOINTADDRESS>  ::= (&lt;URISCHEME> &lt;PROTOCOLADDR> 0*1("/" &lt;RECIPIENT> "/" 0*1(&lt;RECIPIENTPARAM>))) |
+                       (&lt;URNSCHEME> &lt;PROTOCOLADDR> 0*1("#" &lt;RECIPIENT> "/" 0*1(&lt;RECIPIENTPARAM>)))
+
+&lt;PROTOCOL>         ::= &lt;URISCHEME> | &lt;URNSCHEME>
+
+&lt;URISCHEME         ::= 1 (&lt;upper> | &lt;lower>) 0* &lt;URICHARS> &lt;SCHEMESEP>
+
+&lt;SCHEMESEP>        ::= ":" | "://"
+
+&lt;URNSCHEME         ::= "urn:" 1 (&lt;upper> | &lt;lower>) 0* &lt;URICHARS> ":"
+
+&lt;URICHARS>         ::= &lt;upper> | &lt;lower> | &lt;number> | "%" &lt;hex> &lt;hex>
+
+&lt;PROTOCOLADDR>     ::= 0* (&lt;URICHARS> |  &lt;other>)
+
+&lt;RECIPIENT>        ::= 0* (&lt;URICHARS> |  &lt;other>)
+
+&lt;RECIPIENTPARAM>   ::= 0* &lt;URN chars>
+
+<emphasis>see <xref linkend="ids-fjia" endterm="ids-fjia-title"/> for definition of some terms.</emphasis>
+</programlisting>
+<!--
+<productionset><title>Endpoint Address URI ABNF</title>
+ <production id="ebnf.endpointaddress">
+  <lhs>ENDPOINTADDRESS</lhs>
+  <rhs>
+   (<nonterminal def="#ebnf.urischeme"/> <nonterminal def="#ebnf.protocoladdr"/> 0*1 ( "/" <nonterminal def="#ebnf.recipient"/> 0*1 ("/" <nonterminal def="#ebnf.recipientparam"/>))) | <sbr/>
+   (<nonterminal def="#ebnf.urnscheme"/> <nonterminal def="#ebnf.protocoladdr"/> 0*1 ( "#" <nonterminal def="#ebnf.recipient"/> 0*1 ("/" <nonterminal def="#ebnf.recipientparam"/>)))
+   </rhs>
+ </production>
+ 
+ <production id="ebnf.protocol">
+  <lhs>PROTOCOL</lhs>
+  <rhs>
+    <nonterminal def="#ebnf.urischeme"/> | <nonterminal def="#ebnf.urnscheme"/>
+  </rhs>
+ </production>
+
+ <production id="ebnf.urischeme">
+  <lhs>URISCHEME</lhs>
+  <rhs>
+   1 (<nonterminal def="#ebnf.lower"/> | <nonterminal def="#ebnf.upper"/>) 0* <nonterminal def="#ebnf.urichars"/> <nonterminal def="#ebnf.schemesep"/>
+   </rhs>
+ </production>
+
+ <production id="ebnf.urnscheme">
+  <lhs>URNSCHEME</lhs>
+  <rhs>
+    "urn:" 1 (<nonterminal def="#ebnf.lower"/> | <nonterminal def="#ebnf.upper"/>) 0* <nonterminal def="#ebnf.urichars"/> ":"
+  </rhs>
+ </production>
+
+ <production id="ebnf.protocoladdr">
+  <lhs>PROTOCOLADDR</lhs>
+  <rhs>
+    0* ( <nonterminal def="#ebnf.urichars"/> | <nonterminal def="#ebnf.other"/> )
+  </rhs>
+ </production>
+
+ <production id="ebnf.recipient">
+  <lhs>RECIPIENT</lhs>
+  <rhs>
+   0* ( <nonterminal def="#ebnf.urichars"/> | <nonterminal def="#ebnf.other"/> )
+  </rhs>
+ </production>
+
+  <production id="ebnf.recipientparam">
+  <lhs>RECIPIENTPARAM</lhs>
+  <rhs>
+    0* ( <nonterminal def="#ebnf.urichars"/> | <nonterminal def="#ebnf.other"/> )
+  </rhs>
+ </production>
+ 
+ <production id="ebnf.urichars">
+  <lhs>URICHARS</lhs>
+  <rhs>
+   <nonterminal def="#ebnf.lower"/> | <nonterminal def="#ebnf.upper"/> | <nonterminal def="#ebnf.number"/> | "%" <nonterminal def="#ebnf.hex"/> <nonterminal def="#ebnf.hex"/>
+  </rhs>
+ </production>
+ 
+ <production id="ebnf.schemesep">
+  <lhs>SCHEMESEP</lhs>
+  <rhs>
+    ":" | "://"
+  </rhs>
+ </production>
+ 
+  <production id="ebnf.upper">
+  <lhs>upper</lhs>
+  <rhs>
+    "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | <sbr/>
+    "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z"
+  </rhs>
+  </production>
+
+  <production id="ebnf.lower">
+  <lhs>lower</lhs>
+  <rhs>
+    "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | <sbr/>
+    "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+  </rhs>
+  </production>
+
+  <production id="ebnf.number">
+  <lhs>number</lhs>
+  <rhs>
+    "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+  </rhs>
+  </production>
+
+ <production id="ebnf.hex">
+  <lhs>hex</lhs>
+  <rhs>
+    <nonterminal def="#ebnf.number"/> | 
+    "A" | "B" | "C" | "D" | "E" | "F" | 
+    "a" | "b" | "c" | "d" | "e" | "f"
+  </rhs>
+  </production>
+
+  <production id="ebnf.other">
+  <lhs>other</lhs>
+  <rhs>
+    "(" | ")" | "+" | "," | "-" | "." | ":" | "=" | "@" | ";" | "$" | "_" | "!" | "*" | "'"
+  </rhs>
+  </production>
+
+  <production id="ebnf.reserved">
+  <lhs>reserved</lhs>
+  <rhs>
+    "%" | "/" | "?" | "#"
+  </rhs>
+  </production>
+</productionset>
+-->
+</figure>
+
+<example><title>Endpoint Address URI Examples</title>
+<programlisting>
+http://192.168.0.11:9700/endpoint/resolver
+
+urn:jxta:uuid-59616261646162614E50472050325033D1D1D1D1D1D1D1D1D1D1D1D1D1D1D1D104?pipeService
+
+urn:jxta:jxta-NetGroup?relay/uuid-59616261646162614A7874615032503369D1041721754AD18D7D9137C06F77DD03
+</programlisting>
+</example>
+
+  <para>The Endpoint Service delegates the sending of outgoing messages to the 
+	endpoint protocol designated by the &lt;PROTOCOL> part of the message's 
+	destination address.</para>
+	
+  <para>The Endpoint Service delivers incoming messages to the listener 
+	registered under the name that matches in order of preference : </para>
+
+<itemizedlist>
+	<listitem><para>The <varname>&lt;RECIPIENT></varname> and 
+	<varname>&lt;RECIPIENTPARAM></varname> seperated by a <constant>/</constant>.
+	</para></listitem>
+	
+	<listitem><para>The <varname>&lt;RECIPIENT></varname>.</para></listitem>
+	
+</itemizedlist>		
+
+    </section>
+		
+<section id="proto-erp-ri"><title>Route information</title>
+
+<para>Route information is represented as follow:</para>
+
+<figure id="feprra"><title id="feprra-title">Route Advertisement</title>
+<programlisting>
+&lt;xs:element name="<classname>APA</classname>" type="jxta:APA"/>
+
+&lt;xs:complexType name ="jxta:APA">
+  &lt;xs:sequence>
+    &lt;xs:element name="PID" minOccurs="0" type="jxta:JXTAID"/>
+    &lt;xs:element name="EA" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+
+&lt;xs:element name="<classname>RA</classname>" type="jxta:RA"/>
+
+&lt;xs:complexType name ="jxta:RA">
+  &lt;xs:sequence>
+    &lt;xs:element name="DstPID" minOccurs="0" type="jxta:JXTAID"/>
+    &lt;xs:element name="Dst">
+      &lt;xs:sequence>
+        &lt;xs:element ref="jxta:APA" maxOccurs="1"/>
+      &lt;/xs:sequence>
+    &lt;/xs:element>
+    &lt;xs:element name="Hops" minOccurs="0">
+      &lt;xs:sequence>
+        &lt;xs:element ref="jxta:APA" maxOccurs="unbounded"/>
+      &lt;/xs:sequence>
+    &lt;/xs:element>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">PID</sgmltag></term>
+	<listitem>
+		<simpara>The Peer ID of the peer described by this advertisement. 
+                When not included the advertisement is used in a context where
+                the Peer ID is already known, such as in the 
+                <sgmltag class="starttag">Dst</sgmltag> element of a Route
+                Advertisement.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">EA</sgmltag></term>
+	<listitem>
+		<simpara>An Endpoint Address for the peer.</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+<variablelist>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">DstPID</sgmltag></term>
+	<listitem>
+		<simpara>The Peer ID of the peer described by this advertisement.
+		When not included the advertisement is used in a context where
+                the Peer ID is already known, such as in a Peer Advertisement.
+		</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Dst</sgmltag></term>
+	<listitem>
+		<simpara>Contains an Access Point Advertisement containing a 
+                list of endpoint addresses associated with the specified peer id.
+		</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+  <term><sgmltag class="starttag">Hops</sgmltag></term>
+	<listitem>
+		<simpara>A semi-ordered collection of Access Point Advertisements describing
+		a route to the peer indicated by <sgmltag class="starttag">DstPID</sgmltag>.
+		The individual steps of the route are co-mingled with routing alternatives.
+		As the route is traversed peers route messages by forwarding to
+		the earliest peer in the list that they can reach.</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+<para>The time-to-live parameter is measured in hops and specifies how long this 
+route is valid. The creator of the route can decide how long this route will be 
+valid. The gateways are defined as an ordered sequence of peer IDs which define 
+the route from the source peer to the destination peer. The sequence may not be 
+complete, but at least the first gateway <phrase role="rfc2119">should</phrase> 
+be present. The first gateway is sufficient to initially route the messages. The 
+remaining gateway sequence is <phrase role="rfc2119">optional</phrase>.</para>
+
+<para>Peer routers will typically cache route information. Any peer can query a 
+peer router for route information. Any peer in a peer group 
+<phrase role="rfc2119">may</phrase> become a peer router.</para>
+
+</section>
+
+<section id="proto-erp-rqm"><title>Route Query Message</title>
+
+<para>This message is sent by peers to request route information for another
+peer. Route Query Messages are transmitted as queries within 
+<xref linkend="proto-prp-rqm" endterm="proto-prp-rqm-title"/>.</para>
+
+<figure id="feprq"><title>Endpoint Router Query</title>
+<programlisting>
+&lt;xs:element name="<classname>ERQ</classname>" type="jxta:ERQ"/>
+
+&lt;xs:complexType name ="jxta:ERQ">
+  &lt;xs:sequence>
+    &lt;xs:element name="Dst" type="jxta:JXTAID"/>
+    &lt;xs:element name="Src">
+      &lt;xs:element ref="jxta:RA"/>
+    &lt;/xs:element>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Dst</sgmltag></term>
+	<listitem>
+		<simpara>The peer id of the peer who's route is desired.</simpara>
+ </listitem>
+ </varlistentry>
+ 	<varlistentry>
+  <term><sgmltag class="starttag">Src</sgmltag></term>
+	<listitem>
+		<simpara>Route advertiement of the peer requesting route information. This
+		route information is needed to ensure there is a return route for responses.
+		</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+</section>
+
+<section id="proto-erp-rrm"><title>Route Response Message</title>
+
+<para>This message is sent by peers in response to Route Query Messages. The
+Route Response Message contains a route advertisement for the destination peer.
+Route Response Messages are transmitted as responses within 
+<xref linkend="proto-prp-rrm" endterm="proto-prp-rrm-title"/>.
+</para>
+
+<figure id="feprrm"><title>Endpoint Router Response Message</title>
+<programlisting>
+&lt;xs:element name="<classname>ERR</classname>" type="jxta:ERR"/>
+
+&lt;xs:complexType name ="jxta:ERR">
+  &lt;xs:sequence>
+    &lt;xs:element name="Dst">
+      &lt;xs:element ref="jxta:RA"/>
+    &lt;/xs:element>
+    &lt;xs:element name="Src">
+      &lt;xs:element ref="jxta:RA"/>
+    &lt;/xs:element>
+  &lt;/xs:sequence>
+&lt;/xs:complexType>
+</programlisting>
+</figure>
+
+<variablelist>
+  <varlistentry>
+  <term><sgmltag class="starttag">Dst</sgmltag></term>
+  <listitem>
+	<simpara>The Route Advertisement for the peer which was requested in the
+	Endpoint Router Query.</simpara>
+ </listitem>
+ </varlistentry>
+ <varlistentry>
+ <term><sgmltag class="starttag">Src</sgmltag></term>
+  <listitem>
+    <simpara>Route Advertiement for the destination peer.</simpara>
+ </listitem>
+ </varlistentry>
+</variablelist>
+
+</section>
+
+</section>
+
+</chapter>

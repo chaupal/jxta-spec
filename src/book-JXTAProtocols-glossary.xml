@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Copyright (C) The Internet Society (2002).  All Rights Reserved.
+
+   This document and translations of it may be copied and furnished to
+   others, and derivative works that comment on or otherwise explain it
+   or assist in its implementation may be prepared, copied, published
+   and distributed, in whole or in part, without restriction of any
+   kind, provided that the above copyright notice and this paragraph are
+   included on all such copies and derivative works.  However, this
+   document itself may not be modified in any way, such as by removing
+   the copyright notice or references to the Internet Society or other
+   Internet organizations, except as needed for the purpose of
+   developing Internet standards in which case the procedures for
+   copyrights defined in the Internet Standards process must be
+   followed, or as required to translate it into languages other than
+   English.
+
+   The limited permissions granted above are perpetual and will not be
+   revoked by the Internet Society or its successors or assigns.
+
+   This document and the information contained herein is provided on an
+   "AS IS" basis and THE INTERNET SOCIETY AND THE INTERNET ENGINEERING
+   TASK FORCE DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING
+   BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION
+   HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED WARRANTIES OF
+   MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+-->
+<glossary>
+  <glossentry id="gloss-adv">
+    <glossterm>Advertisement</glossterm>
+    <glossdef>
+      <para>JXTA's language-neutral metadata structures that describe peer
+      resources such as peers, peer groups, pipes, and services. Advertisements
+      are represented as XML documents.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-binding">
+    <glossterm>Binding</glossterm>
+    <glossdef>
+      <para>An implementation of the JXTA protocols for a particular 
+      environment (e.g., the Java J2SE platform binding).</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-codat">
+    <glossterm>Codat</glossterm>
+    <glossdef>
+      <para>The combination of a content (commonly a document or file) and a
+      JXTA ID.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-credential">
+    <glossterm>Credential</glossterm>
+    <glossdef>
+      <para>A token used to uniquely identify the sender of a message; can be 
+      used to provide message authorization.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-jxta">
+    <glossterm>JXTA</glossterm>
+    <glossdef>
+      <para>JXTA is not an acronym, and in particular the 
+      <quote>J</quote>does not refer to Java. JXTA is a made up word coined
+      by the project's original sponsor, Bill Joy. JXTA is derived from the
+      word Juxtapose, as in side by side. It is a recognition that
+      peer-to-peer is juxtaposed to client server or Web based computing --
+      what is considered today's traditional computing model.</para>
+      <variablelist>
+        <varlistentry>
+          <term>
+            <emphasis role="bold">jux ta pose</emphasis>
+          </term>
+          <listitem>
+            <simpara>
+            <emphasis>tr. v.</emphasis>To place side by side, especially for
+            comparison or contrast.</simpara>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-jcs">
+    <glossterm>JXTA Core Specification</glossterm>
+    <glossdef>
+      <para>The JXTA Core Specification consists of the required components
+      and behaviours which are present in all conforming JXTA
+      implementations. This includes the Endpoint Routing Protocol 
+      (<acronym>ERP</acronym>) and the Peer Resolver Protocol 
+      (<acronym>PRP</acronym>).</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-idformat">
+    <glossterm>JXTA ID Format</glossterm>
+    <glossdef>
+      <para>A JXTA ID Format is a scheme for representing it IDs of JXTA
+      entities. Each ID Format is identified by as sub-namespace of the URN
+      namespace "jxta".</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-idtype">
+    <glossterm>JXTA ID Type</glossterm>
+    <glossdef>
+      <para>A JXTA ID Type is describes the characteristics of JXTA IDs which
+      refer to a particular sort of JXTA entity. Currently this includes peer
+      groups, peers, codats, pipes, module classes, module specifications and
+      module impelmentations, but may be extended to refer to other types of
+      entities in the future or in specific implementations.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-jss">
+    <glossterm>JXTA Standard Services</glossterm>
+    <glossdef>
+      <para>The JXTA Standard Services are optional JXTA components and
+      behaviours. Implementations are not required to provide these services,
+      but are strongly <phrase role="rfc2119">recommended</phrase> to do so.
+      This includes Peer Discovery Protocol (<acronym>PDP</acronym>),
+      Peer Information Protocol (<acronym>PIP</acronym>),
+      Pipe Binding Protocol (<acronym>PBP</acronym>) and
+      Rendezvous Protocol (<acronym>RVP</acronym>).</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-messageTransport">
+    <glossterm>Message Transport</glossterm>
+    <glossdef>
+      <para>A Message Transport is responsible for sending and/or receiving JXTA
+      messages via an external network. A Message Transport may use whatever
+      wire protocol it wishes in order to transmit messages between peers. 
+      Message Transports <phrase role="rfc2119">must</phrase> pass the messages 
+      between peers unaltered.
+      </para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-module">
+    <glossterm>Module</glossterm>
+    <glossdef>
+      <para>An abstraction used to represent any piece of "code" used to 
+      implement a behavior in the JXTA world. Network services are the mode 
+      common example of behavior that can be instantiated on a peer.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-moduleclass">
+    <glossterm>Module Class</glossterm>
+    <glossdef>
+      <para>Represents an expected behavior and an expected binding to support 
+      the module; is used primarily to advertise the existence of a behavior.
+      </para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-moduleimpl">
+    <glossterm>Module Implementation</glossterm>
+    <glossdef>
+      <para>The implementation of a given module specification; there may be 
+      multiple module implementations for a given module specification.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-modulespec">
+    <glossterm>Module Specification</glossterm>
+    <glossdef>
+      <para>Describes a specification of a given module class; it is one 
+      approach to providing the functionality that a module class implies. There
+      can be multiple module specifications for a given module class. The module
+      specification is primarily used to access a module.</para>
+    </glossdef>
+  </glossentry>
+  <glossentry id="gloss-p2p">
+    
+    <glossterm>Peer-to-Peer</glossterm>
+    <acronym>P2P</acronym>
+    <glossdef>
+      <para>A decentralized networking paradigm in which distributed nodes,
+      or peers, communicate and work collaboratively to provide services.</para>
+    </glossdef>
+  </glossentry>
+  
+  <glossentry id="gloss-peer">
+    <glossterm>Peer</glossterm>
+    <glossdef>
+      <para>A peer is any uniquely identifiable networked device which is 
+      capable of interacting with other network devices using standardized
+      protocols.</para>
+    </glossdef>
+  </glossentry>
+
+  <glossentry id="gloss-peergroup">
+    <glossterm>Peer Group</glossterm>
+    <glossdef>
+      <para>A collection of peers that have a common set of interests and have 
+      agreed upon a common set of services.</para>
+    </glossdef>
+  </glossentry>
+
+  <glossentry id="gloss-prp">
+    <glossterm>Peer Resolver Protocol</glossterm>
+    <glossdef>
+      <para>The Peer Resolver Protocol provides a generic query/response 
+      interface applications and services can use for building resolution 
+      services. </para>
+    </glossdef>
+  </glossentry>
+
+  <glossentry id="gloss-rdv">
+    <glossterm>Rendezvous Peer</glossterm>
+    <glossdef>
+      <para>A peer which assumes additional responsibilities for the propagation
+      of messages within a peer group.</para>
+    </glossdef>
+  </glossentry>
+
+  <glossentry id="gloss-resolverservice">
+    <glossterm>Resolver Service</glossterm>
+    <glossdef>
+      <para>Resolver Services are responsible for the routing and processing
+      queries and responses within peer groups. Resolver Services use the Peer
+      Resolver Protocol (<acronym>PRP</acronym>) for transmission of
+      queries between peers.</para>
+    </glossdef>
+  </glossentry>
+
+  <glossentry id="gloss-xml">
+    <glossterm><acronym>XML</acronym></glossterm>
+    <glossdef>
+      <para>(From <citetitle pubwork="article">Extensible Markup Language (XML) 1.0</citetitle>
+      <xref linkend="bib-XML10"/> ) :
+      Extensible Markup Language, abbreviated <acronym>XML</acronym>, describes
+      a class of data objects called <acronym>XML</acronym> documents and 
+      partially describes the behavior ofcomputer programs which process them.
+      </para>
+    </glossdef>
+  </glossentry>
+
+</glossary>
