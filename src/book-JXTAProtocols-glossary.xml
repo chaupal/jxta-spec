@@ -128,6 +128,15 @@
     </glossdef>
   </glossentry>
   
+  <glossentry id="gloss-message">
+    <glossterm>Message</glossterm>
+    <glossdef>
+      <para>The basic unit of data exchange between JXTA peers; each message 
+      contains an ordered sequence of named sub-sections, called message 
+      elements, which can hold any form of data.</para>
+    </glossdef>
+  </glossentry>
+
   <glossentry id="gloss-messageTransport">
     <glossterm>Message Transport</glossterm>
     <glossdef>
@@ -177,7 +186,17 @@
   </glossentry>
   <glossentry id="gloss-p2p">
     
-    <glossterm>Peer-to-Peer</glossterm>
+
+  <glossentry id="gloss-netgroup">
+    <glossterm>network Peer Group</glossterm>
+    <glossdef>
+      <para>The base peer group for applications and services within the JXTA 
+      network. Most applications and services will instantiate their own peer 
+      groups using the Network Peer Group as a base.</para>
+    </glossdef>
+  </glossentry>
+
+  <glossterm>Peer-to-Peer</glossterm>
     <acronym>P2P</acronym>
     <glossdef>
       <para>A decentralized networking paradigm in which distributed nodes,
@@ -241,4 +260,15 @@
     </glossdef>
   </glossentry>
 
+  <glossentry id="gloss-worldgroup">
+    <glossterm>World Peer Group</glossterm>
+    <glossdef>
+      <para>The most fundamental peer group within the JXTA network. This core 
+      peer group is generally responsible only for management of physical 
+      network connections, physical network (generally broadcast) discovery and 
+      physical network topology management. Applications generally do not 
+      interact with this group. May only include limited endpoint, resolver, 
+      discovery and rendezvous services.</para>
+    </glossdef>
+  </glossentry>
 </glossary>
