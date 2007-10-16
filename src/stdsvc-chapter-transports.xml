@@ -85,7 +85,7 @@
 				</para>
 				
 				<para>A peer <phrase role="rfc2119">should</phrase> send its Welcome Message 
-				as soon as the connection is	open, but 
+				as soon as the connection is opened, but 
 				<phrase role="rfc2119">must not</phrase> send any Message Bodies until it 
 				has received a Welcome Message from the remote peer. A peer 
 				<phrase role="rfc2119">must</phrase> send its peer id as the
