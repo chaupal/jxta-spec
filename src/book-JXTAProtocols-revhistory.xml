@@ -312,4 +312,11 @@
     specification of the endpoint SrcAddess and DstAddress message elements.
     </revremark>
   </revision>
+  <revision>
+    <revnumber>2.5.3</revnumber>
+    <date>October 16th, 2007</date>
+    <authorinitials>bondolo@jxta.org</authorinitials>
+    <revremark>Additional glossary entries and other minor corrections.
+    </revremark>
+  </revision>
 </revhistory>

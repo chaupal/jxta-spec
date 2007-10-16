@@ -7,7 +7,7 @@
 
   <title>JXTA v2.0 Protocols Specification</title>
   <link rel="stylesheet" href="docbook.css" type="text/css">
-  <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+  <meta name="generator" content="DocBook XSL Stylesheets V1.73.2">
   <meta name="description" content=
   "The JXTA protocols defines a suite of six XML-based protocols that standardize the manner in which peers self-organize into peergroups, publish and discover peer resources, communicate, and monitor each other. The Endpoint Routing Protocol (ERP) is the protocol by which a peer can discover a route (sequence of hops) to send a message to another peer potentially traversing firewalls and NATs. The Rendezvous Protocol (RVP) is used for propagating a message within a peergroup. The Peer Resolver Protocol (PRP) is the protocol used to send a generic query to one or more peers, and receive a response (or multiple responses) to the query. The Peer Discovery Protocol (PDP) is used to publish and discover resource advertisements. The Peer Information Protocol (PIP) is the protocol by a which a peer may obtain status information about another peers. The Pipe Binding Protocol (PBP) is the protocol by which a peer can establish a virtual communication channel or pipe between one or more peers. The JXTA protocols permit the establishment a virtual network overlay on top of physical networks allowing peers to directly interact and organize independently of their network location and connectivity. The JXTA protocols have been designed to be easily implemented on unidirectional links and asymmetric transports.">
   <meta name="keywords" content=
@@ -19,12 +19,12 @@
     <div class="titlepage">
       <div>
         <div>
-          <h1 class="title"><a name="id265974" id="id265974"></a>JXTA v2.0 Protocols
+          <h1 class="title"><a name="id281638" id="id281638"></a>JXTA v2.0 Protocols
           Specification</h1>
         </div>
 
         <div>
-          <h3 class="corpauthor">Project JXTA <a href="http://www.jxta.org" target=
+          <h3 class="corpauthor">Project JXTA <a class="ulink" href="http://www.jxta.org" target=
           "_top">http://www.jxta.org</a></h3>
         </div>
 
@@ -40,7 +40,7 @@
 
         <div>
           <div class="legalnotice">
-            <a name="id266659" id="id266659"></a>
+            <a name="id281771" id="id281771"></a>
 
             <p>This document and translations of it may be copied and furnished to others, and
             derivative works that comment on or otherwise explain it or assist in its
@@ -544,6 +544,19 @@
                 readers. Now includes complete specification of Binary Message Format version 2 and
                 specification of the endpoint SrcAddess and DstAddress message elements.</td>
               </tr>
+
+              <tr>
+                <td align="left">Revision 2.5.3</td>
+
+                <td align="left">October 16th, 2007</td>
+
+                <td align="left">bondolo@jxta.org</td>
+              </tr>
+
+              <tr>
+                <td align="left" colspan="3">Additional glossary entries and other minor
+                corrections.</td>
+              </tr>
             </table>
           </div>
         </div>
@@ -576,13 +589,13 @@
 
     <div class="toc">
       <dl>
-        <dt><span class="preface"><a href="#id267901">1. Conventions</a></span></dt>
+        <dt><span class="preface"><a href="#id283589">1. Conventions</a></span></dt>
 
         <dd>
           <dl>
-            <dt><span class="section"><a href="#id267877">1.1. Significant Keywords</a></span></dt>
+            <dt><span class="section"><a href="#id283566">1.1. Significant Keywords</a></span></dt>
 
-            <dt><span class="section"><a href="#id268295">1.2. Text Representations</a></span></dt>
+            <dt><span class="section"><a href="#id283970">1.2. Text Representations</a></span></dt>
           </dl>
         </dd>
 
@@ -590,22 +603,22 @@
 
         <dd>
           <dl>
-            <dt><span class="section"><a href="#id268042">2.1. Why JXTA?</a></span></dt>
+            <dt><span class="section"><a href="#id283731">2.1. Why JXTA?</a></span></dt>
 
-            <dt><span class="section"><a href="#id268620">2.2. The JXTA Protocols</a></span></dt>
+            <dt><span class="section"><a href="#id284292">2.2. The JXTA Protocols</a></span></dt>
 
-            <dt><span class="section"><a href="#id268965">2.3. The JXTA Three Layer
+            <dt><span class="section"><a href="#id284627">2.3. The JXTA Three Layer
             Cake</a></span></dt>
 
-            <dt><span class="section"><a href="#id269015">2.4. JXTA Assumptions</a></span></dt>
+            <dt><span class="section"><a href="#id284676">2.4. JXTA Assumptions</a></span></dt>
           </dl>
         </dd>
 
-        <dt><span class="preface"><a href="#id270075">3. Conceptual Overview</a></span></dt>
+        <dt><span class="preface"><a href="#id285729">3. Conceptual Overview</a></span></dt>
 
         <dd>
           <dl>
-            <dt><span class="section"><a href="#id270052">3.1. Peers</a></span></dt>
+            <dt><span class="section"><a href="#id285706">3.1. Peers</a></span></dt>
 
             <dt><span class="section"><a href="#overview-peergroups">3.2. Peer
             Groups</a></span></dt>
@@ -618,11 +631,11 @@
             <dt><span class="section"><a href="#overview-advertisements">3.5.
             Advertisements</a></span></dt>
 
-            <dt><span class="section"><a href="#id271015">3.6. Credentials</a></span></dt>
+            <dt><span class="section"><a href="#id286669">3.6. Credentials</a></span></dt>
 
             <dt><span class="section"><a href="#overview-pipes">3.7. Pipes</a></span></dt>
 
-            <dt><span class="section"><a href="#id271367">3.8. Messages</a></span></dt>
+            <dt><span class="section"><a href="#id287021">3.8. Messages</a></span></dt>
 
             <dt><span class="section"><a href="#overview-codats">3.9. Codats</a></span></dt>
           </dl>
@@ -650,7 +663,7 @@
                 <dt><span class="section"><a href="#ids-ejiu">1.5. Example JXTA ID
                 URNs</a></span></dt>
 
-                <dt><span class="section"><a href="#id273152">1.6. JXTA ID
+                <dt><span class="section"><a href="#id288806">1.6. JXTA ID
                 Representation</a></span></dt>
 
                 <dt><span class="section"><a href="#ids-jif">1.7. JXTA ID Formats</a></span></dt>
@@ -717,11 +730,11 @@
 
             <dd>
               <dl>
-                <dt><span class="section"><a href="#id280185">5.1. Introduction</a></span></dt>
+                <dt><span class="section"><a href="#id295839">5.1. Introduction</a></span></dt>
 
-                <dt><span class="section"><a href="#id280538">5.2. Message</a></span></dt>
+                <dt><span class="section"><a href="#id296192">5.2. Message</a></span></dt>
 
-                <dt><span class="section"><a href="#id280567">5.3. Element</a></span></dt>
+                <dt><span class="section"><a href="#id296221">5.3. Element</a></span></dt>
               </dl>
             </dd>
           </dl>
@@ -770,13 +783,13 @@
 
             <dd>
               <dl>
-                <dt><span class="section"><a href="#id295118">3.1. General
+                <dt><span class="section"><a href="#id310772">3.1. General
                 Requirements</a></span></dt>
 
                 <dt><span class="section"><a href="#msgs-fmts-jbm">3.2. Binary Message
                 Format</a></span></dt>
 
-                <dt><span class="section"><a href="#id295545">3.3. XML Message
+                <dt><span class="section"><a href="#id311199">3.3. XML Message
                 Format</a></span></dt>
               </dl>
             </dd>
@@ -803,9 +816,9 @@
           </dl>
         </dd>
 
-        <dt><span class="glossary"><a href="#id305291">Glossary</a></span></dt>
+        <dt><span class="glossary"><a href="#id320945">Glossary</a></span></dt>
 
-        <dt><span class="bibliography"><a href="#id306259">Bibliography</a></span></dt>
+        <dt><span class="bibliography"><a href="#id322024">Bibliography</a></span></dt>
       </dl>
     </div>
 
@@ -815,7 +828,7 @@
       <dl>
         <dt>1. <a href="#intro-fjp">JXTA Protocols</a></dt>
 
-        <dt>2. <a href="#id271316">JXTA Pipe Types</a></dt>
+        <dt>2. <a href="#id286970">JXTA Pipe Types</a></dt>
 
         <dt>1.1. <a href="#ids-fjia">JXTA ID ABNF</a></dt>
 
@@ -841,7 +854,7 @@
 
         <dt>3.4. <a href="#flnsa">Listener Naming Syntax ABNF</a></dt>
 
-        <dt>3.5. <a href="#id277644">Endpoint Address URI ABNF</a></dt>
+        <dt>3.5. <a href="#id293298">Endpoint Address URI ABNF</a></dt>
 
         <dt>3.6. <a href="#feprra">Route Advertisement</a></dt>
 
@@ -875,9 +888,9 @@
 
         <dt>1.11. <a href="#fwhms">Propagate Pipe Message Header Schema</a></dt>
 
-        <dt>2.1. <a href="#id292218">Welcome Message ABNF</a></dt>
+        <dt>2.1. <a href="#id307872">Welcome Message ABNF</a></dt>
 
-        <dt>2.2. <a href="#id292350">JXTA Message Package ABNF</a></dt>
+        <dt>2.2. <a href="#id308004">JXTA Message Package ABNF</a></dt>
 
         <dt>3.1. <a href="#fjbmabnf">JXTA Binary Message Version 1 ABNF</a></dt>
 
@@ -885,17 +898,17 @@
 
         <dt>1.1. <a href="#ids-fuifa">JXTA "uuid" ID Format ABNF</a></dt>
 
-        <dt>1.2. <a href="#id302325">JXTA UUID Codat ID Fields</a></dt>
+        <dt>1.2. <a href="#id317979">JXTA UUID Codat ID Fields</a></dt>
 
-        <dt>1.3. <a href="#id302488">JXTA UUID PeerGroup ID Fields</a></dt>
+        <dt>1.3. <a href="#id318142">JXTA UUID PeerGroup ID Fields</a></dt>
 
-        <dt>1.4. <a href="#id302623">JXTA UUID Peer ID Fields</a></dt>
+        <dt>1.4. <a href="#id318277">JXTA UUID Peer ID Fields</a></dt>
 
-        <dt>1.5. <a href="#id302758">JXTA UUID Pipe ID Fields</a></dt>
+        <dt>1.5. <a href="#id318412">JXTA UUID Pipe ID Fields</a></dt>
 
-        <dt>1.6. <a href="#id302991">JXTA UUID Module Class ID Fields</a></dt>
+        <dt>1.6. <a href="#id318645">JXTA UUID Module Class ID Fields</a></dt>
 
-        <dt>1.7. <a href="#id303119">JXTA UUID Module Spec ID Fields</a></dt>
+        <dt>1.7. <a href="#id318773">JXTA UUID Module Spec ID Fields</a></dt>
       </dl>
     </div>
 
@@ -911,7 +924,7 @@
 
         <dt>3.3. <a href="#frsrdie">Resolver SRDI</a></dt>
 
-        <dt>3.4. <a href="#id277672">Endpoint Address URI Examples</a></dt>
+        <dt>3.4. <a href="#id293326">Endpoint Address URI Examples</a></dt>
 
         <dt>1.1. <a href="#fdqe">Discovery Query</a></dt>
 
@@ -919,17 +932,17 @@
 
         <dt>1.3. <a href="#fpipeae">Pipe Advertisement</a></dt>
 
-        <dt>2.1. <a href="#id292318">Welcome Message</a></dt>
+        <dt>2.1. <a href="#id307972">Welcome Message</a></dt>
 
-        <dt>2.2. <a href="#id292618">HTTP Ping Example</a></dt>
+        <dt>2.2. <a href="#id308272">HTTP Ping Example</a></dt>
 
-        <dt>2.3. <a href="#id292903">HTTP Poll Example</a></dt>
+        <dt>2.3. <a href="#id308557">HTTP Poll Example</a></dt>
 
-        <dt>2.4. <a href="#id293081">HTTP Send Example</a></dt>
+        <dt>2.4. <a href="#id308735">HTTP Send Example</a></dt>
 
         <dt>3.1. <a href="#msgs-exm">XML Message</a></dt>
 
-        <dt>1.1. <a href="#id302279">Sample "uuid" Format ID</a></dt>
+        <dt>1.1. <a href="#id317933">Sample "uuid" Format ID</a></dt>
       </dl>
     </div>
 
@@ -937,7 +950,7 @@
       <div class="titlepage">
         <div>
           <div>
-            <h2 class="title"><a name="id267901" id="id267901"></a>Conventions</h2>
+            <h2 class="title"><a name="id283589" id="id283589"></a>Conventions</h2>
           </div>
         </div>
       </div>
@@ -948,8 +961,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id267877" id=
-              "id267877"></a>1.1.&nbsp;Significant Keywords</h2>
+              <h2 class="title" style="clear: both"><a name="id283566" id=
+              "id283566"></a>1.1.&nbsp;Significant Keywords</h2>
             </div>
           </div>
         </div>
@@ -960,7 +973,8 @@
         "rfc2119">should not</span>, <span class="rfc2119">recommended</span>, <span class=
         "rfc2119">not recommended</span>, <span class="rfc2119">may</span>, and <span class=
         "rfc2119">optional</span> in this document are to be interpreted as described in
-        &ldquo;<span class="citetitle">IETF RFC 2119</span>&rdquo; <a href="#bib-RFC2119" title=
+        &ldquo;<span class="citetitle">IETF RFC 2119</span>&rdquo; <a class="xref" href=
+        "#bib-RFC2119" title=
         "Key words for use in RFCs to Indicate Requirement Levels">RFC2119</a>.</p>
       </div>
 
@@ -968,16 +982,17 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id268295" id=
-              "id268295"></a>1.2.&nbsp;Text Representations</h2>
+              <h2 class="title" style="clear: both"><a name="id283970" id=
+              "id283970"></a>1.2.&nbsp;Text Representations</h2>
             </div>
           </div>
         </div>
 
         <p>All strings and text found in the JXTA Protocols should be assumed to be encoded using
-        Unicode <a href="#bib-USA28" title="Unicode Standard Annex #28: Unicode 3.2">USA28</a>
-        Canonical UTF8 (NFC) (see <em class="citetitle">Unicode Standard Annex #15 : Unicode
-        Normalization Forms</em> <a href="#bib-USA15" title=
+        Unicode <a class="xref" href="#bib-USA28" title=
+        "Unicode Standard Annex #28: Unicode 3.2">USA28</a> Canonical UTF8 (NFC) (see <em class=
+        "citetitle">Unicode Standard Annex #15 : Unicode Normalization Forms</em> <a class="xref"
+        href="#bib-USA15" title=
         "Unicode Standard Annex #15: Unicode Normalization Forms">USA15</a>) unless otherwise
         specified.</p>
       </div>
@@ -996,19 +1011,19 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id268042" id=
-              "id268042"></a>2.1.&nbsp;Why JXTA?</h2>
+              <h2 class="title" style="clear: both"><a name="id283731" id=
+              "id283731"></a>2.1.&nbsp;Why JXTA?</h2>
             </div>
           </div>
         </div>
 
-        <p>The <a href="#gloss-jxta"><em class="firstterm">JXTA</em></a> Protocols comprise an open
-        network computing platform designed for peer-to-peer (P2P) computing. The set of
-        generalized JXTA protocols enable all connected devices on the network -- including cell
-        phones, <acronym class="acronym">PDA</acronym>s, PCs and servers -- to communicate and
-        collaborate as peers. The JXTA protocols enable developers to build and deploy
-        interoperable services and applications, further spring-boarding the peer-to-peer
-        revolution on the Internet.</p>
+        <p>The <a class="firstterm" href="#gloss-jxta"><em class="firstterm">JXTA</em></a>
+        Protocols comprise an open network computing platform designed for peer-to-peer (P2P)
+        computing. The set of generalized JXTA protocols enable all connected devices on the
+        network -- including cell phones, <acronym class="acronym">PDA</acronym>s, PCs and servers
+        -- to communicate and collaborate as peers. The JXTA protocols enable developers to build
+        and deploy interoperable services and applications, further spring-boarding the
+        peer-to-peer revolution on the Internet.</p>
 
         <p>The JXTA protocols standardize the manner in which peers:</p>
 
@@ -1088,8 +1103,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id268620" id=
-              "id268620"></a>2.2.&nbsp;The JXTA Protocols</h2>
+              <h2 class="title" style="clear: both"><a name="id284292" id=
+              "id284292"></a>2.2.&nbsp;The JXTA Protocols</h2>
             </div>
           </div>
         </div>
@@ -1124,37 +1139,38 @@
 
         <div class="itemizedlist">
           <ul type="disc">
-            <li><a href="#proto-prp" title="3.1.&nbsp;Peer Resolver Protocol">Peer Resolver
-            Protocol</a> (<acronym class="acronym">PRP</acronym>) is the mechanism by which a peer
-            can send a query to one or more peers, and receive a response (or multiple responses)
-            to the query. The <acronym class="acronym">PRP</acronym> implements a query/response
-            protocol. The response message is matched to the query via a unique id included in the
-            message body. Queries can be directed to the whole group or to specific peers within
-            the group.</li>
+            <li><a class="xref" href="#proto-prp" title="3.1.&nbsp;Peer Resolver Protocol">Peer
+            Resolver Protocol</a> (<acronym class="acronym">PRP</acronym>) is the mechanism by
+            which a peer can send a query to one or more peers, and receive a response (or multiple
+            responses) to the query. The <acronym class="acronym">PRP</acronym> implements a
+            query/response protocol. The response message is matched to the query via a unique id
+            included in the message body. Queries can be directed to the whole group or to specific
+            peers within the group.</li>
 
-            <li><a href="#proto-pdp" title="1.1.&nbsp;Peer Discovery Protocol">Peer Discovery
-            Protocol</a> (<acronym class="acronym">PDP</acronym>) is the mechanism by which a peer
-            can advertise its own resources, and discover the resources from other peers (peer
-            groups, services, pipes and additional peers). Every peer resource is described and
-            published using an advertisement. Advertisements are programming language-neutral
-            metadata structures that describe network resources. Advertisements are represented as
-            XML documents.</li>
+            <li><a class="xref" href="#proto-pdp" title="1.1.&nbsp;Peer Discovery Protocol">Peer
+            Discovery Protocol</a> (<acronym class="acronym">PDP</acronym>) is the mechanism by
+            which a peer can advertise its own resources, and discover the resources from other
+            peers (peer groups, services, pipes and additional peers). Every peer resource is
+            described and published using an advertisement. Advertisements are programming
+            language-neutral metadata structures that describe network resources. Advertisements
+            are represented as XML documents.</li>
 
-            <li><a href="#proto-pip" title="1.3.&nbsp;Peer Information Protocol">Peer Information
-            Protocol</a> (<acronym class="acronym">PIP</acronym>) is the mechanism by a which a
-            peer may obtain status information about other peers. This can include state, uptime,
-            traffic load, capabilities, and other information.</li>
+            <li><a class="xref" href="#proto-pip" title="1.3.&nbsp;Peer Information Protocol">Peer
+            Information Protocol</a> (<acronym class="acronym">PIP</acronym>) is the mechanism by a
+            which a peer may obtain status information about other peers. This can include state,
+            uptime, traffic load, capabilities, and other information.</li>
 
-            <li><a href="#proto-pbp" title="1.4.&nbsp;Pipe Binding Protocol">Pipe Binding
-            Protocol</a> (<acronym class="acronym">PBP</acronym>) is the mechanism by which a peer
-            can establish a virtual communication channel or pipe between one or more peers. The
-            PBP is used by a peer to bind two or more ends of the connection (pipe endpoints).
+            <li><a class="xref" href="#proto-pbp" title="1.4.&nbsp;Pipe Binding Protocol">Pipe
+            Binding Protocol</a> (<acronym class="acronym">PBP</acronym>) is the mechanism by which
+            a peer can establish a virtual communication channel or pipe between one or more peers.
+            The PBP is used by a peer to bind two or more ends of the connection (pipe endpoints).
             Pipes provide the foundation communication mechanism between peers.</li>
 
-            <li><a href="#proto-erp" title="3.2.&nbsp;Endpoint Routing Protocol">Endpoint Routing
-            Protocol</a> (<acronym class="acronym">ERP</acronym>) is the mechanism by which a peer
-            can discover a route (sequence of hops) used to send a message to another peer. If a
-            peer &ldquo;<span class="quote">A</span>&rdquo;wants to send a message to peer
+            <li><a class="xref" href="#proto-erp" title=
+            "3.2.&nbsp;Endpoint Routing Protocol">Endpoint Routing Protocol</a> (<acronym class=
+            "acronym">ERP</acronym>) is the mechanism by which a peer can discover a route
+            (sequence of hops) used to send a message to another peer. If a peer
+            &ldquo;<span class="quote">A</span>&rdquo;wants to send a message to peer
             &ldquo;<span class="quote">C</span>&rdquo;, and there is no known direct route between
             &ldquo;<span class="quote">A</span>&rdquo;and &ldquo;<span class=
             "quote">C</span>&rdquo;, then peer &ldquo;<span class="quote">A</span>&rdquo;needs to
@@ -1163,19 +1179,19 @@
             topology changes and makes a previously used route unavailable, peers can use ERP to
             find an alternate route.</li>
 
-            <li><a href="#proto-rvp" title="1.2.&nbsp;Rendezvous Protocol">Rendezvous Protocol</a>
-            (<acronym class="acronym">RVP</acronym>) is the mechanism by which peers can subscribe
-            or be a subscriber to a propagation service. Within a peer group, peers can be either
-            rendezvous peers or peers that are listening to rendezvous peers. The Rendezvous
-            Protocol allows a peer to send messages to all the listening instances of the service.
-            The RVP is used by the Peer Resolver Protocol and by the Pipe Binding Protocol in order
-            to propagate messages.</li>
+            <li><a class="xref" href="#proto-rvp" title="1.2.&nbsp;Rendezvous Protocol">Rendezvous
+            Protocol</a> (<acronym class="acronym">RVP</acronym>) is the mechanism by which peers
+            can subscribe or be a subscriber to a propagation service. Within a peer group, peers
+            can be either rendezvous peers or peers that are listening to rendezvous peers. The
+            Rendezvous Protocol allows a peer to send messages to all the listening instances of
+            the service. The RVP is used by the Peer Resolver Protocol and by the Pipe Binding
+            Protocol in order to propagate messages.</li>
           </ul>
         </div>
 
         <p>All of these protocols are implemented using a common messaging layer. This messaging
-        layer is what binds the JXTA protocols to various network transports. (see <a href="#msgs"
-        title="Chapter&nbsp;5.&nbsp;Messages">Messages</a>)</p>
+        layer is what binds the JXTA protocols to various network transports. (see <a class="xref"
+        href="#msgs" title="Chapter&nbsp;5.&nbsp;Messages">Messages</a>)</p>
 
         <p>Each of the JXTA protocols is independent of the others. A peer is not required to
         implement all of the JXTA protocols to be a JXTA peer. A peer only implements the protocols
@@ -1203,16 +1219,18 @@
 
         <p>Each peer must implement two protocols in order to be addressable as a peer: the Peer
         Resolver Protocol and the Endpoint Routing Protocol. These two protocols and the
-        advertisements, services and definitions they depend upon are known as the <a href=
-        "#gloss-jcs"><em class="firstterm">JXTA Core Specification</em></a>. The <a href="#core"
-        title="Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core Specification</a> establishes
-        the base infrastructure used by other services and applications.</p>
+        advertisements, services and definitions they depend upon are known as the <a class=
+        "firstterm" href="#gloss-jcs"><em class="firstterm">JXTA Core Specification</em></a>. The
+        <a class="xref" href="#core" title="Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core
+        Specification</a> establishes the base infrastructure used by other services and
+        applications.</p>
 
         <p>The remaining JXTA protocols, services and advertisements are optional. JXTA
         implementations are not required to provide these services, but are strongly recommended to
         do so. Implementing these services provides greater interoperability with other
         implementations and broader functionality. These common JXTA services are known as the
-        <a href="#gloss-jss"><em class="firstterm">JXTA Standard Services</em></a>.</p>
+        <a class="firstterm" href="#gloss-jss"><em class="firstterm">JXTA Standard
+        Services</em></a>.</p>
 
         <div class="figure">
           <a name="intro-fjp" id="intro-fjp"></a>
@@ -1294,8 +1312,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id268965" id=
-              "id268965"></a>2.3.&nbsp;The JXTA Three Layer Cake</h2>
+              <h2 class="title" style="clear: both"><a name="id284627" id=
+              "id284627"></a>2.3.&nbsp;The JXTA Three Layer Cake</h2>
             </div>
           </div>
         </div>
@@ -1336,8 +1354,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id269015" id=
-              "id269015"></a>2.4.&nbsp;JXTA Assumptions</h2>
+              <h2 class="title" style="clear: both"><a name="id284676" id=
+              "id284676"></a>2.4.&nbsp;JXTA Assumptions</h2>
             </div>
           </div>
         </div>
@@ -1396,24 +1414,25 @@
 
         <p>Due to unpredictability of P2P networks, assumptions <span class="rfc2119">must
         not</span> be made about the time required for a message to reach a destination peer. The
-        <a href="#core-proto" title="Chapter&nbsp;3.&nbsp;JXTA Core Protocols">JXTA Core
-        Protocols</a> <span class="rfc2119">must not</span> impose any timing requirements for
+        <a class="xref" href="#core-proto" title="Chapter&nbsp;3.&nbsp;JXTA Core Protocols">JXTA
+        Core Protocols</a> <span class="rfc2119">must not</span> impose any timing requirements for
         message receipt.</p>
 
-        <p>The JXTA Transport Protocols (see <a href="#core-trans" title=
+        <p>The JXTA Transport Protocols (see <a class="xref" href="#core-trans" title=
         "Chapter&nbsp;4.&nbsp;Core JXTA Message Transport Bindings">Core JXTA Message Transport
-        Bindings</a> and <a href="#stdsvc-trans" title=
+        Bindings</a> and <a class="xref" href="#stdsvc-trans" title=
         "Chapter&nbsp;2.&nbsp;Standard JXTA Message Transports">Standard JXTA Message
         Transports</a>) <span class="rfc2119">must not</span> impose any timing requirements on the
-        <a href="#core-proto" title="Chapter&nbsp;3.&nbsp;JXTA Core Protocols">JXTA Core
-        Protocols</a>, but <span class="rfc2119">may</span> have timing requirements internal to
-        themselves.</p>
+        <a class="xref" href="#core-proto" title="Chapter&nbsp;3.&nbsp;JXTA Core Protocols">JXTA
+        Core Protocols</a>, but <span class="rfc2119">may</span> have timing requirements internal
+        to themselves.</p>
 
-        <p>The <a href="#stdsvc-proto" title="Chapter&nbsp;1.&nbsp;Standard Protocols">Standard
-        Protocols</a> (e.g. <a href="#proto-pdp" title="1.1.&nbsp;Peer Discovery Protocol">Peer
-        Discovery Protocol</a>, <a href="#proto-pip" title=
-        "1.3.&nbsp;Peer Information Protocol">Peer Information Protocol</a>, <a href="#proto-pbp"
-        title="1.4.&nbsp;Pipe Binding Protocol">Peer Discovery Protocol</a>, etc.) and application
+        <p>The <a class="xref" href="#stdsvc-proto" title=
+        "Chapter&nbsp;1.&nbsp;Standard Protocols">Standard Protocols</a> (e.g. <a class="xref"
+        href="#proto-pdp" title="1.1.&nbsp;Peer Discovery Protocol">Peer Discovery Protocol</a>,
+        <a class="xref" href="#proto-pip" title="1.3.&nbsp;Peer Information Protocol">Peer
+        Information Protocol</a>, <a class="xref" href="#proto-pbp" title=
+        "1.4.&nbsp;Pipe Binding Protocol">Peer Discovery Protocol</a>, etc.) and application
         defined protocols <span class="rfc2119">may</span> impose timing requirements on message
         delivery and receipt.</p>
 
@@ -1469,7 +1488,7 @@
       <div class="titlepage">
         <div>
           <div>
-            <h2 class="title"><a name="id270075" id="id270075"></a>Conceptual Overview</h2>
+            <h2 class="title"><a name="id285729" id="id285729"></a>Conceptual Overview</h2>
           </div>
         </div>
       </div>
@@ -1481,8 +1500,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id270052" id=
-              "id270052"></a>3.1.&nbsp;Peers</h2>
+              <h2 class="title" style="clear: both"><a name="id285706" id=
+              "id285706"></a>3.1.&nbsp;Peers</h2>
             </div>
           </div>
         </div>
@@ -1524,7 +1543,7 @@
           <div class="titlepage">
             <div>
               <div>
-                <h3 class="title"><a name="id270489" id="id270489"></a>3.1.1.&nbsp;Peers and
+                <h3 class="title"><a name="id286143" id="id286143"></a>3.1.1.&nbsp;Peers and
                 Users</h3>
               </div>
             </div>
@@ -1715,7 +1734,7 @@
           <div class="titlepage">
             <div>
               <div>
-                <h3 class="title"><a name="id270870" id="id270870"></a>3.3.1.&nbsp;Service
+                <h3 class="title"><a name="id286524" id="id286524"></a>3.3.1.&nbsp;Service
                 Invocation</h3>
               </div>
             </div>
@@ -1734,7 +1753,7 @@
           <div class="titlepage">
             <div>
               <div>
-                <h3 class="title"><a name="id270885" id="id270885"></a>3.3.2.&nbsp;JXTA-Enabled
+                <h3 class="title"><a name="id286539" id="id286539"></a>3.3.2.&nbsp;JXTA-Enabled
                 Services</h3>
               </div>
             </div>
@@ -1802,11 +1821,12 @@
           </ul>
         </div>
 
-        <p>The complete specification of advertisements is given in the <a href="#core-advert"
-        title="Chapter&nbsp;2.&nbsp;Advertisements">Advertisements</a> chapter. Because the JXTA
-        protocols make heavy reference to these advertisements, the reader should be familiar with
-        advertisements before moving on to the protocol specification chapters. Advertisements are,
-        by far, the most common document exchanged in the protocol messages.</p>
+        <p>The complete specification of advertisements is given in the <a class="xref" href=
+        "#core-advert" title="Chapter&nbsp;2.&nbsp;Advertisements">Advertisements</a> chapter.
+        Because the JXTA protocols make heavy reference to these advertisements, the reader should
+        be familiar with advertisements before moving on to the protocol specification chapters.
+        Advertisements are, by far, the most common document exchanged in the protocol
+        messages.</p>
 
         <p>Advertisments are published with a lifetime that specifies the availability of the
         resource. An advertisement can be republished to extend the lifetime of a resource.</p>
@@ -1819,8 +1839,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id271015" id=
-              "id271015"></a>3.6.&nbsp;Credentials</h2>
+              <h2 class="title" style="clear: both"><a name="id286669" id=
+              "id286669"></a>3.6.&nbsp;Credentials</h2>
             </div>
           </div>
         </div>
@@ -1933,14 +1953,15 @@
 
         <p>The pipe endpoints are referred to as input pipes (receiver) and output pipes
         (transmitter). Pipe endpoints are dynamically bound to a peer endpoint at runtime, via the
-        <a href="#proto-pbp" title="1.4.&nbsp;Pipe Binding Protocol">Pipe Binding Protocol</a>. The
-        pipe binding process consists of searching for and connecting the two or more endpoints of
-        a pipe.</p>
+        <a class="xref" href="#proto-pbp" title="1.4.&nbsp;Pipe Binding Protocol">Pipe Binding
+        Protocol</a>. The pipe binding process consists of searching for and connecting the two or
+        more endpoints of a pipe.</p>
 
         <p>When a message is sent into an output pipe, the message is sent by the local peer
         endpoint to the peer endpoint(s) where the associated input pipe is located. The set of
-        peer endpoints currently associated with the input pipes is discovered using the <a href=
-        "#proto-pbp" title="1.4.&nbsp;Pipe Binding Protocol">Pipe Binding Protocol</a>.</p>
+        peer endpoints currently associated with the input pipes is discovered using the <a class=
+        "xref" href="#proto-pbp" title="1.4.&nbsp;Pipe Binding Protocol">Pipe Binding
+        Protocol</a>.</p>
 
         <p>A pipe offers two modes of communication:</p>
 
@@ -1968,7 +1989,7 @@
         </div>
 
         <div class="figure">
-          <a name="id271316" id="id271316"></a>
+          <a name="id286970" id="id286970"></a>
 
           <p class="title"><b>Figure&nbsp;2.&nbsp;JXTA Pipe Types</b></p>
 
@@ -1989,8 +2010,8 @@
         <div class="titlepage">
           <div>
             <div>
-              <h2 class="title" style="clear: both"><a name="id271367" id=
-              "id271367"></a>3.8.&nbsp;Messages</h2>
+              <h2 class="title" style="clear: both"><a name="id287021" id=
+              "id287021"></a>3.8.&nbsp;Messages</h2>
             </div>
           </div>
         </div>
@@ -2031,7 +2052,7 @@
 
         <p>Content are published and shared amongst peer members of a peer group. When a content is
         shared within the JXTA network it is associated with a JXTA ID. The combination of a
-        content and a JXTA ID is known as a <a href="#gloss-codat"><em class=
+        content and a JXTA ID is known as a <a class="firstterm" href="#gloss-codat"><em class=
         "firstterm">Codat</em></a>. A codat may belong to only one peer group. If the same content
         must be published in two different peer groups, two different codats are created. The two
         codats <span class="rfc2119">may</span>, of course, represent the same content.</p>
@@ -2072,23 +2093,24 @@
 
         <p>JXTA is designed to be a small system with only a few required components and
         behaviours. The functionality that is required of all implementations is defined by the
-        <a href="#gloss-jcs"><em class="firstterm">JXTA Core Specification</em></a> and is
-        documented in this section. Implementations that wish to be JXTA compliant <span class=
-        "rfc2119">must</span> implement all of the <a href="#core" title=
-        "Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core Specification</a>.</p>
+        <a class="firstterm" href="#gloss-jcs"><em class="firstterm">JXTA Core
+        Specification</em></a> and is documented in this section. Implementations that wish to be
+        JXTA compliant <span class="rfc2119">must</span> implement all of the <a class="xref" href=
+        "#core" title="Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core Specification</a>.</p>
 
-        <p>Implementation of the <a href="#core" title=
+        <p>Implementation of the <a class="xref" href="#core" title=
         "Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core Specification</a> does not guarantee
         or even necessarily provide interoperability with other JXTA implementations. There are a
         number of types of components and behaviours which need to be provided by JXTA
-        implementation which are not part of the <a href="#core" title=
+        implementation which are not part of the <a class="xref" href="#core" title=
         "Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core Specification</a>. Existing
-        implementations of these components are described separately in <a href="#stdsvc" title=
-        "Part&nbsp;2.&nbsp;JXTA Standard Services">JXTA Standard Services</a> and <a href=
-        "#refimpls" title="Part&nbsp;3.&nbsp;JXTA Reference Implementations Information">JXTA
-        Reference Implementations Information</a>. In order for a JXTA implementation to be
-        interoperable with other implementations it may be necessary to implement some of the
-        components described there.</p>
+        implementations of these components are described separately in <a class="xref" href=
+        "#stdsvc" title="Part&nbsp;2.&nbsp;JXTA Standard Services">JXTA Standard Services</a> and
+        <a class="xref" href="#refimpls" title=
+        "Part&nbsp;3.&nbsp;JXTA Reference Implementations Information">JXTA Reference
+        Implementations Information</a>. In order for a JXTA implementation to be interoperable
+        with other implementations it may be necessary to implement some of the components
+        described there.</p>
 
         <div class="toc">
           <p><b>Table of Contents</b></p>
@@ -2112,7 +2134,7 @@
                 <dt><span class="section"><a href="#ids-ejiu">1.5. Example JXTA ID
                 URNs</a></span></dt>
 
-                <dt><span class="section"><a href="#id273152">1.6. JXTA ID
+                <dt><span class="section"><a href="#id288806">1.6. JXTA ID
                 Representation</a></span></dt>
 
                 <dt><span class="section"><a href="#ids-jif">1.7. JXTA ID Formats</a></span></dt>
@@ -2179,11 +2201,11 @@
 
             <dd>
               <dl>
-                <dt><span class="section"><a href="#id280185">5.1. Introduction</a></span></dt>
+                <dt><span class="section"><a href="#id295839">5.1. Introduction</a></span></dt>
 
-                <dt><span class="section"><a href="#id280538">5.2. Message</a></span></dt>
+                <dt><span class="section"><a href="#id296192">5.2. Message</a></span></dt>
 
-                <dt><span class="section"><a href="#id280567">5.3. Element</a></span></dt>
+                <dt><span class="section"><a href="#id296221">5.3. Element</a></span></dt>
               </dl>
             </dd>
           </dl>
@@ -2220,8 +2242,8 @@
           <p>JXTA IDs are normally presented as URNs. URNs are a form of URI that
           &ldquo;<span class="quote">... are intended to serve as persistent, location-independent,
           resource identifiers</span>&rdquo;. Like other forms of URI, JXTA IDs are presented as
-          text. See &ldquo;<span class="citetitle">IETF RFC 2141</span>&rdquo; <a href=
-          "#bib-RFC2141" title="URN Syntax">RFC2141</a> for more information on URNs.</p>
+          text. See &ldquo;<span class="citetitle">IETF RFC 2141</span>&rdquo; <a class="xref"
+          href="#bib-RFC2141" title="URN Syntax">RFC2141</a> for more information on URNs.</p>
         </div>
 
         <div class="section" lang="en">
@@ -2272,9 +2294,10 @@
           There are three operations available for URIs; compare, resolve, decompose. JXTA ID URIs
           are comparable for equality as strings. JXTA ID URIs can also be resolved to the resource
           they reference. Finally, JXTA ID URIs can optionally be decomposed and interpreted by
-          JXTA bindings. In order to interpret a JXTA ID, a JXTA binding must support the <a href=
-          "#gloss-idformat"><em class="firstterm">JXTA ID Format</em></a> used by that JXTA ID. For
-          many JXTA protocols and operations it is not necessary to decompose the JXTA IDs.</p>
+          JXTA bindings. In order to interpret a JXTA ID, a JXTA binding must support the <a class=
+          "firstterm" href="#gloss-idformat"><em class="firstterm">JXTA ID Format</em></a> used by
+          that JXTA ID. For many JXTA protocols and operations it is not necessary to decompose the
+          JXTA IDs.</p>
         </div>
 
         <div class="section" lang="en">
@@ -2344,18 +2367,19 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
           <div class="titlepage">
             <div>
               <div>
-                <h2 class="title" style="clear: both"><a name="id273152" id=
-                "id273152"></a>1.6.&nbsp;JXTA ID Representation</h2>
+                <h2 class="title" style="clear: both"><a name="id288806" id=
+                "id288806"></a>1.6.&nbsp;JXTA ID Representation</h2>
               </div>
             </div>
           </div>
 
           <p>JXTA IDs are presented as URNs of the <code class="constant">jxta</code> namespace.
           The JXTA ID Namespace specifies additional restrictions upon the format of the URN. These
-          requriements are detailed in <a href="#ids-fjia" title=
+          requriements are detailed in <a class="xref" href="#ids-fjia" title=
           "Figure&nbsp;1.1.&nbsp;JXTA ID ABNF">JXTA ID ABNF</a>. The following figure uses the ABNF
-          syntax as defined in &ldquo;<span class="citetitle">IETF RFC 2234</span>&rdquo; <a href=
-          "#bib-RFC2234" title="Augmented BNF for Syntax Specifications: ABNF">RFC2234</a>.</p>
+          syntax as defined in &ldquo;<span class="citetitle">IETF RFC 2234</span>&rdquo; <a class=
+          "xref" href="#bib-RFC2234" title=
+          "Augmented BNF for Syntax Specifications: ABNF">RFC2234</a>.</p>
 
           <div class="figure">
             <a name="ids-fjia" id="ids-fjia"></a>
@@ -2421,9 +2445,9 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
           <p>JXTA IDs are designed to support multiple ID Formats. ID Formats allow JXTA developers
           to utilize existing naming and ID schemes within JXTA. In the JXTA ID presentation, the
           ID's &ldquo;<span class="quote">Format</span>&rdquo; follows the JXTA URN namespace. Any
-          JXTA ID Format which follows the general requirements for URNs and the <a href="#ids-jip"
-          title="1.2.&nbsp;JXTA ID Properties">JXTA ID Properties</a> will be usable by conformant
-          JXTA implementations.</p>
+          JXTA ID Format which follows the general requirements for URNs and the <a class="xref"
+          href="#ids-jip" title="1.2.&nbsp;JXTA ID Properties">JXTA ID Properties</a> will be
+          usable by conformant JXTA implementations.</p>
         </div>
 
         <div class="section" lang="en">
@@ -2649,19 +2673,20 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
 
           <div class="itemizedlist">
             <ul type="disc">
-              <li><a href="#advert-pa" title="2.3.&nbsp;Peer Advertisement">Peer
+              <li><a class="xref" href="#advert-pa" title="2.3.&nbsp;Peer Advertisement">Peer
               Advertisement</a></li>
 
-              <li><a href="#advert-pga" title="2.4.&nbsp;Peer Group Advertisement">Peer Group
+              <li><a class="xref" href="#advert-pga" title=
+              "2.4.&nbsp;Peer Group Advertisement">Peer Group Advertisement</a></li>
+
+              <li><a class="xref" href="#advert-mca" title=
+              "2.5.&nbsp;Module Class Advertisement">Module Class Advertisement</a></li>
+
+              <li><a class="xref" href="#advert-msa" title=
+              "2.6.&nbsp;Module Specification Advertisement">Module Specification
               Advertisement</a></li>
 
-              <li><a href="#advert-mca" title="2.5.&nbsp;Module Class Advertisement">Module Class
-              Advertisement</a></li>
-
-              <li><a href="#advert-msa" title="2.6.&nbsp;Module Specification Advertisement">Module
-              Specification Advertisement</a></li>
-
-              <li><a href="#advert-mia" title=
+              <li><a class="xref" href="#advert-mia" title=
               "2.7.&nbsp;Module Implementation Advertisement">Module Implementation
               Advertisement</a></li>
             </ul>
@@ -2698,14 +2723,14 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
           ensure correct interactions with other peers. The Advertisements defined by the
           <em class="glossterm">JXTA Core Specification</em>and the <em class="glossterm">JXTA
           Standard Services</em>are specified using the <em class="citetitle">XML Schema Definition
-          Language</em> <a href="#bib-XSD2001-1" title=
-          "XML Schema Part 1: Structures">XSD2001-1</a> <a href="#bib-XSD2001-2" title=
-          "XML Schema Part 2: Datatypes">XSD2001-2</a>. Use of XML Schemas allows the advertisement
-          contents to be strongly type-checked and semanticly validated beyond the syntactical
-          validation provided by XML with DTDs. Service and protocol authors are <span class=
-          "rfc2119">recommended</span>to specify their Advertisements or Advertisement sub-types
-          using XML Schema Language. DTDs are normally prepared from the schema descriptions for
-          use in environments which do not support XML schema.</p>
+          Language</em> <a class="xref" href="#bib-XSD2001-1" title=
+          "XML Schema Part 1: Structures">XSD2001-1</a> <a class="xref" href="#bib-XSD2001-2"
+          title="XML Schema Part 2: Datatypes">XSD2001-2</a>. Use of XML Schemas allows the
+          advertisement contents to be strongly type-checked and semanticly validated beyond the
+          syntactical validation provided by XML with DTDs. Service and protocol authors are
+          <span class="rfc2119">recommended</span>to specify their Advertisements or Advertisement
+          sub-types using XML Schema Language. DTDs are normally prepared from the schema
+          descriptions for use in environments which do not support XML schema.</p>
 
           <p>The other powerful feature of XML is its ability to be translated into other encodings
           such as HTML and WML. This feature allows peers that do not support XML to access
@@ -2862,8 +2887,8 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
               <dt><span class="term"><code class="sgmltag-starttag">&lt;GID&gt;</code></span></dt>
 
               <dd>This element provides the Peer Group ID. The Peer Group ID is the canonical way
-              of refering to a group and uniquely identifies the peer group. See <a href=
-              "#ids-jit-pgi" title="1.8.1.&nbsp;Peer Group IDs">Peer Group IDs</a>for more
+              of refering to a group and uniquely identifies the peer group. See <a class="xref"
+              href="#ids-jit-pgi" title="1.8.1.&nbsp;Peer Group IDs">Peer Group IDs</a>for more
               information on peer group ids.</dd>
 
               <dt><span class="term"><code class="sgmltag-starttag">&lt;MSID&gt;</code></span></dt>
@@ -3216,20 +3241,20 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
               </div>
             </div>
 
-            <p>The <em class="glossterm"><a href="#gloss-prp" title="Peer Resolver Protocol">Peer
-            Resolver Protocol</a></em> (<acronym class="acronym">PRP</acronym>) provides a generic
-            query/response interface applications and services can use for building resolution
-            services. The <acronym class="acronym">PRP</acronym> provides the ability to issue
-            queries within a peer group and later identifying matching responses. Each query or
-            response is addressed to a specific named handler. The Resolver Service of each peer
-            group cooperates with the named handlers to provide the query routing strategies and
-            policies. The named handlers provide the specific semantics for how the query is
-            distributed and resolved within the peer group and how responses to the query are
-            handled. In most situations the service or application has the best knowledge of the
-            group topology and how the query should be routed. A query <span class=
-            "rfc2119">may</span> be received and processed by any number of peers withinin the peer
-            group, possibly all, and it is processed accordingly by a handler if such a named
-            handler is registered on that peer.</p>
+            <p>The <em class="glossterm"><a class="glossterm" href="#gloss-prp" title=
+            "Peer Resolver Protocol">Peer Resolver Protocol</a></em> (<acronym class=
+            "acronym">PRP</acronym>) provides a generic query/response interface applications and
+            services can use for building resolution services. The <acronym class=
+            "acronym">PRP</acronym> provides the ability to issue queries within a peer group and
+            later identifying matching responses. Each query or response is addressed to a specific
+            named handler. The Resolver Service of each peer group cooperates with the named
+            handlers to provide the query routing strategies and policies. The named handlers
+            provide the specific semantics for how the query is distributed and resolved within the
+            peer group and how responses to the query are handled. In most situations the service
+            or application has the best knowledge of the group topology and how the query should be
+            routed. A query <span class="rfc2119">may</span> be received and processed by any
+            number of peers withinin the peer group, possibly all, and it is processed accordingly
+            by a handler if such a named handler is registered on that peer.</p>
 
             <p>Peers <span class="rfc2119">may</span> also participate in the Shared Resource
             Distributed Index (<acronym class="acronym">SRDI</acronym>). <acronym class=
@@ -3600,7 +3625,7 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id277191" id="id277191"></a>3.1.5.&nbsp;Listener and
+                  <h3 class="title"><a name="id292845" id="id292845"></a>3.1.5.&nbsp;Listener and
                   Element Naming</h3>
                 </div>
               </div>
@@ -3608,8 +3633,8 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
 
             <p>The <acronym class="acronym">PRP</acronym> communicates by exchanging Messages using
             the Endpoint Service. Endpoint Addresses specify a handler name. The <acronym class=
-            "acronym">PRP</acronym> attaches a listener by that name to the <a href="#trans-endpt"
-            title="4.1.&nbsp;Endpoint Service">Endpoint Service</a>.</p>
+            "acronym">PRP</acronym> attaches a listener by that name to the <a class="xref" href=
+            "#trans-endpt" title="4.1.&nbsp;Endpoint Service">Endpoint Service</a>.</p>
 
             <p>All <acronym class="acronym">PRP</acronym> implementations <span class=
             "rfc2119">must</span> use the same scheme for building their handler names. The
@@ -3637,7 +3662,7 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
 
 &lt;JXTARSLVRNAM&gt;     ::= "jxta.service.resolver"
 
-&lt;JXTAIDVAL&gt;        ::= <span class="emphasis"><em>See <a href="#ids-fjia" title=
+&lt;JXTAIDVAL&gt;        ::= <span class="emphasis"><em>See <a class="xref" href="#ids-fjia" title=
 "Figure&nbsp;1.1.&nbsp;JXTA ID ABNF">JXTA ID ABNF</a></em></span>
 </pre>
               </div>
@@ -3686,7 +3711,7 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id277355" id="id277355"></a>3.1.6.&nbsp;Behaviour</h3>
+                  <h3 class="title"><a name="id293009" id="id293009"></a>3.1.6.&nbsp;Behaviour</h3>
                 </div>
               </div>
             </div>
@@ -3695,7 +3720,7 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id277360" id="id277360"></a>3.1.6.1.&nbsp;Handler
+                    <h4 class="title"><a name="id293014" id="id293014"></a>3.1.6.1.&nbsp;Handler
                     Name</h4>
                   </div>
                 </div>
@@ -3740,7 +3765,7 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id277442" id="id277442"></a>3.1.6.2.&nbsp;Policies
+                    <h4 class="title"><a name="id293096" id="id293096"></a>3.1.6.2.&nbsp;Policies
                     and Quality of Service</h4>
                   </div>
                 </div>
@@ -3772,17 +3797,18 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
               authentication, and verification of credentials and drops incorrect messages.</p>
 
               <p>The actual task of propagating a query to the next set of peers is delegated to
-              the <a href="#proto-rvp" title="1.2.&nbsp;Rendezvous Protocol">Rendezvous
-              Protocol</a>. The Rendezvous service is responsible for determining the set of peers
-              that should receive a message being propagated, but never automatically re-propagates
-              an incoming propagated message. It is left to the service (query handler) handling
-              the message to determine if further propogation should be performed. The
-              <acronym class="acronym">PRP</acronym>'s policy is the following: if the query
-              handler does not instruct the <acronym class="acronym">PRP</acronym> to discard the
-              query, and if the local peer is a rendezvous, then the query is re-propagated (within
-              the limits of loop and <acronym class="acronym">TTL</acronym> rules enforced by the
-              Rendezvous service). In addition, if instructed by the query handler, an identical
-              query may be issued with the local peer as the originator.</p>
+              the <a class="xref" href="#proto-rvp" title=
+              "1.2.&nbsp;Rendezvous Protocol">Rendezvous Protocol</a>. The Rendezvous service is
+              responsible for determining the set of peers that should receive a message being
+              propagated, but never automatically re-propagates an incoming propagated message. It
+              is left to the service (query handler) handling the message to determine if further
+              propogation should be performed. The <acronym class="acronym">PRP</acronym>'s policy
+              is the following: if the query handler does not instruct the <acronym class=
+              "acronym">PRP</acronym> to discard the query, and if the local peer is a rendezvous,
+              then the query is re-propagated (within the limits of loop and <acronym class=
+              "acronym">TTL</acronym> rules enforced by the Rendezvous service). In addition, if
+              instructed by the query handler, an identical query may be issued with the local peer
+              as the originator.</p>
             </div>
           </div>
         </div>
@@ -3867,7 +3893,7 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
             and groups.</p>
 
             <div class="figure">
-              <a name="id277644" id="id277644"></a>
+              <a name="id293298" id="id293298"></a>
 
               <p class="title"><b>Figure&nbsp;3.5.&nbsp;Endpoint Address URI ABNF</b></p>
 
@@ -3892,14 +3918,14 @@ F.  urn:jxta:idform3-31:08:66:42:67:::91:24::73
 
 &lt;RECIPIENTPARAM&gt;   ::= 0* &lt;URN chars&gt;
 
-<span class="emphasis"><em>see <a href="#ids-fjia" title=
+<span class="emphasis"><em>see <a class="xref" href="#ids-fjia" title=
 "Figure&nbsp;1.1.&nbsp;JXTA ID ABNF">JXTA ID ABNF</a> for definition of some terms.</em></span>
 </pre>
               </div>
             </div><br class="figure-break">
 
             <div class="example">
-              <a name="id277672" id="id277672"></a>
+              <a name="id293326" id="id293326"></a>
 
               <p class="title"><b>Example&nbsp;3.4.&nbsp;Endpoint Address URI Examples</b></p>
 
@@ -4051,8 +4077,8 @@ urn:jxta:jxta-NetGroup?relay/uuid-59616261646162614A7874615032503369D1041721754A
             </div>
 
             <p>This message is sent by peers to request route information for another peer. Route
-            Query Messages are transmitted as queries within <a href="#proto-prp-rqm" title=
-            "3.1.2.&nbsp;Resolver Query Message">Resolver Query Message</a>.</p>
+            Query Messages are transmitted as queries within <a class="xref" href="#proto-prp-rqm"
+            title="3.1.2.&nbsp;Resolver Query Message">Resolver Query Message</a>.</p>
 
             <div class="figure">
               <a name="feprq" id="feprq"></a>
@@ -4103,8 +4129,9 @@ urn:jxta:jxta-NetGroup?relay/uuid-59616261646162614A7874615032503369D1041721754A
 
             <p>This message is sent by peers in response to Route Query Messages. The Route
             Response Message contains a route advertisement for the destination peer. Route
-            Response Messages are transmitted as responses within <a href="#proto-prp-rrm" title=
-            "3.1.3.&nbsp;Resolver Response Message">Resolver Response Message</a>.</p>
+            Response Messages are transmitted as responses within <a class="xref" href=
+            "#proto-prp-rrm" title="3.1.3.&nbsp;Resolver Response Message">Resolver Response
+            Message</a>.</p>
 
             <div class="figure">
               <a name="feprrm" id="feprrm"></a>
@@ -4186,10 +4213,10 @@ urn:jxta:jxta-NetGroup?relay/uuid-59616261646162614A7874615032503369D1041721754A
             Propagation Service.</p>
 
             <p>The Endpoint Service is not responsible for routing messages for peers that are not
-            directly connected to each other. This task is performed by the <a href="#trans-router"
-            title="4.2.&nbsp;Endpoint Router Transport Protocol">Endpoint Router Transport
-            Protocol</a>which provides the illusion that the source and destination peers are
-            directly connected.</p>
+            directly connected to each other. This task is performed by the <a class="xref" href=
+            "#trans-router" title="4.2.&nbsp;Endpoint Router Transport Protocol">Endpoint Router
+            Transport Protocol</a>which provides the illusion that the source and destination peers
+            are directly connected.</p>
           </div>
 
           <div class="section" lang="en">
@@ -4449,8 +4476,8 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
           <div class="titlepage">
             <div>
               <div>
-                <h2 class="title" style="clear: both"><a name="id280185" id=
-                "id280185"></a>5.1.&nbsp;Introduction</h2>
+                <h2 class="title" style="clear: both"><a name="id295839" id=
+                "id295839"></a>5.1.&nbsp;Introduction</h2>
               </div>
             </div>
           </div>
@@ -4460,7 +4487,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
           receive messages. Messages are encoded using &ldquo;<span class=
           "quote">wire</span>&rdquo; representations for transmission. Each JXTA transport will use
           the message representations most appropriate for its characteristics and the peers'
-          preferences. See <a href="#msgs-fmts" title=
+          preferences. See <a class="xref" href="#msgs-fmts" title=
           "Chapter&nbsp;3.&nbsp;JXTA Message Wire Representations">JXTA Message Wire
           Representations</a> for information about representations.</p>
         </div>
@@ -4469,8 +4496,8 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
           <div class="titlepage">
             <div>
               <div>
-                <h2 class="title" style="clear: both"><a name="id280538" id=
-                "id280538"></a>5.2.&nbsp;Message</h2>
+                <h2 class="title" style="clear: both"><a name="id296192" id=
+                "id296192"></a>5.2.&nbsp;Message</h2>
               </div>
             </div>
           </div>
@@ -4492,8 +4519,8 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
           <div class="titlepage">
             <div>
               <div>
-                <h2 class="title" style="clear: both"><a name="id280567" id=
-                "id280567"></a>5.3.&nbsp;Element</h2>
+                <h2 class="title" style="clear: both"><a name="id296221" id=
+                "id296221"></a>5.3.&nbsp;Element</h2>
               </div>
             </div>
           </div>
@@ -4516,7 +4543,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
 
             <p>Two namespaces names are considered equivalent if their representation in canonical
             UTF8 (NFC) (see <em class="citetitle">Unicode Standard Annex #15 : Unicode
-            Normalization Forms</em> <a href="#bib-USA15" title=
+            Normalization Forms</em> <a class="xref" href="#bib-USA15" title=
             "Unicode Standard Annex #15: Unicode Normalization Forms">USA15</a>) is byte-for-byte
             identical.</p>
 
@@ -4559,11 +4586,11 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
               </div>
             </div>
 
-            <p>A type is specified as a MIME type. See <a href="#bib-RFC2046" title=
+            <p>A type is specified as a MIME type. See <a class="xref" href="#bib-RFC2046" title=
             "Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>. The
             MIME type is encoded in canonical UTF8 (NFC) using the presentation and encoding of
             <em class="citetitle">Multipurpose Internet Mail Extensions (MIME) Part Two: Media
-            Types</em> <a href="#bib-RFC2046" title=
+            Types</em> <a class="xref" href="#bib-RFC2046" title=
             "Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>, ie.
             any encoding specified by RFC 2046 is performed before the string is encoded into UTF8
             from its native representation.</p>
@@ -4582,7 +4609,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id280729" id="id280729"></a>5.3.4.&nbsp;Content</h3>
+                  <h3 class="title"><a name="id296383" id="id296383"></a>5.3.4.&nbsp;Content</h3>
                 </div>
               </div>
             </div>
@@ -4613,15 +4640,15 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
           </div>
         </div>
 
-        <p>The <a href="#core" title="Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA Core
-        Specification</a> defines the required components and behaviours for all JXTA
+        <p>The <a class="xref" href="#core" title="Part&nbsp;1.&nbsp;JXTA Core Specification">JXTA
+        Core Specification</a> defines the required components and behaviours for all JXTA
         implementations. In order to create a complete JXTA implementation there are some
         additional components which all implementation <span class="rfc2119">should</span>
         provide.</p>
 
-        <p>The <a href="#gloss-jss"><em class="firstterm">JXTA Standard Services</em></a> are
-        <span class="rfc2119">optional</span> JXTA components and behaviours. Implementations are
-        not required to provide these services, but are strongly <span class=
+        <p>The <a class="firstterm" href="#gloss-jss"><em class="firstterm">JXTA Standard
+        Services</em></a> are <span class="rfc2119">optional</span> JXTA components and behaviours.
+        Implementations are not required to provide these services, but are strongly <span class=
         "rfc2119">recommended</span> to do so. Implementing these services will provide greater
         interoperability with other implementations and broader functionality.</p>
 
@@ -4668,13 +4695,13 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
 
             <dd>
               <dl>
-                <dt><span class="section"><a href="#id295118">3.1. General
+                <dt><span class="section"><a href="#id310772">3.1. General
                 Requirements</a></span></dt>
 
                 <dt><span class="section"><a href="#msgs-fmts-jbm">3.2. Binary Message
                 Format</a></span></dt>
 
-                <dt><span class="section"><a href="#id295545">3.3. XML Message
+                <dt><span class="section"><a href="#id311199">3.3. XML Message
                 Format</a></span></dt>
               </dl>
             </dd>
@@ -5075,8 +5102,8 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id285937" id=
-                  "id285937"></a>1.2.1.&nbsp;Introduction</h3>
+                  <h3 class="title"><a name="id301591" id=
+                  "id301591"></a>1.2.1.&nbsp;Introduction</h3>
                 </div>
               </div>
             </div>
@@ -5085,9 +5112,9 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             propagation of messages within a peer group. The Rendezvous Protocol provides
             mechanisms which enable propagation of messages to be performed in a controlled way. To
             most efficiently propagate messages some peers <span class="rfc2119">may</span> agree
-            to do extra work. Each <em class="glossterm"><a href="#gloss-rdv" title=
-            "Rendezvous Peer">Rendezvous Peer</a></em> cooperates with other Rendezvous Peers and
-            with client peers to propagate messages amongst the peers of a peer group. The
+            to do extra work. Each <em class="glossterm"><a class="glossterm" href="#gloss-rdv"
+            title="Rendezvous Peer">Rendezvous Peer</a></em> cooperates with other Rendezvous Peers
+            and with client peers to propagate messages amongst the peers of a peer group. The
             Rendezvous Peers work together to form a PeerView. The PeerView is a list of the peers
             which are currently acting as Rendezvous Peers. The PeerView is structured such that
             Rendezvous Peers are able to direct messages within the peer group in a consistent way
@@ -5187,9 +5214,9 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
                 "sgmltag-starttag">&lt;RdvRoute&gt;</code></span></dt>
 
                 <dd>An <span class="rfc2119">optional</span> route to the Rendezvous Peer. A
-                <a href="#feprra" title="Figure&nbsp;3.6.&nbsp;Route Advertisement">Route
-                Advertisement</a> is included as a child of the <code class=
-                "sgmltag-starttag">&lt;RdvRoute&gt;</code> element.</dd>
+                <a class="xref" href="#feprra" title=
+                "Figure&nbsp;3.6.&nbsp;Route Advertisement">Route Advertisement</a> is included as
+                a child of the <code class="sgmltag-starttag">&lt;RdvRoute&gt;</code> element.</dd>
               </dl>
             </div>
           </div>
@@ -5198,7 +5225,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id286184" id="id286184"></a>1.2.3.&nbsp;PeerView
+                  <h3 class="title"><a name="id301838" id="id301838"></a>1.2.3.&nbsp;PeerView
                   Protocol</h3>
                 </div>
               </div>
@@ -5213,7 +5240,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             PeerView Protocol is to create and maintain a consistent Peerview state.</p>
 
             <p>The PeerView participants exchange messages with other PeerView participants. Each
-            PeerView message contains a <a href="#advert-rdv" title=
+            PeerView message contains a <a class="xref" href="#advert-rdv" title=
             "1.2.2.&nbsp;Rendezvous Advertisement">Rendezvous Advertisement</a> and is either a
             probe or response message. Probe messages contain the Rendezvous Advertisement for the
             peer which initiates the probe. PeerView response messages <span class=
@@ -5662,7 +5689,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id287088" id="id287088"></a>1.2.4.&nbsp;Rendezvous
+                  <h3 class="title"><a name="id302742" id="id302742"></a>1.2.4.&nbsp;Rendezvous
                   Lease Protocol</h3>
                 </div>
               </div>
@@ -5680,7 +5707,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id287111" id="id287111"></a>1.2.4.1.&nbsp;Lease
+                    <h4 class="title"><a name="id302765" id="id302765"></a>1.2.4.1.&nbsp;Lease
                     Request Message</h4>
                   </div>
                 </div>
@@ -5694,7 +5721,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id287122" id="id287122"></a>1.2.4.2.&nbsp;Lease
+                    <h4 class="title"><a name="id302776" id="id302776"></a>1.2.4.2.&nbsp;Lease
                     Granted Message</h4>
                   </div>
                 </div>
@@ -5727,7 +5754,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id287172" id="id287172"></a>1.2.4.3.&nbsp;Lease
+                    <h4 class="title"><a name="id302826" id="id302826"></a>1.2.4.3.&nbsp;Lease
                     Cancel Message</h4>
                   </div>
                 </div>
@@ -5750,7 +5777,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id287191" id="id287191"></a>1.2.5.&nbsp;Message
+                  <h3 class="title"><a name="id302845" id="id302845"></a>1.2.5.&nbsp;Message
                   Propagation Protocol</h3>
                 </div>
               </div>
@@ -5761,7 +5788,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id287199" id="id287199"></a>1.2.6.&nbsp;Behaviour</h3>
+                  <h3 class="title"><a name="id302853" id="id302853"></a>1.2.6.&nbsp;Behaviour</h3>
                 </div>
               </div>
             </div>
@@ -5770,7 +5797,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id287204" id="id287204"></a>1.2.6.1.&nbsp;Peer
+                    <h4 class="title"><a name="id302858" id="id302858"></a>1.2.6.1.&nbsp;Peer
                     connection</h4>
                   </div>
                 </div>
@@ -5815,8 +5842,8 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id287276" id=
-                    "id287276"></a>1.2.6.2.&nbsp;Propagation Control</h4>
+                    <h4 class="title"><a name="id302930" id=
+                    "id302930"></a>1.2.6.2.&nbsp;Propagation Control</h4>
                   </div>
                 </div>
               </div>
@@ -5888,7 +5915,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
           information messages may be sent. None, one or multiple responses <span class=
           "rfc2119">may</span> be received in response to any query.</p>
 
-          <p>The PIP is layered upon the <a href="#proto-prp" title=
+          <p>The PIP is layered upon the <a class="xref" href="#proto-prp" title=
           "3.1.&nbsp;Peer Resolver Protocol">Peer Resolver Protocol</a>. The <code class=
           "sgmltag-starttag">&lt;QueryID&gt;</code> element is used to match PIP queries containing
           <code class="sgmltag-starttag">&lt;request&gt;</code> elements to the PIP Response
@@ -6061,9 +6088,9 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
 
                 <dd>Potentially contains a response to a previous request from a PIP Query. To
                 match queries to responses the <span class="emphasis"><em>QueryId</em></span>
-                element of the <a href="#proto-prp" title="3.1.&nbsp;Peer Resolver Protocol">Peer
-                Resolver Protocol</a> <span class="rfc2119">must</span> match. This field can
-                contain any desired content.</dd>
+                element of the <a class="xref" href="#proto-prp" title=
+                "3.1.&nbsp;Peer Resolver Protocol">Peer Resolver Protocol</a> <span class=
+                "rfc2119">must</span> match. This field can contain any desired content.</dd>
 
                 <dt><span class="term"><code class=
                 "sgmltag-starttag">&lt;traffic&gt;</code></span></dt>
@@ -6227,8 +6254,8 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
                 <dt><span class="term"><code class="sgmltag-starttag">&lt;Id&gt;</code></span></dt>
 
                 <dd>This is a required element that uniquely identifies the pipe. Each pipe has a
-                unique id. See <a href="#ids" title="Chapter&nbsp;1.&nbsp;IDs">IDs</a> for
-                description of JXTA Ids.</dd>
+                unique id. See <a class="xref" href="#ids" title="Chapter&nbsp;1.&nbsp;IDs">IDs</a>
+                for description of JXTA Ids.</dd>
 
                 <dt><span class="term"><code class=
                 "sgmltag-starttag">&lt;Type&gt;</code></span></dt>
@@ -6531,18 +6558,19 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
 
             <p>This section describes the TCP/IP Message Transport, the most commonly used Message
             Transport by JXTA. It is named the TCP/IP binding because it uses no other underlying
-            protocols whereas other Message Transports build upon, for example, the HTTP <a href=
-            "#bib-RFC2616" title="Hypertext Transfer Protocol -- HTTP/1.1">RFC2616</a>, TLS
-            <a href="#bib-RFC2246" title="The TLS Protocol : Version 1.0">RFC2246</a>, BEEP
-            <a href="#bib-RFC3080" title="The Blocks Extensible Exchange Protocol Core">RFC3080</a>
-            <a href="#bib-RFC3081" title="The Blocks Extensible Exchange Protocol Core">RFC3081</a>
-            and SMTP <a href="#bib-RFC821" title="Simple Mail Transfer Protocol (SMTP)">RFC821</a>
-            protocols. The TCP/IP transport is designed to be the simplest and quickest to
-            implement of the JXTA Message Transport bindings. Unfortunately, the TCP/IP Message
-            Transport can be adversely affected by the partitioning of the Internet Address Space
-            caused by Network Address Translation (NAT), Firewalls, and conflicting use of Private
-            IP Address ranges. For these circumstances one of the other Message Transports may be
-            more effcient.</p>
+            protocols whereas other Message Transports build upon, for example, the HTTP <a class=
+            "xref" href="#bib-RFC2616" title="Hypertext Transfer Protocol -- HTTP/1.1">RFC2616</a>,
+            TLS <a class="xref" href="#bib-RFC2246" title=
+            "The TLS Protocol : Version 1.0">RFC2246</a>, BEEP <a class="xref" href="#bib-RFC3080"
+            title="The Blocks Extensible Exchange Protocol Core">RFC3080</a> <a class="xref" href=
+            "#bib-RFC3081" title="The Blocks Extensible Exchange Protocol Core">RFC3081</a> and
+            SMTP <a class="xref" href="#bib-RFC821" title=
+            "Simple Mail Transfer Protocol (SMTP)">RFC821</a> protocols. The TCP/IP transport is
+            designed to be the simplest and quickest to implement of the JXTA Message Transport
+            bindings. Unfortunately, the TCP/IP Message Transport can be adversely affected by the
+            partitioning of the Internet Address Space caused by Network Address Translation (NAT),
+            Firewalls, and conflicting use of Private IP Address ranges. For these circumstances
+            one of the other Message Transports may be more effcient.</p>
           </div>
 
           <div class="section" lang="en">
@@ -6594,14 +6622,14 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             the connection is to determine connectivity.</p>
 
             <p>A peer <span class="rfc2119">should</span> send its Welcome Message as soon as the
-            connection is open, but <span class="rfc2119">must not</span> send any Message Bodies
+            connection is opened, but <span class="rfc2119">must not</span> send any Message Bodies
             until it has received a Welcome Message from the remote peer. A peer <span class=
             "rfc2119">must</span> send its peer id as the connection endpoint address. The welcome
             message can be no longer than 4096 octets in length, though in practice it will almost
             always be much shorter.</p>
 
             <div class="figure">
-              <a name="id292218" id="id292218"></a>
+              <a name="id307872" id="id307872"></a>
 
               <p class="title"><b>Figure&nbsp;2.1.&nbsp;Welcome Message ABNF</b></p>
 
@@ -6663,7 +6691,7 @@ jxta://<span class="emphasis"><em>[PeerID unique value]</em></span>
             </div>
 
             <div class="example">
-              <a name="id292318" id="id292318"></a>
+              <a name="id307972" id="id307972"></a>
 
               <p class="title"><b>Example&nbsp;2.1.&nbsp;Welcome Message</b></p>
 
@@ -6685,14 +6713,14 @@ JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-596162
               </div>
             </div>
 
-            <p>Following the <a href="#trans-ipt-tcpipwm" title=
+            <p>Following the <a class="xref" href="#trans-ipt-tcpipwm" title=
             "2.1.3.&nbsp;Welcome Message">Welcome Message</a>, the connection is used to send JXTA
             Messages. Each message is preceeded by a small amount of header information. The header
             information is similar to HTTP headers, but is binary encoded to provide for
             lighter-weight parsing.</p>
 
             <div class="figure">
-              <a name="id292350" id="id292350"></a>
+              <a name="id308004" id="id308004"></a>
 
               <p class="title"><b>Figure&nbsp;2.2.&nbsp;JXTA Message Package ABNF</b></p>
 
@@ -6721,14 +6749,14 @@ JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-596162
             respect to other headers of the same type, they have no order relationship to headers
             of other types. In general, headers may appear in any order. The header names are
             case-insensitive canonical UTF8 (NFC) (see <em class="citetitle">Unicode Standard Annex
-            #15 : Unicode Normalization Forms</em> <a href="#bib-USA15" title=
+            #15 : Unicode Normalization Forms</em> <a class="xref" href="#bib-USA15" title=
             "Unicode Standard Annex #15: Unicode Normalization Forms">USA15</a>) strings.</p>
 
             <div class="section" lang="en">
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id292389" id="id292389"></a>2.1.4.1.&nbsp;JXTA
+                    <h4 class="title"><a name="id308043" id="id308043"></a>2.1.4.1.&nbsp;JXTA
                     Message Package - Required Headers</h4>
                   </div>
                 </div>
@@ -6755,7 +6783,8 @@ JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-596162
                     <p>The logical type of the message body expressed as a MIME-type. The header
                     body consists of a MIME type encoded in canonical UTF8 (NFC) using the
                     presentation and encoding of <em class="citetitle">Multipurpose Internet Mail
-                    Extensions (MIME) Part Two: Media Types</em> <a href="#bib-RFC2046" title=
+                    Extensions (MIME) Part Two: Media Types</em> <a class="xref" href=
+                    "#bib-RFC2046" title=
                     "Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>,
                     ie. any encoding specified by RFC 2046 is performed before the string is
                     encoded into UTF8 from the implementation native string representation.</p>
@@ -6772,7 +6801,7 @@ JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-596162
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id292475" id="id292475"></a>2.1.4.2.&nbsp;JXTA
+                    <h4 class="title"><a name="id308129" id="id308129"></a>2.1.4.2.&nbsp;JXTA
                     Message Package - Optional Headers</h4>
                   </div>
                 </div>
@@ -6928,8 +6957,8 @@ JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-596162
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id266580" id=
-                    "id266580"></a>2.2.3.1.&nbsp;&ldquo;<span class="quote">Ping</span>&rdquo;
+                    <h4 class="title"><a name="id282246" id=
+                    "id282246"></a>2.2.3.1.&nbsp;&ldquo;<span class="quote">Ping</span>&rdquo;
                     Command</h4>
                   </div>
                 </div>
@@ -6995,7 +7024,7 @@ JXTAHELLO tcp://69.3.88.186:34368 tcp://209.25.154.236:9701 urn:jxta:uuid-596162
               </div>
 
               <div class="example">
-                <a name="id292618" id="id292618"></a>
+                <a name="id308272" id="id308272"></a>
 
                 <p class="title"><b>Example&nbsp;2.2.&nbsp;HTTP Ping Example</b></p>
 
@@ -7021,8 +7050,8 @@ jxta://urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F1
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id292636" id=
-                    "id292636"></a>2.2.3.2.&nbsp;&ldquo;<span class="quote">Poll</span>&rdquo;
+                    <h4 class="title"><a name="id308290" id=
+                    "id308290"></a>2.2.3.2.&nbsp;&ldquo;<span class="quote">Poll</span>&rdquo;
                     Command</h4>
                   </div>
                 </div>
@@ -7135,7 +7164,7 @@ jxta://urn:jxta:uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F1
               </div>
 
               <div class="example">
-                <a name="id292903" id="id292903"></a>
+                <a name="id308557" id="id308557"></a>
 
                 <p class="title"><b>Example&nbsp;2.3.&nbsp;HTTP Poll Example</b></p>
 
@@ -7158,8 +7187,8 @@ content-length=0
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id292922" id=
-                    "id292922"></a>2.2.3.3.&nbsp;&ldquo;<span class="quote">Send</span>&rdquo;
+                    <h4 class="title"><a name="id308576" id=
+                    "id308576"></a>2.2.3.3.&nbsp;&ldquo;<span class="quote">Send</span>&rdquo;
                     Command</h4>
                   </div>
                 </div>
@@ -7240,7 +7269,7 @@ content-length=0
               </div>
 
               <div class="example">
-                <a name="id293081" id="id293081"></a>
+                <a name="id308735" id="id308735"></a>
 
                 <p class="title"><b>Example&nbsp;2.4.&nbsp;HTTP Send Example</b></p>
 
@@ -7281,12 +7310,12 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
             </div>
 
             <p>JXTA implements &ldquo;<span class="citetitle">IETF RFC 2246 : Transport Layer
-            Security Version 1</span>&rdquo; <a href="#bib-RFC2246" title=
-            "The TLS Protocol : Version 1.0">RFC2246</a> on top of the <a href="#trans-router"
-            title="4.2.&nbsp;Endpoint Router Transport Protocol">Endpoint Router Transport
-            Protocol</a> using JXTA messages. Messages are transmitted across one of the other
-            Transport Bindings. This implementation provides for secure message delivery between
-            Peer Endpoints even when multiple hops across JXTA peers must be used.</p>
+            Security Version 1</span>&rdquo; <a class="xref" href="#bib-RFC2246" title=
+            "The TLS Protocol : Version 1.0">RFC2246</a> on top of the <a class="xref" href=
+            "#trans-router" title="4.2.&nbsp;Endpoint Router Transport Protocol">Endpoint Router
+            Transport Protocol</a> using JXTA messages. Messages are transmitted across one of the
+            other Transport Bindings. This implementation provides for secure message delivery
+            between Peer Endpoints even when multiple hops across JXTA peers must be used.</p>
           </div>
 
           <div class="section" lang="en">
@@ -7349,7 +7378,7 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
 
                   <dd>
                     <p>TLS Protocol Data per &ldquo;<span class="citetitle">IETF RFC
-                    2246</span>&rdquo; <a href="#bib-RFC2246" title=
+                    2246</span>&rdquo; <a class="xref" href="#bib-RFC2246" title=
                     "The TLS Protocol : Version 1.0">RFC2246</a></p>
                   </dd>
                 </dl>
@@ -7421,8 +7450,8 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
               </div>
 
               <p>Used to signify that this message is being sent as a retry of an apparently failed
-              previous send attempt. If present, this element will accompany a <a href=
-              "#trans-tlst-msgs-msg" title="2.3.2.1.&nbsp;TLS Content Element">TLS Content
+              previous send attempt. If present, this element will accompany a <a class="xref"
+              href="#trans-tlst-msgs-msg" title="2.3.2.1.&nbsp;TLS Content Element">TLS Content
               Element</a>. The element is mostly informational, but can be used to assist in window
               control.</p>
 
@@ -7464,17 +7493,17 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
 
         <p>In order to send JXTA messages between peers JXTA a serialized &ldquo;<span class=
         "quote">wire</span>&rdquo; encoding of the message must be created. The standard JXTA
-        <a href="#gloss-messageTransport"><em class="firstterm">Message Transport</em></a>
-        implementations use a common set of wire encodings. There are two standard message encoding
-        formats for JXTA Messages, XML and binary. Each JXTA Message Transport uses the encoding
-        format most appropriate for its' capabilities.</p>
+        <a class="firstterm" href="#gloss-messageTransport"><em class="firstterm">Message
+        Transport</em></a> implementations use a common set of wire encodings. There are two
+        standard message encoding formats for JXTA Messages, XML and binary. Each JXTA Message
+        Transport uses the encoding format most appropriate for its' capabilities.</p>
 
         <div class="section" lang="en">
           <div class="titlepage">
             <div>
               <div>
-                <h2 class="title" style="clear: both"><a name="id295118" id=
-                "id295118"></a>3.1.&nbsp;General Requirements</h2>
+                <h2 class="title" style="clear: both"><a name="id310772" id=
+                "id310772"></a>3.1.&nbsp;General Requirements</h2>
               </div>
             </div>
           </div>
@@ -7497,7 +7526,7 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
           </div>
 
           <p><acronym class="acronym">XML</acronym> and other textual representations such as
-          <acronym class="acronym">MIME</acronym> <a href="#bib-RFC2045" title=
+          <acronym class="acronym">MIME</acronym> <a class="xref" href="#bib-RFC2045" title=
           "Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies">
           RFC2045</a> are inefficient for the transmission of arbitrary application data. The JXTA
           Binary Message Format is designed to facilitate the efficient transmission of data
@@ -7512,8 +7541,8 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id295180" id=
-                  "id295180"></a>3.2.1.&nbsp;Conventions</h3>
+                  <h3 class="title"><a name="id310834" id=
+                  "id310834"></a>3.2.1.&nbsp;Conventions</h3>
                 </div>
               </div>
             </div>
@@ -7521,7 +7550,7 @@ POST /uuid-59616261646162614A7874615032503304BD268FA4764960AB93A53D7F15044503 HT
             <p>Multi-byte lengths are sent with the high order byte first (also known as "Big
             Endian" or "Network Byte Order"). All strings start with a two byte length, followed by
             a UTF string value. The message format is specified using <acronym class=
-            "acronym">ABNF</acronym> <a href="#bib-RFC2234" title=
+            "acronym">ABNF</acronym> <a class="xref" href="#bib-RFC2234" title=
             "Augmented BNF for Syntax Specifications: ABNF">RFC2234</a>. <acronym class=
             "acronym">ABNF</acronym> is normally used for <acronym class="acronym">ASCII</acronym>
             grammars, but here we use it to define a byte sequence for a binary message.</p>
@@ -7585,10 +7614,10 @@ elm        ::= "jxel"             ; signature (0x6a 0x78 0x65 0x6c)
 
 name       ::= string
 
-type       ::= string             ; Mime Media Type <a href="#bib-RFC2046" title=
+type       ::= string             ; Mime Media Type <a class="xref" href="#bib-RFC2046" title=
 "Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>
 
-encoding   ::= string             ; Mime Media Type <a href="#bib-RFC2046" title=
+encoding   ::= string             ; Mime Media Type <a class="xref" href="#bib-RFC2046" title=
 "Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>
 
 content    ::= len4 * byte        ; the bytes of the content.
@@ -7606,7 +7635,7 @@ flags      ::= byte               ; HAS_TYPE      = 0x01;
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295255" id="id295255"></a>3.2.2.1.&nbsp;Message
+                    <h4 class="title"><a name="id310909" id="id310909"></a>3.2.2.1.&nbsp;Message
                     Header</h4>
                   </div>
                 </div>
@@ -7625,8 +7654,8 @@ flags      ::= byte               ; HAS_TYPE      = 0x01;
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295280" id=
-                    "id295280"></a>3.2.2.2.&nbsp;Namespaces</h4>
+                    <h4 class="title"><a name="id310934" id=
+                    "id310934"></a>3.2.2.2.&nbsp;Namespaces</h4>
                   </div>
                 </div>
               </div>
@@ -7638,7 +7667,7 @@ flags      ::= byte               ; HAS_TYPE      = 0x01;
               preceding namespace. The ids <code class="constant">0</code>, and <code class=
               "constant">1</code> are preassigned. <code class="constant">0</code> represents the
               empty namespace. <code class="constant">1</code> is the <code class=
-              "constant">jxta</code> namespace. See <a href="#msgs-namespace" title=
+              "constant">jxta</code> namespace. See <a class="xref" href="#msgs-namespace" title=
               "5.3.1.&nbsp;Namespace">Namespace</a> for information regarding use of
               namespaces.</p>
 
@@ -7651,7 +7680,7 @@ flags      ::= byte               ; HAS_TYPE      = 0x01;
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295328" id="id295328"></a>3.2.2.3.&nbsp;Message
+                    <h4 class="title"><a name="id310982" id="id310982"></a>3.2.2.3.&nbsp;Message
                     Element Header</h4>
                   </div>
                 </div>
@@ -7729,7 +7758,7 @@ element     ::= "jxel"             ; signature (0x6a 0x78 0x65 0x6c)
                 [signature]        ; associated signature element
                                    ; (see flag 0x10)
                                   
-type        ::= name               ; Mime Media Type <a href="#bib-RFC2046" title=
+type        ::= name               ; Mime Media Type <a class="xref" href="#bib-RFC2046" title=
 "Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types">RFC2046</a>
 
 encodings   ::= num_encodings      ; number of encodings
@@ -7763,7 +7792,7 @@ name        ::= (2 * byte | 0xFFFF {string})
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295416" id="id295416"></a>3.2.3.1.&nbsp;Message
+                    <h4 class="title"><a name="id311070" id="id311070"></a>3.2.3.1.&nbsp;Message
                     Header</h4>
                   </div>
                 </div>
@@ -7786,7 +7815,7 @@ name        ::= (2 * byte | 0xFFFF {string})
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295455" id="id295455"></a>3.2.3.2.&nbsp;Names
+                    <h4 class="title"><a name="id311109" id="id311109"></a>3.2.3.2.&nbsp;Names
                     Table</h4>
                   </div>
                 </div>
@@ -7813,7 +7842,7 @@ name        ::= (2 * byte | 0xFFFF {string})
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295508" id="id295508"></a>3.2.3.3.&nbsp;Message
+                    <h4 class="title"><a name="id311162" id="id311162"></a>3.2.3.3.&nbsp;Message
                     Element Header</h4>
                   </div>
                 </div>
@@ -7848,8 +7877,8 @@ name        ::= (2 * byte | 0xFFFF {string})
           <div class="titlepage">
             <div>
               <div>
-                <h2 class="title" style="clear: both"><a name="id295545" id=
-                "id295545"></a>3.3.&nbsp;XML Message Format</h2>
+                <h2 class="title" style="clear: both"><a name="id311199" id=
+                "id311199"></a>3.3.&nbsp;XML Message Format</h2>
               </div>
             </div>
           </div>
@@ -7862,7 +7891,7 @@ name        ::= (2 * byte | 0xFFFF {string})
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id295557" id="id295557"></a>3.3.1.&nbsp;Message</h3>
+                  <h3 class="title"><a name="id311211" id="id311211"></a>3.3.1.&nbsp;Message</h3>
                 </div>
               </div>
             </div>
@@ -7903,7 +7932,7 @@ name        ::= (2 * byte | 0xFFFF {string})
             <div class="titlepage">
               <div>
                 <div>
-                  <h3 class="title"><a name="id295595" id="id295595"></a>3.3.2.&nbsp;Element</h3>
+                  <h3 class="title"><a name="id311249" id="id311249"></a>3.3.2.&nbsp;Element</h3>
                 </div>
               </div>
             </div>
@@ -7915,7 +7944,7 @@ name        ::= (2 * byte | 0xFFFF {string})
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295606" id="id295606"></a>3.3.2.1.&nbsp;Name</h4>
+                    <h4 class="title"><a name="id311260" id="id311260"></a>3.3.2.1.&nbsp;Name</h4>
                   </div>
                 </div>
               </div>
@@ -7928,7 +7957,7 @@ name        ::= (2 * byte | 0xFFFF {string})
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295619" id="id295619"></a>3.3.2.2.&nbsp;MIME
+                    <h4 class="title"><a name="id311273" id="id311273"></a>3.3.2.2.&nbsp;MIME
                     type</h4>
                   </div>
                 </div>
@@ -7942,15 +7971,15 @@ name        ::= (2 * byte | 0xFFFF {string})
               <div class="titlepage">
                 <div>
                   <div>
-                    <h4 class="title"><a name="id295632" id=
-                    "id295632"></a>3.3.2.3.&nbsp;Encoding</h4>
+                    <h4 class="title"><a name="id311286" id=
+                    "id311286"></a>3.3.2.3.&nbsp;Encoding</h4>
                   </div>
                 </div>
               </div>
 
               <p>Encoding is <span class="rfc2119">optional</span> The only supported encoding at
               this time is base64. &ldquo;<span class="citetitle">IETF RFC 1521</span>&rdquo;
-              <a href="#bib-RFC1521" title=
+              <a class="xref" href="#bib-RFC1521" title=
               "Multipurpose Internet Mail Extensions (MIME) Part One: Mechanisms for Specifying and Describing the Format of Internet Message Bodies">
               RFC1521</a> If the encoding is not present, the content is just treated as a string.
               While name, type and content are parts of a message which will be found in all
@@ -8051,7 +8080,7 @@ name        ::= (2 * byte | 0xFFFF {string})
 
             <p>The Java 2SE reference implementation of JXTA provides an implementation of JXTA IDs
             based upon UUIDs &ldquo;<span class="citetitle">ISO/IEC 11578:1996</span>&rdquo;
-            <a href="#bib-ISO11578" title=
+            <a class="xref" href="#bib-ISO11578" title=
             "Information Technology - Open Systems Interconnection - Remote Procedure Call (RPC)">ISO11578</a>.
             This <span class="rfc2119">optional</span> ID Format is identified as the <code class=
             "constant">uuid</code> format. In this implementation, UUIDs are encoded as hex digits
@@ -8110,7 +8139,7 @@ name        ::= (2 * byte | 0xFFFF {string})
             "rfc2119">must</span> be present in every implementation.</p>
 
             <div class="example">
-              <a name="id302279" id="id302279"></a>
+              <a name="id317933" id="id317933"></a>
 
               <p class="title"><b>Example&nbsp;1.1.&nbsp;Sample "uuid" Format ID</b></p>
 
@@ -8156,7 +8185,7 @@ urn:jxta:uuid-00030102040501
               being unique, and an optional SHA1 cryptographic hash of the codat contents.</p>
 
               <div class="figure">
-                <a name="id302325" id="id302325"></a>
+                <a name="id317979" id="id317979"></a>
 
                 <p class="title"><b>Figure&nbsp;1.2.&nbsp;JXTA UUID Codat ID Fields</b></p>
 
@@ -8241,7 +8270,7 @@ urn:jxta:uuid-00030102040501
               peer group.</p>
 
               <div class="figure">
-                <a name="id302488" id="id302488"></a>
+                <a name="id318142" id="id318142"></a>
 
                 <p class="title"><b>Figure&nbsp;1.3.&nbsp;JXTA UUID PeerGroup ID Fields</b></p>
 
@@ -8318,7 +8347,7 @@ urn:jxta:uuid-00030102040501
               made to the peer in the context of a specific peer group.</p>
 
               <div class="figure">
-                <a name="id302623" id="id302623"></a>
+                <a name="id318277" id="id318277"></a>
 
                 <p class="title"><b>Figure&nbsp;1.4.&nbsp;JXTA UUID Peer ID Fields</b></p>
 
@@ -8395,7 +8424,7 @@ urn:jxta:uuid-00030102040501
               made to the pipe in the context of a specific peer group.</p>
 
               <div class="figure">
-                <a name="id302758" id="id302758"></a>
+                <a name="id318412" id="id318412"></a>
 
                 <p class="title"><b>Figure&nbsp;1.5.&nbsp;JXTA UUID Pipe ID Fields</b></p>
 
@@ -8518,7 +8547,7 @@ urn:jxta:uuid-00030102040501
               the context of a specific peer.</p>
 
               <div class="figure">
-                <a name="id302991" id="id302991"></a>
+                <a name="id318645" id="id318645"></a>
 
                 <p class="title"><b>Figure&nbsp;1.6.&nbsp;JXTA UUID Module Class ID Fields</b></p>
 
@@ -8593,7 +8622,7 @@ urn:jxta:uuid-00030102040501
               the context of a specific peer.</p>
 
               <div class="figure">
-                <a name="id303119" id="id303119"></a>
+                <a name="id318773" id="id318773"></a>
 
                 <p class="title"><b>Figure&nbsp;1.7.&nbsp;JXTA UUID Module Spec ID Fields</b></p>
 
@@ -8725,7 +8754,7 @@ urn:jxta:uuid-00030102040501
       <div class="titlepage">
         <div>
           <div>
-            <h2 class="title"><a name="id305291" id="id305291"></a>Glossary</h2>
+            <h2 class="title"><a name="id320945" id="id320945"></a>Glossary</h2>
           </div>
         </div>
       </div>
@@ -8816,6 +8845,14 @@ urn:jxta:uuid-00030102040501
           and Rendezvous Protocol (<acronym class="acronym">RVP</acronym>).</p>
         </dd>
 
+        <dt><a name="gloss-message" id="gloss-message"></a>Message</dt>
+
+        <dd>
+          <p>The basic unit of data exchange between JXTA peers; each message contains an ordered
+          sequence of named sub-sections, called message elements, which can hold any form of
+          data.</p>
+        </dd>
+
         <dt><a name="gloss-messageTransport" id="gloss-messageTransport"></a>Message Transport</dt>
 
         <dd>
@@ -8903,11 +8940,21 @@ urn:jxta:uuid-00030102040501
 
         <dd>
           <p>(From &ldquo;<span class="citetitle">Extensible Markup Language (XML)
-          1.0</span>&rdquo; <a href="#bib-XML10" title=
+          1.0</span>&rdquo; <a class="xref" href="#bib-XML10" title=
           "Extensible Markup Language (XML) 1.0 (Second Edition)">XML10</a> ) : Extensible Markup
           Language, abbreviated <acronym class="acronym">XML</acronym>, describes a class of data
           objects called <acronym class="acronym">XML</acronym> documents and partially describes
           the behavior ofcomputer programs which process them.</p>
+        </dd>
+
+        <dt><a name="gloss-worldgroup" id="gloss-worldgroup"></a>World Peer Group</dt>
+
+        <dd>
+          <p>The most fundamental peer group within the JXTA network. This core peer group is
+          generally responsible only for management of physical network connections, physical
+          network (generally broadcast) discovery and physical network topology management.
+          Applications generally do not interact with this group. May only include limited
+          endpoint, resolver, discovery and rendezvous services.</p>
         </dd>
       </dl>
     </div>
@@ -8916,7 +8963,7 @@ urn:jxta:uuid-00030102040501
       <div class="titlepage">
         <div>
           <div>
-            <h2 class="title"><a name="id306259" id="id306259"></a>Bibliography</h2>
+            <h2 class="title"><a name="id322024" id="id322024"></a>Bibliography</h2>
           </div>
         </div>
       </div>
@@ -8934,7 +8981,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC821" id="bib-RFC821"></a>
 
-        <p>[<abbr class="abbrev">RFC821</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC821</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc821.txt" target="_top">Simple Mail Transfer Protocol (SMTP)</a></i>
         .</span> <span class="authorgroup"><span class="firstname">Jonathan</span> <span class=
         "othername">B.</span> <span class="surname">Postel</span>.</span> <span class="date">August
@@ -8946,7 +8993,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC1521" id="bib-RFC1521"></a>
 
-        <p>[<abbr class="abbrev">RFC1521</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC1521</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc821.txt" target="_top">Multipurpose Internet Mail Extensions (MIME)
         Part One: Mechanisms for Specifying and Describing the Format of Internet Message
         Bodies</a></i> .</span> <span class="authorgroup"><span class="firstname">N.</span>
@@ -8959,7 +9006,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2045" id="bib-RFC2045"></a>
 
-        <p>[<abbr class="abbrev">RFC2045</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2045</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2046.txt" target="_top">Multipurpose Internet Mail Extensions
         (MIME) Part One: Format of Internet Message Bodies</a></i> .</span> <span class=
         "authorgroup"><span class="firstname">N.</span> <span class="surname">Freed</span> and
@@ -8972,7 +9019,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2046" id="bib-RFC2046"></a>
 
-        <p>[<abbr class="abbrev">RFC2046</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2046</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2046.txt" target="_top">Multipurpose Internet Mail Extensions
         (MIME) Part Two: Media Types</a></i> .</span> <span class="authorgroup"><span class=
         "firstname">N.</span> <span class="surname">Freed</span> and <span class=
@@ -8985,7 +9032,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2119" id="bib-RFC2119"></a>
 
-        <p>[<abbr class="abbrev">RFC2119</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2119</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2119.txt" target="_top">Key words for use in RFCs to Indicate
         Requirement Levels</a></i> .</span> <span class="authorgroup"><span class=
         "firstname">S.</span> <span class="surname">Bradner</span>.</span> <span class="date">March
@@ -8997,7 +9044,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2141" id="bib-RFC2141"></a>
 
-        <p>[<abbr class="abbrev">RFC2141</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2141</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2141.txt" target="_top">URN Syntax</a></i> .</span> <span class=
         "authorgroup"><span class="firstname">R.</span> <span class="surname">Moats</span>.</span>
         <span class="date">May 1997.</span> <span class="biblioset"><i>IETF RFC</i>. <span class=
@@ -9008,7 +9055,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2234" id="bib-RFC2234"></a>
 
-        <p>[<abbr class="abbrev">RFC2234</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2234</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2234.txt" target="_top">Augmented BNF for Syntax Specifications:
         ABNF</a></i> .</span> <span class="authorgroup"><span class="firstname">P.</span>
         <span class="surname">Overell</span> and <span class="firstname">D.</span> <span class=
@@ -9020,7 +9067,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2246" id="bib-RFC2246"></a>
 
-        <p>[<abbr class="abbrev">RFC2246</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2246</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2246.txt" target="_top">The TLS Protocol : Version 1.0</a></i>
         .</span> <span class="authorgroup"><span class="firstname">Tim</span> <span class=
         "surname">Dierks</span> and <span class="firstname">Christopher</span> <span class=
@@ -9032,7 +9079,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC2616" id="bib-RFC2616"></a>
 
-        <p>[<abbr class="abbrev">RFC2616</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC2616</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc2616.txt" target="_top">Hypertext Transfer Protocol --
         HTTP/1.1</a></i> .</span> <span class="authorgroup"><span class="firstname">Roy</span>
         <span class="othername">T.</span> <span class="surname">Fielding</span>, <span class=
@@ -9049,7 +9096,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC3080" id="bib-RFC3080"></a>
 
-        <p>[<abbr class="abbrev">RFC3080</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC3080</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc3080.txt" target="_top">The Blocks Extensible Exchange Protocol
         Core</a></i> .</span> <span class="authorgroup"><span class="firstname">Marshall</span>
         <span class="othername">T.</span> <span class="surname">Rose</span>.</span> <span class=
@@ -9061,7 +9108,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-RFC3081" id="bib-RFC3081"></a>
 
-        <p>[<abbr class="abbrev">RFC3081</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">RFC3081</abbr>] <span class="title"><i><a class="ulink" href=
         "http://ietf.org/rfc/rfc3081.txt" target="_top">The Blocks Extensible Exchange Protocol
         Core</a></i> .</span> <span class="authorgroup"><span class="firstname">Marshall</span>
         <span class="othername">T.</span> <span class="surname">Rose</span>.</span> <span class=
@@ -9073,7 +9120,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-USA15" id="bib-USA15"></a>
 
-        <p>[<abbr class="abbrev">USA15</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">USA15</abbr>] <span class="title"><i><a class="ulink" href=
         "http://www.unicode.org/unicode/reports/tr15/" target="_top">Unicode Standard Annex #15:
         Unicode Normalization Forms</a></i> .</span> <span class="authorgroup"><span class=
         "firstname">Mark</span> <span class="surname">Davis</span> and <span class=
@@ -9086,7 +9133,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-USA28" id="bib-USA28"></a>
 
-        <p>[<abbr class="abbrev">USA28</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">USA28</abbr>] <span class="title"><i><a class="ulink" href=
         "http://www.unicode.org/unicode/reports/tr28/tr28-3.html" target="_top">Unicode Standard
         Annex #28: Unicode 3.2</a></i> .</span> <span class="authorgroup"><span class=
         "corpauthor">The Unicode Consortium</span>.</span> <span class="date">27 March 2002.</span>
@@ -9098,7 +9145,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-XML10" id="bib-XML10"></a>
 
-        <p>[<abbr class="abbrev">XML10</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">XML10</abbr>] <span class="title"><i><a class="ulink" href=
         "http://www.w3.org/TR/REC-xml" target="_top">Extensible Markup Language (XML) 1.0 (Second
         Edition)</a></i> .</span> <span class="authorgroup"><span class="corpauthor">World Wide Web
         Consortium</span>.</span> <span class="date">6 October 2000.</span> <span class=
@@ -9110,7 +9157,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-XSD2001-1" id="bib-XSD2001-1"></a>
 
-        <p>[<abbr class="abbrev">XSD2001-1</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">XSD2001-1</abbr>] <span class="title"><i><a class="ulink" href=
         "http://www.w3.org/TR/xmlschema-1/" target="_top">XML Schema Part 1: Structures</a></i>
         .</span> <span class="authorgroup"><span class="firstname">Henry</span> <span class=
         "othername">S.</span> <span class="surname">Thompson</span>, <span class=
@@ -9124,7 +9171,7 @@ urn:jxta:uuid-00030102040501
       <div class="biblioentry">
         <a name="bib-XSD2001-2" id="bib-XSD2001-2"></a>
 
-        <p>[<abbr class="abbrev">XSD2001-2</abbr>] <span class="title"><i><a href=
+        <p>[<abbr class="abbrev">XSD2001-2</abbr>] <span class="title"><i><a class="ulink" href=
         "http://www.w3.org/TR/xmlschema-2/" target="_top">XML Schema Part 2: Datatypes</a></i>
         .</span> <span class="authorgroup"><span class="firstname">Paul</span> <span class=
         "othername">V.</span> <span class="surname">Biron</span> and <span class=
